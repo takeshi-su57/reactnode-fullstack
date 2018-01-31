@@ -6,6 +6,10 @@
 module.exports = (app, options) => {
   const isProd = process.env.NODE_ENV === 'production';
 
+  // Setup common middlewares
+  const commonMiddlewares = require('./commonMiddlewares');
+  commonMiddlewares(app, options);
+
   if (isProd) {
     const addProdMiddlewares = require('./addProdMiddlewares');
     addProdMiddlewares(app, options);
