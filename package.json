@@ -346,6 +346,7 @@
     "jest-cli": "22.1.4",
     "lint-staged": "6.1.0",
     "ngrok": "2.2.25",
+    "nock": "9.1.6",
     "nodemon": "1.14.11",
     "null-loader": "0.1.1",
     "offline-plugin": "4.9.0",
