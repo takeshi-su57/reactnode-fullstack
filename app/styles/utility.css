@@ -1,0 +1,12 @@
+.submitLink {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+submitLink:focus {
+  outline: none;
+}
+
+.submitLink.active {
+  font-weight: bold;
+}

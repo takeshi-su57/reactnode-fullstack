@@ -1,0 +1,8 @@
+.top-nav {
+  margin-bottom: 10px;
+  background-color: #e3f2fd;
+}
+
+.nav-link.active {
+  font-weight: bold;
+}
