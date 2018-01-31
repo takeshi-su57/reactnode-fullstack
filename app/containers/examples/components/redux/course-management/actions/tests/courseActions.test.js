@@ -1,7 +1,7 @@
 /* eslint-disable */
 import expect from 'expect';
-import * as courseActions from './courseActions';
-import * as types from './actionTypes';
+import * as courseActions from '../courseActions';
+import * as types from '../actionTypes';
 
 import thunk from 'redux-thunk';
 import nock from 'nock';
