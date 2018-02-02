@@ -21,6 +21,7 @@ const db = require('./db/models');
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
   publicPath: '/',
+  ssrEnabled: global.appConfig.ssrEnabled,
 });
 
 // get the intended host and port number, use localhost and port 3000 if not provided

@@ -1,5 +1,6 @@
 {
     "appTitle": "React fullstack",
+    "ssrEnabled": true,
     "database": {
         "dialect": "sqlite",
         "storage": "./react-playground.sqlite"
