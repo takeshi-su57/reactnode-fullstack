@@ -6,7 +6,7 @@ import { reduxForm, Field } from 'redux-form';
 import { registerAction } from '../actions';
 
 class Register extends Component {
-  handleSubmit = values => {
+  handleSubmit = (values) => {
     this.props.register(values);
   };
   render() {
@@ -59,20 +59,22 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  register: state.register
+const mapStateToProps = (state) => ({
+  register: state.register,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   register(values) {
     dispatch(registerAction(values));
-  }
+  },
 });
 
 Register = connect(mapStateToProps, mapDispatchToProps)(Register);
 
 Register = reduxForm({
-  form: 'registerForm'
+  form: 'registerForm',
+  destroyOnUnmount: false, //        <------ preserve form data
+  forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
 })(FormWrapper(Register, 'Register'));
 
 export default Register;

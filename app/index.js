@@ -4,18 +4,17 @@ import 'babel-polyfill';
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
-import '!file-loader?name=[name].[ext]!./images/icon-72x72.png';
-import '!file-loader?name=[name].[ext]!./images/icon-96x96.png';
-import '!file-loader?name=[name].[ext]!./images/icon-128x128.png';
-import '!file-loader?name=[name].[ext]!./images/icon-144x144.png';
-import '!file-loader?name=[name].[ext]!./images/icon-152x152.png';
-import '!file-loader?name=[name].[ext]!./images/icon-192x192.png';
-import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
-import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
+import '!file-loader?name=[name].[ext]!./images/android-chrome-192x192.png';
+import '!file-loader?name=[name].[ext]!./images/android-chrome-512x512.png';
+import '!file-loader?name=[name].[ext]!./images/apple-touch-icon.png';
+import '!file-loader?name=[name].[ext]!./images/mstile-150x150.png';
+import '!file-loader?name=[name].[ext]!./images/favicon-32x32.png';
+import '!file-loader?name=[name].[ext]!./images/favicon-16x16.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 import 'sanitize.css/sanitize.css';
+import 'font-awesome/css/font-awesome.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'styles/index.css';
 

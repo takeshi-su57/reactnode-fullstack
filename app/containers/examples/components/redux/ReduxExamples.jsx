@@ -8,10 +8,12 @@ import { TodoComponent } from './Todo';
 import { CourseManagement } from './course-management';
 import { ShoppingCart } from './shopping-cart';
 import { WizardFormPage } from './wizard-form';
+import { Game } from './tic-tac-toe';
 
 export class ReduxExamples extends Component {
   reduxLinks = [
     { route: 'form', description: 'Forms', component: ReduxForm },
+    { route: 'tictactoe', description: 'TicTacToe', component: Game },
     {
       route: 'wizardform',
       description: 'Wizard Form',

@@ -5,7 +5,7 @@ import { Cultures } from './Cultures';
 
 import store from '../store';
 
-export class Navigation extends Component {
+export class Header extends Component {
   state = {
     isOpen: false
   };
@@ -22,7 +22,7 @@ export class Navigation extends Component {
       <nav className="navbar navbar-expand-sm navbar-light top-nav">
         <NavLink className="navbar-brand" to="/">
           <img
-            src="icon-72x72.png"
+            src="/favicon-32x32.png"
             alt="icon"
             width="30"
             height="30"
@@ -57,6 +57,7 @@ export class Navigation extends Component {
                 to="/"
                 activeClassName="active"
               >
+                <i className='fa fa-home'></i>&nbsp;
                 {content.APP_NAV_HOME}
               </NavLink>
             </li>
@@ -66,6 +67,7 @@ export class Navigation extends Component {
                 to="/examples"
                 activeClassName="active"
               >
+                <i className='fa fa-flask'></i>&nbsp;
                 {content.APP_NAV_EXAMPLES}
               </NavLink>
             </li>
@@ -76,6 +78,7 @@ export class Navigation extends Component {
                 to="/about"
                 activeClassName="active"
               >
+                <i className='fa fa-info  '></i>&nbsp;
                 {content.APP_NAV_ABOUT}
               </NavLink>
             </li>
@@ -91,6 +94,7 @@ export class Navigation extends Component {
                     to="/profile"
                     activeClassName="active"
                   >
+                    <i className='fa fa-user'></i>&nbsp;
                     {auth.user.email}
                   </NavLink>
                 </li>,
@@ -102,27 +106,30 @@ export class Navigation extends Component {
                       store.dispatch(logoutAction());
                     }}
                   >
+                    <i className='fa fa-sign-out'></i>&nbsp;
                     {content.APP_NAV_LOGOUT}
                   </a>
                 </li>
               ]
               : [
-                <li className="nav-item" key="login">
-                  <NavLink
-                    className="nav-link"
-                    to="/login"
-                    activeClassName="active"
-                  >
-                    {content.APP_NAV_LOGIN}
-                  </NavLink>
-                </li>,
                 <li className="nav-item" key="register">
                   <NavLink
                     className="nav-link"
                     to="/register"
                     activeClassName="active"
                   >
+                    <i className='fa fa-user-plus'></i>&nbsp;
                     {content.APP_NAV_REGISTER}
+                  </NavLink>
+                </li>,
+                <li className="nav-item" key="login">
+                  <NavLink
+                    className="nav-link"
+                    to="/login"
+                    activeClassName="active"
+                  >
+                    <i className='fa fa-sign-in'></i>&nbsp;
+                    {content.APP_NAV_LOGIN}
                   </NavLink>
                 </li>
               ]}

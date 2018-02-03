@@ -4,19 +4,15 @@ import WizardFormSecondPage from './WizardFormSecondPage';
 import WizardFormThirdPage from './WizardFormThirdPage';
 
 class WizardForm extends Component {
-  constructor(props) {
-    super(props);
-    this.nextPage = this.nextPage.bind(this);
-    this.previousPage = this.previousPage.bind(this);
-    this.state = {
-      page: 1,
-    };
-  }
-  nextPage() {
+  state = {
+    page: 1,
+  };
+
+  nextPage = () => {
     this.setState({ page: this.state.page + 1 });
   }
 
-  previousPage() {
+  previousPage = () => {
     this.setState({ page: this.state.page - 1 });
   }
 

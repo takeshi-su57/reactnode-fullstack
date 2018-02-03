@@ -1,7 +1,9 @@
 export * from './form';
+export * from './social-buttons';
 
+export * from './Header';
+export * from './Footer';
 export * from './FormWrapper';
-export * from './Navigation';
 export * from './Loading';
 export * from './NavLinks';
 export * from './PrivateRoute';
