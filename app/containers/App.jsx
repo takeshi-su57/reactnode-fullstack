@@ -66,7 +66,7 @@ class App extends React.Component {
               classNames="fade"
               appear
             >
-              <div className="container">
+              <div className="container-fluid">
                 <Switch>
                   <Route path="/" exact component={Home} />
                   <Route path="/about" exact component={About} />

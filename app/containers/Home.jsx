@@ -2,7 +2,7 @@ import React from 'react';
 
 const Home = () => (
   <div>
-    <div className="jumbotron">
+    <div className="jumbotron text-center">
       <h1>React fullstack</h1> A Single Page Application built using React and
       Nodejs
     </div>

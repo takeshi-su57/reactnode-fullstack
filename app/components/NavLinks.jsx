@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 export class NavLinks extends Component {
   render() {
     return (
-      <ul className="nav">
+      <ul className="nav flex-column">
         {this.props.links.map(link => (
           <li className="nav-item" key={link.route}>
             <NavLink

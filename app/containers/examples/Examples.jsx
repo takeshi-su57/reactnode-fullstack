@@ -30,10 +30,10 @@ export default class Examples extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-3">
+        <div className="col-md-1">
           <NavLinks {...this.props} links={this.exampleLinks} />
         </div>
-        <div className="col-md-9">
+        <div className="col-md-10">
           {this.exampleLinks.map(link => (
             <Route
               key={link.route}

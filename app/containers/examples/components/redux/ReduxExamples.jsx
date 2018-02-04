@@ -45,10 +45,10 @@ export class ReduxExamples extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-3">
+        <div className="col-md-2">
           <NavLinks {...this.props} links={this.reduxLinks} />
         </div>
-        <div className="col-md-9">
+        <div className="col-md-10">
           {this.reduxLinks.map(link => (
             <Route
               key={link.route}
