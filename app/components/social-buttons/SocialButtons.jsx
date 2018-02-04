@@ -1,4 +1,4 @@
-import './SocialButtons.css';
+import './SocialButtons.scss';
 
 import React, { Component } from 'react';
 

@@ -11,13 +11,13 @@ const webpack = require('webpack');
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
 
-module.exports = options => ({
+module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign(
     {
       // Compile into js/build.js
       path: path.resolve(process.cwd(), 'build'),
-      publicPath: '/'
+      publicPath: '/',
     },
     options.output
   ), // Merge with env dependent settings
@@ -28,8 +28,8 @@ module.exports = options => ({
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: options.babelQuery
-        }
+          options: options.babelQuery,
+        },
       },
       {
         // Preprocess our own .css files
@@ -37,13 +37,13 @@ module.exports = options => ({
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
         test: /\.css$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
         // Preprocess 3rd party .css files located in node_modules
         test: /\.css$/,
         include: /node_modules/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
         // Preprocess our own .scss files
@@ -51,17 +51,17 @@ module.exports = options => ({
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         // Preprocess 3rd party .scss files located in node_modules
         test: /\.scss$/,
         include: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
-        use: 'file-loader'
+        use: 'file-loader',
       },
       {
         test: /\.(jpg|png|gif)$/,
@@ -69,52 +69,52 @@ module.exports = options => ({
           {
             loader: 'url-loader',
             options: {
-              limit: 10000
-            }
+              limit: 10000,
+            },
           },
           {
             loader: 'image-webpack-loader',
             query: {
               mozjpeg: {
-                progressive: true
+                progressive: true,
               },
               gifsicle: {
-                interlaced: false
+                interlaced: false,
               },
               optipng: {
-                optimizationLevel: 7
+                optimizationLevel: 7,
               },
               pngquant: {
                 quality: '65-90',
-                speed: 4
-              }
-            }
-          }
-        ]
+                speed: 4,
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
-        use: 'html-loader'
+        use: 'html-loader',
       },
       {
         test: /\.json$/,
-        use: 'json-loader'
+        use: 'json-loader',
       },
       {
         test: /\.(mp4|webm)$/,
         use: {
           loader: 'url-loader',
           options: {
-            limit: 10000
-          }
-        }
-      }
-    ]
+            limit: 10000,
+          },
+        },
+      },
+    ],
   },
   plugins: options.plugins.concat([
     new webpack.ProvidePlugin({
       // make fetch available
-      fetch: 'exports-loader?self.fetch!whatwg-fetch'
+      fetch: 'exports-loader?self.fetch!whatwg-fetch',
     }),
 
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
@@ -122,17 +122,17 @@ module.exports = options => ({
     // drop any unreachable code.
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      }
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
     }),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
   ]),
   resolve: {
     modules: ['app', 'node_modules'],
     extensions: ['.js', '.jsx', '.react.js'],
-    mainFields: ['browser', 'jsnext:main', 'main']
+    mainFields: ['browser', 'jsnext:main', 'main'],
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
-  performance: options.performance || {}
+  performance: options.performance || {},
 });

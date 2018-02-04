@@ -22,13 +22,14 @@ module.exports = {
         type: Sequelize.STRING,
       },
       password: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       provider: {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      emailConfirmed: Sequelize.BOOLEAN,
       profileData: {
         type: Sequelize.STRING,
       },

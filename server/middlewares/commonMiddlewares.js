@@ -3,7 +3,6 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const session = require('express-session');
 const globby = require('globby');
 const path = require('path');
 
@@ -15,16 +14,6 @@ module.exports = function commonMiddlewares(app) {
   app.use(bodyParser.json()); // handle json data
   app.use(bodyParser.urlencoded({ extended: true })); // handle URL-encoded data
   app.use(morgan('dev'));
-  /* eslint no-mixed-operators: "off" */
-  const expiryDate = new Date(Date.now() + 20 * 60 * 1000); // 20 minute
-  app.use(session({
-    secret: global.appConfig.Security.SESSION_SECRET,
-    resave: false,
-    httpOnly: true,
-    saveUninitialized: true,
-    expires: expiryDate,
-  }));
-
   // If you need a backend, e.g. an API, add your custom backend-specific middleware here
   // app.use('/api', myApi);
   apiRoutes(app);

@@ -2,7 +2,7 @@
 
 const bcrypt = require('bcrypt-nodejs');
 
-module.exports = function (sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes) {
   const User = sequelize.define(
     'User',
     {
@@ -14,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         set(value) {
           this.setDataValue('email', value.toLowerCase());
-        },
+        }
       },
       username: {
         type: DataTypes.STRING,
@@ -24,16 +24,17 @@ module.exports = function (sequelize, DataTypes) {
           this.setDataValue('username', value.toLowerCase());
         },
         validate: {
-          validateUsername,
-        },
+          validateUsername
+        }
       },
       password: {
-        allowNull: false,
-        type: DataTypes.STRING,
+        allowNull: true, // Because of social logins don't have password
+        type: DataTypes.STRING
       },
+      emailConfirmed: DataTypes.BOOLEAN,
       provider: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       profileData: {
         type: DataTypes.STRING,
@@ -41,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
           if (value) {
             this.setDataValue('profileData', JSON.stringify(value));
           }
-        },
+        }
       },
       additionalProvidersData: {
         type: DataTypes.STRING,
@@ -49,76 +50,83 @@ module.exports = function (sequelize, DataTypes) {
           if (value) {
             this.setDataValue('additionalProvidersData', JSON.stringify(value));
           }
-        },
+        }
       },
       resetPasswordToken: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       resetPasswordExpires: {
         type: DataTypes.DATE,
-        isDate: true,
-      },
+        isDate: true
+      }
     },
     {
       indexes: [
         // Create a unique index on poem
         {
           unique: true,
-          fields: ['email'],
+          fields: ['email']
         },
         {
           unique: true,
-          fields: ['username'],
-        },
+          fields: ['username']
+        }
       ],
       hooks: {
-        beforeCreate: (user) => {
+        beforeCreate: user => {
           user.createdAt = new Date();
           user.updatedAt = new Date();
-          user.password = user.encryptPassword(user.password);
-        },
+          if (!user.provider) {
+            user.password = user.encryptPassword(user.password);
+          }
+        }
       },
       getterMethods: {
         displayName() {
           return `${this.firstName} ${this.lastName}`;
         },
         roleNames() {
-          return this.Roles ? this.Roles.map((r) => r.name) : [];
+          return this.Roles ? this.Roles.map(r => r.name) : [];
         },
         roles() {
-          return this.Roles ? this.Roles.map((r) => ({ id: r.id, name: r.name })) : [];
+          return this.Roles
+            ? this.Roles.map(r => ({ id: r.id, name: r.name }))
+            : [];
         },
         isAdmin() {
-          return this.Roles && this.Roles.map((r) => r.name).indexOf('admin') > -1;
+          return (
+            this.Roles && this.Roles.map(r => r.name).indexOf('admin') > -1
+          );
         },
         profileImage() {
-          return this.UserImage ? `api/users/picture/${this.UserImage.id}` : undefined;
-        },
-      },
-    },
+          return this.UserImage
+            ? `api/users/picture/${this.UserImage.id}`
+            : undefined;
+        }
+      }
+    }
   );
 
-  User.prototype.validPassword = function (password) {
+  User.prototype.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
   };
 
-  User.prototype.encryptPassword = function (password) {
+  User.prototype.encryptPassword = function(password) {
     const salt = bcrypt.genSaltSync();
     return bcrypt.hashSync(password, salt);
   };
 
-  User.associate = function (models) {
+  User.associate = function(models) {
     User.hasOne(models.UserImage, { foreignKey: 'userid' });
     User.belongsToMany(models.Role, {
       timestamps: false,
       through: 'UserRole',
-      foreignKey: 'roleid',
+      foreignKey: 'roleid'
     });
   };
 
   return User;
 };
-
 
 /**
  * A Validation function for username
@@ -132,10 +140,11 @@ module.exports = function (sequelize, DataTypes) {
 
 function validateUsername(username) {
   const usernameRegex = /^(?=[\w.-]+$)(?!.*[._-]{2})(?!\.)(?!.*\.$).{3,34}$/;
-  const result = (
+  const result =
     this.provider !== 'local' ||
-    (username && usernameRegex.test(username) && appConfig.illegalUsernames.indexOf(username) < 0)
-  );
+    (username &&
+      usernameRegex.test(username) &&
+      appConfig.illegalUsernames.indexOf(username) < 0);
 
   if (!result) {
     throw new Error('Username is not valid');

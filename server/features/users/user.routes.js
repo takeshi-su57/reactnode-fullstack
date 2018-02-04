@@ -6,7 +6,12 @@ const multerConfig = {
     fileSize: 1 * 1024 * 1024, // Max file size in bytes (1 MB)
   },
   fileFilter: (req, file, callback) => {
-    if (file.mimetype !== 'image/png' && file.mimetype !== 'image/jpg' && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/gif') {
+    if (
+      file.mimetype !== 'image/png' &&
+      file.mimetype !== 'image/jpg' &&
+      file.mimetype !== 'image/jpeg' &&
+      file.mimetype !== 'image/gif'
+    ) {
       const err = new Error();
       err.code = 'UNSUPPORTED_MEDIA_TYPE';
       return callback(err, false);
@@ -33,6 +38,7 @@ module.exports = (app) => {
 
   // Setting the facebook oauth routes
   app.route('/api/auth/facebook').get(users.oauthCall('facebook', {
+    session: false,
     scope: ['email'],
   }));
   app.route('/api/auth/facebook/callback').get(users.oauthCallback('facebook'));
@@ -43,28 +49,24 @@ module.exports = (app) => {
 
   // Setting the windowslive oauth routes
   app.route('/api/auth/windowslive').get(users.oauthCall('windowslive', {
-    scope: [
-      'wl.signin',
-      'wl.basic',
-    ],
+    session: false,
+    scope: ['wl.signin', 'wl.basic'],
   }));
-  app.route('/api/auth/windowslive/callback').get(users.oauthCallback('windowslive'));
+  app
+    .route('/api/auth/windowslive/callback')
+    .get(users.oauthCallback('windowslive'));
 
   // Setting the google oauth routes
   app.route('/api/auth/google').get(users.oauthCall('google', {
-    scope: [
-      'https://www.googleapis.com/auth/userinfo.profile',
-      'https://www.googleapis.com/auth/userinfo.email',
-    ],
+    session: false,
+    scope: ['openid', 'profile', 'email'],
   }));
   app.route('/api/auth/google/callback').get(users.oauthCallback('google'));
 
   // Setting the linkedin oauth routes
   app.route('/api/auth/linkedin').get(users.oauthCall('linkedin', {
-    scope: [
-      'r_basicprofile',
-      'r_emailaddress',
-    ],
+    session: false,
+    scope: ['r_basicprofile', 'r_emailaddress'],
   }));
   app.route('/api/auth/linkedin/callback').get(users.oauthCallback('linkedin'));
 
@@ -85,7 +87,11 @@ module.exports = (app) => {
   app.route('/api/users').put(users.update);
   app.route('/api/users/accounts').delete(users.removeOAuthProvider);
   app.route('/api/users/password').post(users.changePassword);
-  app.post('/api/users/picture', multer(multerConfig).single('newProfilePicture'), users.changeProfilePicture);
+  app.post(
+    '/api/users/picture',
+    multer(multerConfig).single('newProfilePicture'),
+    users.changeProfilePicture
+  );
   app.get('/api/users/picture/:id', users.getProfilePicture);
 
   // Finish by binding the user middleware

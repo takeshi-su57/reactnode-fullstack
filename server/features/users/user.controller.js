@@ -67,7 +67,7 @@ exports.oauthCall = (strategy, scope) => (req, res, next) => {
  */
 exports.oauthCallback = (strategy) => (req, res, next) => {
   // info.redirect_to contains inteded redirect path
-  passport.authenticate(strategy, (err, user) => {
+  passport.authenticate(strategy, { session: false }, (err, user) => {
     if (err) {
       return res.redirect(`/authentication/signin?err=${encodeURIComponent(errorHandler.formatMessage(err))}`);
     }
@@ -76,93 +76,49 @@ exports.oauthCallback = (strategy) => (req, res, next) => {
     }
     // TODO redirect to home page with user
     const token = jwt.sign({ user }, global.appConfig.Security.JWT_SECRET);
-    return res.redirect(`${global.appConfig.Host}?token=${token}`);
+    return res.redirect(`http://localhost:3000?token=${token}`);
   })(req, res, next);
 };
 
 /**
  * Helper function to save or update a OAuth user profile
  */
-exports.saveOAuthUserProfile = (req, providerUserProfile, done) => {
-  // Setup info object
-  const info = {};
-
-  // Set redirection path on session.
-  // Do not redirect to a signin or signup page
-  // if (noReturnUrls.indexOf(req.session.redirect_to) === -1)
-  //   info.redirect_to = req.session.redirect_to;
-
-  if (!req.user) {
-    // Define a search query fields
-    const searchMainProviderIdentifierField = `providerData.${providerUserProfile.providerIdentifierField}`;
-    const searchAdditionalProviderIdentifierField = `additionalProvidersData.${providerUserProfile.provider}.${providerUserProfile.providerIdentifierField}`;
-
-    // Define main provider search query
-    const mainProviderSearchQuery = {};
-    mainProviderSearchQuery.provider = providerUserProfile.provider;
-    mainProviderSearchQuery[searchMainProviderIdentifierField] = providerUserProfile.providerData[providerUserProfile.providerIdentifierField];
-
-    // Define additional provider search query
-    const additionalProviderSearchQuery = {};
-    additionalProviderSearchQuery[searchAdditionalProviderIdentifierField] = providerUserProfile.providerData[providerUserProfile.providerIdentifierField];
-
-    // Define a search query to find existing user with current provider profile
-    const searchQuery = {
-      $or: [mainProviderSearchQuery, additionalProviderSearchQuery],
-    };
-
-    User.findOne(searchQuery, (err, user) => {
-      if (err) {
-        return done(err);
+exports.saveOAuthUserProfile = (providerUserProfile, done) => {
+  User.findOne({
+    where: {
+      email: providerUserProfile.email,
+    },
+  })
+    .then((user) => {
+      if (user && user.provider === 'local') {
+        done('Another user with this email already exist');
       }
-      if (!user) {
-        const possibleUsername = providerUserProfile.username || ((providerUserProfile.email) ? providerUserProfile.email.split('@')[0] : '');
 
-        User.findUniqueUsername(possibleUsername, null, (availableUsername) => {
-          const u = new User({
-            firstName: providerUserProfile.firstName,
-            lastName: providerUserProfile.lastName,
-            username: availableUsername,
-            displayName: providerUserProfile.displayName,
-            profileImageURL: providerUserProfile.profileImageURL,
-            provider: providerUserProfile.provider,
-            providerData: providerUserProfile.providerData,
-          });
+      if (user) {
+        // Social user created before so pass that on
+        done(null, user);
+      }
 
-          // Email intentionally added later to allow defaults (sparse settings) to be applid.
-          // Handles case where no email is supplied.
-          // See comment: https://github.com/meanjs/mean/pull/1495#issuecomment-246090193
-          u.email = providerUserProfile.email;
-
-          // And save the user
-          u.save((e) => done(e, u, info));
+      User.create({
+        firstName: providerUserProfile.firstName,
+        lastName: providerUserProfile.lastName,
+        email: providerUserProfile.email,
+        username: providerUserProfile.email,
+        displayName: providerUserProfile.displayName,
+        profileImageURL: getSocialLoginImageUrl(providerUserProfile),
+        provider: providerUserProfile.provider,
+        providerData: providerUserProfile.providerData,
+      })
+        .then((newUser) => {
+          done(null, newUser);
+        })
+        // Error creating user
+        .catch((err) => {
+          done(err);
         });
-      } else {
-        return done(err, user, info);
-      }
-    });
-  } else {
-    // User is already logged in, join the provider data to the existing user
-    const { user } = req;
-
-    // Check if user exists, is not signed in using this provider, and doesn't have that provider data already configured
-    if (user.provider !== providerUserProfile.provider && (!user.additionalProvidersData || !user.additionalProvidersData[providerUserProfile.provider])) {
-      // Add the provider data to the additional provider data field
-      if (!user.additionalProvidersData) {
-        user.additionalProvidersData = {};
-      }
-
-      user.additionalProvidersData[providerUserProfile.provider] = providerUserProfile.providerData;
-
-      // Then tell mongoose that we've updated the additionalProvidersData field
-      user.markModified('additionalProvidersData');
-
-      // And save the user
-      user.save((err) => done(err, user, info));
-    } else {
-      return done(new Error('User is already connected using this provider'), user);
-    }
-  }
+    })
+    // Error finding User
+    .catch((err) => done(err));
 };
 
 /**
@@ -202,13 +158,15 @@ exports.removeOAuthProvider = (req, res) => {
 
 // ================== PROFILE ROUTES ================
 exports.update = (req, res) => {
-  req.user.update({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    username: req.body.username,
-    email: req.body.email,
-  })
-    .then((user) => res.json(_.pick(user, global.appConfig.whitelistedUserFields)))
+  req.user
+    .update({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      username: req.body.username,
+      email: req.body.email,
+    })
+    .then((user) =>
+      res.json(_.pick(user, global.appConfig.whitelistedUserFields)))
     .catch((err) => res.status(400).send(errorHandler.formatMessage(err)));
 };
 
@@ -220,41 +178,46 @@ exports.getProfilePicture = (req, res) => {
     where: {
       id: req.params.id,
     },
-  }).then((userImage) => {
-    if (userImage) {
-      res.contentType(userImage.contentType);
-      res.send(userImage.data);
-    } else {
-      res.status(404).send('Not found');
+  }).then(
+    (userImage) => {
+      if (userImage) {
+        res.contentType(userImage.contentType);
+        res.send(userImage.data);
+      } else {
+        res.status(404).send('Not found');
+      }
+    },
+    (err) => {
+      res.status(400).send(errorHandler.formatMessage(err));
     }
-  }, (err) => {
-    res.status(400).send(errorHandler.formatMessage(err));
-  });
+  );
 };
 
 /**
  * Update profile picture
  */
 exports.changeProfilePicture = (req, res) => {
-  req.user.getUserImage()
-    .then((image) => {
-      let promise;
-      if (image) {
-        promise = image.update({
-          contentType: req.body.mimetype,
-          data: req.body.url,
-        });
-      } else {
-        promise = req.user.createUserImage({
-          contentType: req.body.mimetype,
-          data: req.body.url,
-        });
-      }
+  req.user.getUserImage().then((image) => {
+    let promise;
+    if (image) {
+      promise = image.update({
+        contentType: req.body.mimetype,
+        data: req.body.url,
+      });
+    } else {
+      promise = req.user.createUserImage({
+        contentType: req.body.mimetype,
+        data: req.body.url,
+      });
+    }
 
-      promise.then((img) => {
+    promise
+      .then((img) => {
         res.json(img);
-      }).catch(() => res.status(400).send('Error while trying to update user picture'));
-    });
+      })
+      .catch(() =>
+        res.status(400).send('Error while trying to update user picture'));
+  });
 };
 
 /**
@@ -264,15 +227,15 @@ exports.me = (req, res) => {
   let safeUserObject = null;
   if (req.user) {
     safeUserObject = {
-      displayName: (req.user.displayName),
-      provider: (req.user.provider),
-      username: (req.user.username),
+      displayName: req.user.displayName,
+      provider: req.user.provider,
+      username: req.user.username,
       createdAt: req.user.createdAt.toString(),
       roles: req.user.roles,
       profileImageURL: req.user.profileImageURL,
-      email: (req.user.email),
-      lastName: (req.user.lastName),
-      firstName: (req.user.firstName),
+      email: req.user.email,
+      lastName: req.user.lastName,
+      firstName: req.user.firstName,
       additionalProvidersData: req.user.additionalProvidersData,
     };
   } else {
@@ -309,45 +272,61 @@ exports.forgot = (req, res) => {
       where: {
         email: req.body.username.toLowerCase(),
       },
-    }).then((user) => {
-      if (user.provider !== 'local') {
-        return res.status(400).send(`It seems like you signed up using your ${user.provider} account`);
-      }
-      /* eslint no-param-reassign: "off" */
-      user.resetPasswordToken = token;
-      user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    })
+      .then((user) => {
+        if (user.provider !== 'local') {
+          return res
+            .status(400)
+            .send(`It seems like you signed up using your ${user.provider} account`);
+        }
+        /* eslint no-param-reassign: "off" */
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
-      user.save()
-        .then((u) => {
-          const httpTransport = req.secure ? 'https://' : 'http://';
-          const baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+        user
+          .save()
+          .then((u) => {
+            const httpTransport = req.secure ? 'https://' : 'http://';
+            const baseUrl =
+              req.app.get('domain') || httpTransport + req.headers.host;
 
-          res.render('reset-password-email', {
-            name: u.displayName,
-            appName: global.appConfig.appTitle,
-            url: `${baseUrl}/api/auth/reset/${token}`,
-          }, (e, emailHTML) => {
-            if (e) {
-              return res.status(500).send('Unable to create reset token email');
-            }
+            res.render(
+              'reset-password-email',
+              {
+                name: u.displayName,
+                appName: global.appConfig.appTitle,
+                url: `${baseUrl}/api/auth/reset/${token}`,
+              },
+              (e, emailHTML) => {
+                if (e) {
+                  return res
+                    .status(500)
+                    .send('Unable to create reset token email');
+                }
 
-            const mailOptions = {
-              to: u.email,
-              from: global.appConfig.mailOptions.from,
-              subject: 'Password Reset',
-              html: emailHTML,
-            };
-            smtpTransport.sendMail(mailOptions, (er) => {
-              if (er) {
-                return res.status(400).send('Failure sending email');
+                const mailOptions = {
+                  to: u.email,
+                  from: global.appConfig.mailOptions.from,
+                  subject: 'Password Reset',
+                  html: emailHTML,
+                };
+                smtpTransport.sendMail(mailOptions, (er) => {
+                  if (er) {
+                    return res.status(400).send('Failure sending email');
+                  }
+                  res.json({
+                    message:
+                      'An email has been sent to the provided email relating to this username with further instructions.',
+                  });
+                });
               }
-              res.json({
-                message: 'An email has been sent to the provided email relating to this username with further instructions.',
-              });
-            });
-          });
-        }).catch(() => res.status(400).send('Unable to save email reset token for user'));
-    }).catch(() => res.status(400).send('No account with that username has been found'));
+            );
+          })
+          .catch(() =>
+            res.status(400).send('Unable to save email reset token for user'));
+      })
+      .catch(() =>
+        res.status(400).send('No account with that username has been found'));
   });
 };
 
@@ -363,7 +342,8 @@ exports.validateResetToken = (req, res) => {
       },
     },
   })
-    .then(() => res.redirect(`/login/resetpassword?resetToken=${req.params.token}`))
+    .then(() =>
+      res.redirect(`/login/resetpassword?resetToken=${req.params.token}`))
     .catch(() => res.redirect('/login/resetpassword'));
 };
 
@@ -390,41 +370,53 @@ exports.reset = (req, res) => {
         $gt: Date.now(),
       },
     },
-  }).then((user) => {
-    if (passwordDetails.newPassword !== passwordDetails.verifyPassword) {
-      return res.status(400).send('Passwords do not match');
-    }
+  })
+    .then((user) => {
+      if (passwordDetails.newPassword !== passwordDetails.verifyPassword) {
+        return res.status(400).send('Passwords do not match');
+      }
 
-    user.update({
-      password: user.encryptPassword(passwordDetails.newPassword),
-      resetPasswordToken: undefined,
-      resetPasswordExpires: undefined,
-    }).then((u) => {
-      res.render('reset-password-confirm-email', {
-        name: u.displayName,
-        appName: global.appConfig.appTitle,
-      }, (err, emailHTML) => {
-        if (err) {
-          return res.status(500).send('Unable to create reset token email');
-        }
+      user
+        .update({
+          password: user.encryptPassword(passwordDetails.newPassword),
+          resetPasswordToken: undefined,
+          resetPasswordExpires: undefined,
+        })
+        .then((u) => {
+          res.render(
+            'reset-password-confirm-email',
+            {
+              name: u.displayName,
+              appName: global.appConfig.appTitle,
+            },
+            (err, emailHTML) => {
+              if (err) {
+                return res
+                  .status(500)
+                  .send('Unable to create reset token email');
+              }
 
-        const mailOptions = {
-          to: u.email,
-          from: global.appConfig.mailOptions.from,
-          subject: 'Your password has been changed',
-          html: emailHTML,
-        };
+              const mailOptions = {
+                to: u.email,
+                from: global.appConfig.mailOptions.from,
+                subject: 'Your password has been changed',
+                html: emailHTML,
+              };
 
-        smtpTransport.sendMail(mailOptions, () => {
-          if (err) {
-            return res.status(400).send('Failure sending email');
-          }
-          // successfully sent
-          res.json({});
-        });
-      });
-    }).catch((e) => res.status(400).send(errorHandler.formatMessage(e)));
-  }).catch(() => res.status(400).send('Password reset token is invalid or has expired.'));
+              smtpTransport.sendMail(mailOptions, () => {
+                if (err) {
+                  return res.status(400).send('Failure sending email');
+                }
+                // successfully sent
+                res.json({});
+              });
+            }
+          );
+        })
+        .catch((e) => res.status(400).send(errorHandler.formatMessage(e)));
+    })
+    .catch(() =>
+      res.status(400).send('Password reset token is invalid or has expired.'));
 };
 
 /**
@@ -440,32 +432,43 @@ exports.changePassword = (req, res) => {
         where: {
           id: req.user.id,
         },
-      }).then((user) => {
-        if (user.validPassword(passwordDetails.currentPassword)) {
-          if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
-            const newPassword = user.encryptPassword(passwordDetails.newPassword);
+      })
+        .then((user) => {
+          if (user.validPassword(passwordDetails.currentPassword)) {
+            if (
+              passwordDetails.newPassword === passwordDetails.verifyPassword
+            ) {
+              const newPassword = user.encryptPassword(passwordDetails.newPassword);
 
-            user.update({
-              password: newPassword,
-            }, {
-              where: {
-                id: user.id,
-              },
-            }).then((u) => {
-              if (!u) {
-                return res.status(400).send(errorHandler.formatMessage('Invalid credentials'));
-              }
-              res.json(['Password changed successfully']);
-            });
+              user
+                .update(
+                  {
+                    password: newPassword,
+                  },
+                  {
+                    where: {
+                      id: user.id,
+                    },
+                  }
+                )
+                .then((u) => {
+                  if (!u) {
+                    return res
+                      .status(400)
+                      .send(errorHandler.formatMessage('Invalid credentials'));
+                  }
+                  res.json(['Password changed successfully']);
+                });
+            } else {
+              res.status(400).send(['Passwords do not match']);
+            }
           } else {
-            res.status(400).send(['Passwords do not match']);
+            res.status(400).send(['Current password is incorrect']);
           }
-        } else {
-          res.status(400).send(['Current password is incorrect']);
-        }
-      }).catch(() => {
-        res.status(400).send(['User is not found']);
-      });
+        })
+        .catch(() => {
+          res.status(400).send(['User is not found']);
+        });
     } else {
       res.status(400).send('Please provide a new password');
     }
@@ -475,7 +478,16 @@ exports.changePassword = (req, res) => {
 };
 
 function signInUser(user, res) {
-  const userInfo = _.pick(user, [...global.appConfig.whitelistedUserFields, 'id']);
+  const userInfo = _.pick(user, [
+    ...global.appConfig.whitelistedUserFields,
+    'id',
+  ]);
   const token = jwt.sign({ ...userInfo }, global.appConfig.Security.JWT_SECRET);
   res.json(token);
+}
+
+function getSocialLoginImageUrl(profileData) {
+  return (
+    profileData.profileImageURL || profileData.providerData.image.url || ''
+  );
 }

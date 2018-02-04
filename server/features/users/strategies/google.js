@@ -32,7 +32,7 @@ module.exports = () => {
       };
 
       // Save the user OAuth profile
-      users.saveOAuthUserProfile(req, providerUserProfile, done);
+      users.saveOAuthUserProfile(providerUserProfile, done);
     }
   ));
 };
