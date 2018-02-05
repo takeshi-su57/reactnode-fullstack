@@ -6,6 +6,7 @@ import { reducer as reduxFormReducer } from 'redux-form';
 import appData from './app.reducer';
 import auth from './login.reducer';
 import register from './register.reducer';
+import profile from './profile.reducer';
 // https://stackoverflow.com/questions/32968016/how-to-dynamically-load-reducers-for-code-splitting-in-a-redux-application
 
 const rootReducer = (asyncReducers) => combineReducers({
@@ -14,6 +15,7 @@ const rootReducer = (asyncReducers) => combineReducers({
   appData,
   auth,
   register,
+  profile,
   ...asyncReducers,
 });
 

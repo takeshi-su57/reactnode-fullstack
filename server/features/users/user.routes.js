@@ -79,8 +79,8 @@ module.exports = (app) => {
 
   // =============== USERS ROUTES (secure routes) =================
   // Setting up the users profile api
-  app.route('/api/users/me').get(users.me);
-  app.route('/api/users').put(users.update);
+  app.route('/api/profile').get(users.getProfile);
+  app.route('/api/profile').put(users.updateProfile);
   app.route('/api/users/accounts').delete(users.removeOAuthProvider);
   app.route('/api/users/password').post(users.changePassword);
   app.post(

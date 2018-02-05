@@ -164,13 +164,11 @@ exports.removeOAuthProvider = (req, res) => {
 };
 
 // ================== PROFILE ROUTES ================
-exports.update = (req, res) => {
+exports.updateProfile = (req, res) => {
   req.user
     .update({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      username: req.body.username,
-      email: req.body.email,
     })
     .then((user) =>
       res.json(_.pick(user, global.appConfig.whitelistedUserFields)))
@@ -230,7 +228,7 @@ exports.changeProfilePicture = (req, res) => {
 /**
  * Send User
  */
-exports.me = (req, res) => {
+exports.getProfile = (req, res) => {
   let safeUserObject = null;
   if (req.user) {
     safeUserObject = {
@@ -238,6 +236,7 @@ exports.me = (req, res) => {
       provider: req.user.provider,
       username: req.user.username,
       createdAt: req.user.createdAt.toString(),
+      updatedAt: req.user.createdAt.toString(),
       roles: req.user.roles,
       profileImageURL: req.user.profileImageURL,
       email: req.user.email,
@@ -251,8 +250,6 @@ exports.me = (req, res) => {
 
   res.json(safeUserObject || null);
 };
-
-// ==================== AUTHORISATION ROUTES ==================
 
 // ====================== USER PASSWORD ROUTES =========================
 const smtpTransport = nodemailer.createTransport(global.appConfig.mailOptions);
