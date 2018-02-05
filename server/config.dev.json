@@ -1,5 +1,5 @@
 {
-  "appTitle": "React fullstack",
+  "appTitle": "React NodeJs fullstack",
   "ssrEnabled": true,
   "database": {
     "dialect": "sqlite",
@@ -39,12 +39,18 @@
     "callbackURL": "/api/auth/facebook/callback"
   },
   "google": {
-    "clientID":      "132590188993-1ou856gmrkhehmraoeevb2c9laj78goc.apps.googleusercontent.com",
+    "clientID":
+      "132590188993-1ou856gmrkhehmraoeevb2c9laj78goc.apps.googleusercontent.com",
     "clientSecret": "IYb4DqDeVeAC0RI8bwsufuDD",
     "callbackURL": "/api/auth/google/callback"
   },
+  "github": {
+    "clientID": "changeMe",
+    "clientSecret": "changeMe",
+    "callbackURL": "/api/auth/github/callback"
+  },
   "mailOptions": {
-    "from": "'NgNode Fullstack' <admin@ngnodefullstack.com>",
+    "from": "'React Node Fullstack' <admin@reactnodefullstack.com>",
     "service": "gmail",
     "auth": {
       "user": "email",

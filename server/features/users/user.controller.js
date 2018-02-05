@@ -7,6 +7,7 @@ const DB = require('../../db/models');
 const { User, UserImage } = DB;
 const errorHandler = require('../core/errorHandler');
 const { getAccessToken } = require('./token');
+const logger = require('../../logger');
 
 // =================== OAUTH ROUTES ====================
 
@@ -104,18 +105,27 @@ exports.saveOAuthUserProfile = (providerUserProfile, done) => {
         firstName: providerUserProfile.firstName,
         lastName: providerUserProfile.lastName,
         email: providerUserProfile.email,
-        username: providerUserProfile.email,
+        username: providerUserProfile.username,
         displayName: providerUserProfile.displayName,
         profileImageURL: getSocialLoginImageUrl(providerUserProfile),
         provider: providerUserProfile.provider,
         providerData: providerUserProfile.providerData,
       })
-        .then((newUser) => done(null, newUser))
+        .then((newUser) => {
+          done(null, newUser);
+        })
+
         // Error creating user
-        .catch((err) => done(err));
+        .catch((err) => {
+          logger.error(err);
+          done(err);
+        });
     })
     // Error finding User
-    .catch((err) => done(err));
+    .catch((err) => {
+      logger.error(err);
+      done(err);
+    });
 };
 
 /**

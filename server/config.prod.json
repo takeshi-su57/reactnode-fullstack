@@ -1,54 +1,59 @@
 {
-    "appTitle": "NgNode fullstack",
-    "ssrEnabled": true,
-    "database": {
-        "dialect": "sqlite",
-        "storage": "./react-playground.sqlite"
-    },
-    "Security": {
-        "JWT_SECRET": "SECRET",
-        "SESSION_SECRET": "SECRET"
-    },
-    "profile": {
-        "fileSizeLimit": "1048576"
-    },
-    "whitelistedUserFields": [
-        "firstName",
-        "lastName",
-        "email",
-        "username",
-        "displayName",
-        "isAdmin",
-        "roles",
-        "profileImage"
-    ],
-    "illegalUsernames": [
-        "administrator",
-        "password",
-        "admin",
-        "user",
-        "unknown",
-        "anonymous",
-        "null",
-        "undefined",
-        "api"
-    ],
-    "facebook": {
-        "clientID": "changeMe",
-        "clientSecret": "changeMe",
-        "callbackURL": "/api/auth/facebook/callback"
-    },
-    "google": {
-        "clientID": "changeMe",
-        "clientSecret": "changeMe",
-        "callbackURL": "/api/auth/google/callback"
-    },
-    "mailOptions": {
-        "from": "'NgNode Fullstack' <admin@ngnodefullstack.com>",
-        "service": "gmail",
-        "auth": {
-            "user": "email",
-            "pass": "password"
-        }
+  "appTitle": "React NodeJs fullstack",
+  "ssrEnabled": true,
+  "database": {
+    "dialect": "sqlite",
+    "storage": "./react-playground.sqlite"
+  },
+  "Security": {
+    "JWT_SECRET": "SECRET",
+    "SESSION_SECRET": "SECRET"
+  },
+  "profile": {
+    "fileSizeLimit": "1048576"
+  },
+  "whitelistedUserFields": [
+    "firstName",
+    "lastName",
+    "email",
+    "username",
+    "displayName",
+    "isAdmin",
+    "roles",
+    "profileImage"
+  ],
+  "illegalUsernames": [
+    "administrator",
+    "password",
+    "admin",
+    "user",
+    "unknown",
+    "anonymous",
+    "null",
+    "undefined",
+    "api"
+  ],
+  "facebook": {
+    "clientID": "changeMe",
+    "clientSecret": "changeMe",
+    "callbackURL": "/api/auth/facebook/callback"
+  },
+  "google": {
+    "clientID": "changeMe",
+    "clientSecret": "changeMe",
+    "callbackURL": "/api/auth/google/callback"
+  },
+  "github": {
+    "clientID": "changeMe",
+    "clientSecret": "changeMe",
+    "callbackURL": "/api/auth/github/callback"
+  },
+  "mailOptions": {
+    "from": "'React Node Fullstack' <admin@reactnodefullstack.com>",
+    "service": "gmail",
+    "auth": {
+      "user": "email",
+      "pass": "password"
     }
+  }
 }

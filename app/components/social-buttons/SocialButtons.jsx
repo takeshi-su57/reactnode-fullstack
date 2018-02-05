@@ -25,7 +25,6 @@ class SocialButtons extends Component {
         {[
           'google',
           'facebook',
-          'twitter',
           'github'
         ].map(provider => (
           <a

@@ -11,10 +11,10 @@ module.exports = {
         const salt = bcrypt.genSaltSync();
         return queryInterface.bulkInsert('Users', [
           {
-            email: 'asadazmat@gmail.com',
-            username: 'asahi',
-            firstName: 'Asad',
-            lastName: 'Sahi',
+            email: 'admin@admin.com',
+            username: 'admin',
+            firstName: 'Admin',
+            lastName: 'Admin',
             password: bcrypt.hashSync('P@ssw0rd!', salt),
             provider: 'local',
             emailConfirmed: true,
@@ -24,18 +24,7 @@ module.exports = {
           {
             email: 'user@user.com',
             username: 'user',
-            firstName: 'Normal',
-            lastName: 'User',
-            password: bcrypt.hashSync('P@ssw0rd!', salt),
-            provider: 'local',
-            emailConfirmed: true,
-            createdAt: new Date(),
-            updatedAt: new Date()
-          },
-          {
-            email: 'guest@guest.com',
-            username: 'guest',
-            firstName: 'Guest',
+            firstName: 'User',
             lastName: 'User',
             emailConfirmed: true,
             password: bcrypt.hashSync('P@ssw0rd!', salt),

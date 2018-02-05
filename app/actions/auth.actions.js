@@ -40,5 +40,6 @@ export const registerAction = (values) => (dispatch) => {
 
 export const logoutAction = () => (dispatch) => {
   localStorage.removeItem(ACCESS_TOKEN);
+  history.push('/');
   dispatch({ type: types.LOGOUT });
 };

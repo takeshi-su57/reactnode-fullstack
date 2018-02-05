@@ -43,10 +43,6 @@ module.exports = (app) => {
   }));
   app.route('/api/auth/facebook/callback').get(users.oauthCallback('facebook'));
 
-  // Setting the twitter oauth routes
-  app.route('/api/auth/twitter').get(users.oauthCall('twitter'));
-  app.route('/api/auth/twitter/callback').get(users.oauthCallback('twitter'));
-
   // Setting the windowslive oauth routes
   app.route('/api/auth/windowslive').get(users.oauthCall('windowslive', {
     session: false,
