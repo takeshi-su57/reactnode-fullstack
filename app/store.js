@@ -5,7 +5,8 @@ import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import { createLogger } from 'redux-logger';
 
 import { rootReducer, initialState } from './reducers';
-import { history } from './constants';
+import { parseQueryString, storeAuth } from './services';
+import { history, ACCESS_TOKEN, ActionTypes as actionTypes } from './constants';
 
 const enhancers = [];
 const middleware = [thunk, routerMiddleware(history)];
@@ -34,6 +35,12 @@ const store = storeSetup();
 
 export function injectAsyncReducer(storeInput, asyncReducer) {
   storeInput.replaceReducer(rootReducer(asyncReducer));
+}
+
+const initialToken = parseQueryString()[ACCESS_TOKEN];
+if (initialToken) {
+  const user = storeAuth(initialToken);
+  store.dispatch({ type: actionTypes.LOGIN.LOGIN_SUCCESS, data: user });
 }
 
 export default store;

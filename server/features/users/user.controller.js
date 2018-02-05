@@ -3,10 +3,10 @@ const passport = require('passport');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const _ = require('lodash');
-const jwt = require('jsonwebtoken');
 const DB = require('../../db/models');
 const { User, UserImage } = DB;
 const errorHandler = require('../core/errorHandler');
+const { getAccessToken } = require('./token');
 
 // =================== OAUTH ROUTES ====================
 
@@ -37,7 +37,7 @@ exports.signin = (req, res, next) => {
     } else {
       // res.json(user);
       // user has authenticated correctly thus we create a JWT token
-      signInUser(user, res);
+      res.json(getAccessToken(user));
     }
   })(req, res, next);
 };
@@ -69,14 +69,15 @@ exports.oauthCallback = (strategy) => (req, res, next) => {
   // info.redirect_to contains inteded redirect path
   passport.authenticate(strategy, { session: false }, (err, user) => {
     if (err) {
-      return res.redirect(`/authentication/signin?err=${encodeURIComponent(errorHandler.formatMessage(err))}`);
+      return res.redirect(`/login?err=${encodeURIComponent(errorHandler.formatMessage(err))}`);
     }
     if (!user) {
-      return res.redirect('/authentication/signin');
+      return res.redirect('/login');
     }
-    // TODO redirect to home page with user
-    const token = jwt.sign({ user }, global.appConfig.Security.JWT_SECRET);
-    return res.redirect(`http://localhost:3000?token=${token}`);
+    const token = getAccessToken(user);
+    // res.locals.token = token;
+    const encodedToken = encodeURIComponent(token);
+    res.redirect(`/?access_token=${encodedToken}`);
   })(req, res, next);
 };
 
@@ -96,7 +97,7 @@ exports.saveOAuthUserProfile = (providerUserProfile, done) => {
 
       if (user) {
         // Social user created before so pass that on
-        done(null, user);
+        return done(null, user);
       }
 
       User.create({
@@ -109,13 +110,9 @@ exports.saveOAuthUserProfile = (providerUserProfile, done) => {
         provider: providerUserProfile.provider,
         providerData: providerUserProfile.providerData,
       })
-        .then((newUser) => {
-          done(null, newUser);
-        })
+        .then((newUser) => done(null, newUser))
         // Error creating user
-        .catch((err) => {
-          done(err);
-        });
+        .catch((err) => done(err));
     })
     // Error finding User
     .catch((err) => done(err));
@@ -476,15 +473,6 @@ exports.changePassword = (req, res) => {
     res.status(401).send('User is not signed in');
   }
 };
-
-function signInUser(user, res) {
-  const userInfo = _.pick(user, [
-    ...global.appConfig.whitelistedUserFields,
-    'id',
-  ]);
-  const token = jwt.sign({ ...userInfo }, global.appConfig.Security.JWT_SECRET);
-  res.json(token);
-}
 
 function getSocialLoginImageUrl(profileData) {
   return (

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ACCESS_TOKEN } from '../constants';
 
 // https://github.com/axios/axios
 
@@ -8,7 +9,7 @@ const instance = axios.create({
 
 // Alter defaults after instance has been created
 
-const token = localStorage.getItem('auth_token');
+const token = localStorage.getItem(ACCESS_TOKEN);
 if (token) {
   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 }

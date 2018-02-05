@@ -1,5 +1,5 @@
-import { ActionTypes as types, history, AUTH_TOKEN } from '../constants';
-import { dataService, decode } from '../services';
+import { ActionTypes as types, history, ACCESS_TOKEN } from '../constants';
+import { dataService, storeAuth } from '../services';
 
 export const loginAction = (usernameOrEmail, password) => (dispatch) => {
   dispatch({ type: types.LOGIN.LOGIN_START });
@@ -10,8 +10,7 @@ export const loginAction = (usernameOrEmail, password) => (dispatch) => {
       password,
     })
     .then((res) => {
-      localStorage.setItem('auth_token', res.data);
-      dispatch({ type: types.LOGIN.LOGIN_SUCCESS, data: decode(res.data) });
+      dispatch({ type: types.LOGIN.LOGIN_SUCCESS, data: storeAuth(res.data) });
       history.push('/');
     })
     .catch((error) => {
@@ -40,6 +39,6 @@ export const registerAction = (values) => (dispatch) => {
 };
 
 export const logoutAction = () => (dispatch) => {
-  localStorage.removeItem(AUTH_TOKEN);
+  localStorage.removeItem(ACCESS_TOKEN);
   dispatch({ type: types.LOGOUT });
 };

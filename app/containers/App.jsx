@@ -105,7 +105,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   loadAppData() {
     dispatch(loadAppData());
-  },
+  }
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
