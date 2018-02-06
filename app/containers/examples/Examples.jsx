@@ -5,7 +5,8 @@ import { NavLinks } from '../../components';
 import {
   ReduxExamples,
   ReactCastsExamples,
-  EggheadExamples
+  EggheadExamples,
+  MovieSearch
 } from './components';
 
 export default class Examples extends Component {
@@ -24,6 +25,11 @@ export default class Examples extends Component {
       route: 'eggheadexamples',
       description: 'Egghead examples',
       component: EggheadExamples
+    },
+    {
+      route: 'moviesearch',
+      description: 'Movie search',
+      component: MovieSearch
     }
   ];
 
