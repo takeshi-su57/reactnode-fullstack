@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormWrapper, TextInput, validations } from '../components';
+import { FormWrapper, TextInput, validations, Loading } from '../components';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { loadProfileAction, saveProfileAction } from '../actions';
@@ -16,9 +16,8 @@ class Profile extends Component {
 
   render() {
     const { initialValues } = this.props;
-    return (
+    return initialValues ? (
       <form onSubmit={this.props.handleSubmit(this.handleSubmit)} noValidate>
-        {/* <pre>{JSON.stringify(initialValues)}</pre> */}
         <Field
           name="firstName"
           type="text"
@@ -38,6 +37,8 @@ class Profile extends Component {
           Update
         </button>
       </form>
+    ) : (
+      <Loading />
     );
   }
 }

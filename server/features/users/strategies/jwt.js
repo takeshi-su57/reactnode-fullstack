@@ -20,9 +20,9 @@ module.exports = () => {
     })
       .then((user) => {
         if (user) {
-          done(null, user);
+          return done(null, user);
         } else {
-          done(null, false);
+          return done(null, false);
           // or you could create a new account
         }
       })

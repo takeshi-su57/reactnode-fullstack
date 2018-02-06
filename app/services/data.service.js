@@ -3,27 +3,31 @@ import { ACCESS_TOKEN } from '../constants';
 
 // https://github.com/axios/axios
 
-const instance = axios.create({
-  // baseURL: process.env.REACT_APP_HOST
-});
+const instance = axios.create({});
 
-// Alter defaults after instance has been created
+instance.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem(ACCESS_TOKEN);
 
-const token = localStorage.getItem(ACCESS_TOKEN);
-if (token) {
-  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-}
+    if (token != null) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
-const get = (url) => instance.get(url);
+    return config;
+  },
+  err => Promise.reject(err)
+);
+
+const get = url => instance.get(url);
 const post = (url, data) => instance.post(url, data);
 const put = (url, data) => instance.put(url, data);
-const del = (url) => instance.delete(url);
+const del = url => instance.delete(url);
 
 const dataService = {
   get,
   post,
   put,
-  delete: del,
+  delete: del
 };
 
 export { dataService };
