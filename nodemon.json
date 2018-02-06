@@ -3,5 +3,5 @@
     "server"
   ],
   "ext": "js json",
-  "exec": "node --inspect ./server"
+  "exec": "node --inspect ./server/server.js"
 }

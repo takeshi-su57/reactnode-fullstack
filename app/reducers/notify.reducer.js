@@ -1,6 +1,6 @@
 import { ActionTypes as types } from '../constants';
 
-export const notify = (state = '', action) => {
+export const notify = (state = {}, action) => {
   switch (action.type) {
     case types.NOTIFY_SUCCESS:
       return { type: 'success', message: action.data };
