@@ -24,6 +24,12 @@ export const saveProfileAction = (values) => (dispatch) => {
     .put('/api/profile', values)
     .then((res) => {
       dispatch({ type: types.PROFILE.SAVE_SUCCESS, data: res.data });
+      dispatch({ type: types.PROFILE.LOAD_SUCCESS, data: res.data });
+      dispatch({ type: types.NOTIFY_SUCCESS, data: 'Profile saved successfully' });
+      setTimeout(() => {
+        dispatch({ type: types.NOTIFY_CLEAR });
+      }, 2000);
+      dispatch({ type: types.NOTIFY_SUCCESS, data: 'Profile saved successfully' });
     })
     .catch((error) => {
       dispatch({

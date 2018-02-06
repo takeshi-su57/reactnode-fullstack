@@ -1,13 +1,13 @@
-import './SocialButtons.scss';
-
 import React, { Component } from 'react';
 
+import './SocialButtons.scss';
+
 class SocialButtons extends Component {
-  redirect = provider => {
-    window.location.href = 'api/auth/' + provider;
+  redirect = (provider) => {
+    window.location.href = `api/auth/${provider}`;
   };
 
-  loginCss = login => {
+  loginCss = (login) => {
     if (login.toLowerCase() === 'microsoft') {
       return 'fa-windows';
     }
@@ -25,11 +25,11 @@ class SocialButtons extends Component {
         {[
           'google',
           'facebook',
-          'github'
-        ].map(provider => (
-          <a
+          'github',
+        ].map((provider) => (
+          <button
             key={provider}
-            className={`fa ${this.loginCss(provider)}`}
+            className={`btn btn-link fa ${this.loginCss(provider)}`}
             onClick={() => this.redirect(provider)}
           />
         ))}

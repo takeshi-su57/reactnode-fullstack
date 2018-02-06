@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { FormWrapper, TextInput, validations, Loading } from '../components';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+
+import { FormWrapper, TextInput, validations, Loading } from '../components';
 import { loadProfileAction, saveProfileAction } from '../actions';
-import { profileUpdate } from '../services';
 
 class Profile extends Component {
-  handleSubmit = values => {
-    this.props.saveProfile(values);
-  };
-
   componentDidMount() {
     this.props.loadProfile();
   }
+
+  handleSubmit = (values) => {
+    this.props.saveProfile(values);
+  };
 
   render() {
     const { initialValues } = this.props;
@@ -37,31 +37,29 @@ class Profile extends Component {
           Update
         </button>
       </form>
-    ) : (
-      <Loading />
-    );
+    ) : <Loading />;
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // initialValues is a special property for redux-form initalisation
   initialValues: state.profile.data,
-  error: state.profile.error
+  error: state.profile.error,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   loadProfile() {
     dispatch(loadProfileAction());
   },
   saveProfile(values) {
     dispatch(saveProfileAction(values));
-  }
+  },
 });
 
 Profile = reduxForm({
   form: 'profileForm',
   destroyOnUnmount: false, //        <------ preserve form data
-  forceUnregisterOnUnmount: true // <------ unregister fields on unmount
+  forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
 })(FormWrapper(Profile, 'Profile'));
 
 Profile = connect(mapStateToProps, mapDispatchToProps)(Profile);

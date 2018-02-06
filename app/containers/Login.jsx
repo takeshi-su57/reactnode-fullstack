@@ -39,7 +39,7 @@ class Login extends Component {
 
           <button type="submit" className="btn btn-primary">
             Login
-        </button>
+          </button>
         </form>
         <div className="text-center">
           <SocialButtons />

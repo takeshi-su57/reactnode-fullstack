@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FormWrapper, TextInput, validations } from '../components';
 import { reduxForm, Field } from 'redux-form';
 
+import { FormWrapper, TextInput, validations } from '../components';
 import { registerAction } from '../actions';
 
 class Register extends Component {

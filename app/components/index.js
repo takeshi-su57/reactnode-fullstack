@@ -1,5 +1,6 @@
 export * from './form';
 export * from './social-buttons';
+export * from './snack-bar';
 
 export * from './Header';
 export * from './Footer';

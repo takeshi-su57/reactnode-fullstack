@@ -7,12 +7,12 @@ import store from '../store';
 
 export class Header extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
   };
 
   toggle = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   };
 
@@ -32,7 +32,7 @@ export class Header extends Component {
         </NavLink>
         <button
           onClick={this.toggle}
-          className={'navbar-toggler ' + (this.state.isOpen ? '' : 'collapsed')}
+          className={`navbar-toggler ${this.state.isOpen ? '' : 'collapsed'}`}
           type="button"
           data-toggle="collapse"
           data-target="#navbarSupportedContent"
@@ -45,7 +45,7 @@ export class Header extends Component {
 
         <div
           className={
-            'collapse navbar-collapse ' + (this.state.isOpen ? 'show' : '')
+            `collapse navbar-collapse ${this.state.isOpen ? 'show' : ''}`
           }
           id="navbarSupportedContent"
         >
@@ -57,7 +57,7 @@ export class Header extends Component {
                 to="/"
                 activeClassName="active"
               >
-                <i className='fa fa-home'></i>&nbsp;
+                <i className="fa fa-home"></i>&nbsp;
                 {content.APP_NAV_HOME}
               </NavLink>
             </li>
@@ -67,7 +67,7 @@ export class Header extends Component {
                 to="/examples"
                 activeClassName="active"
               >
-                <i className='fa fa-flask'></i>&nbsp;
+                <i className="fa fa-flask"></i>&nbsp;
                 {content.APP_NAV_EXAMPLES}
               </NavLink>
             </li>
@@ -78,7 +78,7 @@ export class Header extends Component {
                 to="/about"
                 activeClassName="active"
               >
-                <i className='fa fa-info  '></i>&nbsp;
+                <i className="fa fa-info  "></i>&nbsp;
                 {content.APP_NAV_ABOUT}
               </NavLink>
             </li>
@@ -94,22 +94,21 @@ export class Header extends Component {
                     to="/profile"
                     activeClassName="active"
                   >
-                    <i className='fa fa-user'></i>&nbsp;
+                    <i className="fa fa-user"></i>&nbsp;
                     {auth.user.email}
                   </NavLink>
                 </li>,
                 <li className="nav-item" key="logout">
-                  <a
-                    className="nav-link"
-                    href=""
+                  <button
+                    className="nav-link btn btn-link"
                     onClick={() => {
                       store.dispatch(logoutAction());
                     }}
                   >
-                    <i className='fa fa-sign-out'></i>&nbsp;
+                    <i className="fa fa-sign-out"></i>&nbsp;
                     {content.APP_NAV_LOGOUT}
-                  </a>
-                </li>
+                  </button>
+                </li>,
               ]
               : [
                 <li className="nav-item" key="register">
@@ -118,7 +117,7 @@ export class Header extends Component {
                     to="/register"
                     activeClassName="active"
                   >
-                    <i className='fa fa-user-plus'></i>&nbsp;
+                    <i className="fa fa-user-plus"></i>&nbsp;
                     {content.APP_NAV_REGISTER}
                   </NavLink>
                 </li>,
@@ -128,10 +127,10 @@ export class Header extends Component {
                     to="/login"
                     activeClassName="active"
                   >
-                    <i className='fa fa-sign-in'></i>&nbsp;
+                    <i className="fa fa-sign-in"></i>&nbsp;
                     {content.APP_NAV_LOGIN}
                   </NavLink>
-                </li>
+                </li>,
               ]}
           </ul>
         </div>

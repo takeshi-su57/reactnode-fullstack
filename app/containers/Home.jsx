@@ -19,7 +19,7 @@ const Home = () => (
       <div className="col-md-6">
         <h4>NodeJs</h4>
         <p>
-          Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript
+          Node.js® is a JavaScript runtime built on Chrome&quote;s V8 JavaScript
           engine
         </p>
         <p>
