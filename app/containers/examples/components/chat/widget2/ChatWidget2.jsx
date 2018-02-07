@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Launcher } from './Launcher';
+import { Launcher } from './components/Launcher';
 
-class ChatWindowContainer extends Component {
+import './styles';
+
+class ChatWidget2 extends Component {
 
     constructor() {
         super();
@@ -43,4 +45,4 @@ class ChatWindowContainer extends Component {
     }
 }
 
-export { ChatWindowContainer };
+export { ChatWidget2 };

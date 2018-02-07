@@ -2,7 +2,7 @@ import React from 'react';
 
 import Widget from './components/Widget';
 
-const ChatWidget = props =>
+const ChatWidget1 = props =>
   <Widget
     title={props.title}
     subtitle={props.subtitle}
@@ -13,7 +13,7 @@ const ChatWidget = props =>
     fullScreenMode={props.fullScreenMode}
   />
 
-ChatWidget.defaultProps = {
+ChatWidget1.defaultProps = {
   title: 'Welcome',
   subtitle: 'This is your chat subtitle',
   senderPlaceHolder: 'Type a message...',
@@ -21,4 +21,4 @@ ChatWidget.defaultProps = {
   fullScreenMode: false
 };
 
-export { ChatWidget };
+export { ChatWidget1 };

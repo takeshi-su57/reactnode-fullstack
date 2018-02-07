@@ -7,8 +7,7 @@ import {
   ReactCastsExamples,
   EggheadExamples,
   MovieSearch,
-  ChatWidget,
-  ChatWindowContainer
+  ChatExamples
 } from './components';
 
 export default class Examples extends Component {
@@ -34,15 +33,10 @@ export default class Examples extends Component {
       component: MovieSearch
     },
     {
-      route: 'chatwidget',
-      description: 'Chat Widget',
-      component: ChatWidget
+      route: 'chat',
+      description: 'Chat',
+      component: ChatExamples
     },
-    {
-      route: 'chatwindow',
-      description: 'Chat Window',
-      component: ChatWindowContainer
-    }
   ];
 
   render() {
