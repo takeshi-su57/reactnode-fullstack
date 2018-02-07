@@ -9,7 +9,6 @@ class FeesTable extends React.Component {
       originCurrency,
       destinationCurrency
     } = this.props;
-
     return (
       <div>
         <table className="table">

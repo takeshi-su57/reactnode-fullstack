@@ -2,46 +2,11 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Loadable from 'react-loadable';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import store, { injectAsyncReducer } from '../store';
 
 import { PrivateRoute, PublicRoute, Header, Footer, Loading, SnackBar } from '../components';
-import Home from './Home';
+import * as routes from './routes';
 import { loadAppData } from '../actions';
-
-const Login = Loadable({
-  loader: () => import('./Login'),
-  loading: () => <Loading />,
-});
-
-const About = Loadable({
-  loader: () => import('./About'),
-  loading: () => <Loading />,
-});
-
-const Register = Loadable({
-  loader: () => import('./Register'),
-  loading: () => <Loading />,
-});
-
-const Profile = Loadable({
-  loader: () => import('./Profile'),
-  loading: () => <Loading />,
-});
-
-const Examples = Loadable.Map({
-  loading: () => <Loading />,
-  loader: {
-    Examples: () => import('./examples/Examples'),
-    reducers: () => import('./examples/reducers'),
-  },
-  render(loaded, props) {
-    const Ex = loaded.Examples.default;
-    injectAsyncReducer(store, loaded.reducers.default);
-    return <Ex {...props} />;
-  },
-});
 
 class App extends React.Component {
   componentDidMount() {
@@ -66,23 +31,23 @@ class App extends React.Component {
           >
             <div className="container-fluid">
               <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/about" exact component={About} />
-                <Route path="/examples" component={Examples} />
+                <Route path="/" exact component={routes.Home} />
+                <Route path="/about" exact component={routes.About} />
+                <Route path="/examples" component={routes.Examples} />
                 <PublicRoute
                   authenticated={this.props.auth.authenticated}
                   path="/login"
-                  component={Login}
+                  component={routes.Login}
                 />
                 <PublicRoute
                   authenticated={this.props.auth.authenticated}
                   path="/register"
-                  component={Register}
+                  component={routes.Register}
                 />
                 <PrivateRoute
                   authenticated={this.props.auth.authenticated}
                   path="/profile"
-                  component={Profile}
+                  component={routes.Profile}
                 />
                 <Route render={() => <h3>404</h3>} />
               </Switch>

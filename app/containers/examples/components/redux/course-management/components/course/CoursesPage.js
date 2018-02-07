@@ -7,14 +7,13 @@ import CourseList from './CourseList';
 class CoursesPage extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
   }
 
   courseRow(course, index) {
     return <div key={index}>{course.title}</div>;
   }
 
-  redirectToAddCoursePage() {
+  redirectToAddCoursePage = () => {
     this.props.history.push(`${this.props.match.url}/course`);
   }
 

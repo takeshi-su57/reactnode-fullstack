@@ -9,6 +9,9 @@ module.exports = (app, options) => {
   // Setup common middlewares
   const commonMiddlewares = require('./commonMiddlewares');
   commonMiddlewares(app, options);
+  // Setup api middlewares
+  const apiMiddlewares = require('./apiMiddlewares');
+  apiMiddlewares(app, options);
 
   if (isProd) {
     const addProdMiddlewares = require('./addProdMiddlewares');

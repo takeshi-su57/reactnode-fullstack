@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce';
+import { dataService } from '../../../../../../services';
 
 import { ActionTypes as types } from '../constants';
 
@@ -40,12 +41,11 @@ function _makeConversionAjaxCall(payload, dispatch) {
   dispatch({ type: types.REQUEST_CONVERSION_RATE, data: payload });
 
   // ajax call for destination amount
-  fetch(`/api/conversion?${mapQueryParam(payload)}`)
-    .then((res) => res.json())
+  dataService.get(`/api/conversion?${mapQueryParam(payload)}`)
     .then((data) => {
       dispatch({
         type: types.RECEIVED_CONVERSION_RATE_SUCCESS,
-        data,
+        data: data.data,
       });
     })
     .catch((err) => {
@@ -65,12 +65,11 @@ function _makeConversionAndFeesAjaxCalls(payload, dispatch) {
   dispatch({ type: types.REQUEST_CONVERSION_RATE, data: payload });
 
   // ajax call for destination amount
-  fetch(`/api/conversion?${mapQueryParam(payload)}`)
-    .then((res) => res.json())
+  dataService.get(`/api/conversion?${mapQueryParam(payload)}`)
     .then((data) => {
       dispatch({
         type: types.RECEIVED_CONVERSION_RATE_SUCCESS,
-        data,
+        data: data.data,
       });
 
       const feePayload = Object.assign({}, payload, {
@@ -98,10 +97,9 @@ function _makeFeeAjaxCall(payload, dispatch) {
   dispatch({ type: types.REQUEST_FEES, data: payload });
 
   // ajax call for destination amount
-  fetch(`/api/fees?${mapQueryParam(payload)}`)
-    .then((res) => res.json())
+  dataService.get(`/api/fees?${mapQueryParam(payload)}`)
     .then((data) => {
-      dispatch({ type: types.RECEIVED_FEES_SUCCESS, data });
+      dispatch({ type: types.RECEIVED_FEES_SUCCESS, data: data.data, });
     })
     .catch((resp) => {
       const msg = getErrorMsg(resp);
