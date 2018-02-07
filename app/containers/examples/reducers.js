@@ -11,6 +11,7 @@ import ajaxCallsInProgress from './components/redux/course-management/reducers/a
 import { todos, visibilityFilter } from './components/redux/Todo';
 // Shopping cart reducer
 import { cart, products } from './components/redux/shopping-cart/reducers';
+import { behavior, messages } from './components/chat/chat-widget/store'
 
 const exampleReducers = {
   counter,
@@ -23,6 +24,8 @@ const exampleReducers = {
   visibilityFilter,
   cart,
   products,
+  behavior,
+  messages
 };
 
 export default exampleReducers;

@@ -6,7 +6,9 @@ import {
   ReduxExamples,
   ReactCastsExamples,
   EggheadExamples,
-  MovieSearch
+  MovieSearch,
+  ChatWidget,
+  ChatWindowContainer
 } from './components';
 
 export default class Examples extends Component {
@@ -30,6 +32,16 @@ export default class Examples extends Component {
       route: 'moviesearch',
       description: 'Movie search',
       component: MovieSearch
+    },
+    {
+      route: 'chatwidget',
+      description: 'Chat Widget',
+      component: ChatWidget
+    },
+    {
+      route: 'chatwindow',
+      description: 'Chat Window',
+      component: ChatWindowContainer
     }
   ];
 

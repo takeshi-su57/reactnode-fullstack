@@ -3,7 +3,7 @@ import React from 'react';
 function keyframes() {
   return {
     __html:
-      '@keyframes spin { 0% { transform: rotate(0deg) } 100% { transform: rotate(360deg) }}'
+      '@keyframes spin { 0% { transform: rotate(0deg) } 100% { transform: rotate(360deg) }}',
   };
 }
 
@@ -16,7 +16,7 @@ function style(size, stroke, color) {
       border: `${stroke} solid transparent`,
       borderTopColor: color,
       borderRadius: '100%',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
     },
     outer: {
       height: '100%',
@@ -24,8 +24,10 @@ function style(size, stroke, color) {
       display: 'flex',
       flexFlow: 'column nowrap',
       justifyContent: 'center',
-      alignItems: 'center'
-    }
+      alignItems: 'center',
+      marginTop: '60px',
+      marginBottom: '80px',
+    },
   };
 }
 
@@ -35,6 +37,7 @@ const Loading = ({ size = '50px', stroke = '3px', color = '#000' }) => {
     <div style={styles.outer}>
       <div style={styles.inner} />
       <style dangerouslySetInnerHTML={keyframes()} />
+      <h4>Loading...</h4>
     </div>
   );
 };

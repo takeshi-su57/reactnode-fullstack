@@ -7,8 +7,8 @@ const Movie = props => {
             <div className="card-header">{props.title}</div>
             <div className="card-body text-primary">
                 <img className='card-img-top' src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2${props.poster_path}`} />
-                <h5 className="card-title">Relese date: {props.release_date}</h5>
-                <p className="card-text">{props.overview.slice(0, 20)}</p>
+                <h6 className="card-title">Relese date: {props.release_date}</h6>
+                <p className="card-text">{props.overview.slice(0, 30).concat('...')}</p>
             </div>
         </div>
     )
