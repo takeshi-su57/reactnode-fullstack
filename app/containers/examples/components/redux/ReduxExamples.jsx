@@ -9,6 +9,7 @@ import { CourseManagement } from './course-management';
 import { ShoppingCart } from './shopping-cart';
 import { WizardFormPage } from './wizard-form';
 import { Game } from './tic-tac-toe';
+import { ReduxChannel } from './redux-channel';
 
 export class ReduxExamples extends Component {
   reduxLinks = [
@@ -39,6 +40,11 @@ export class ReduxExamples extends Component {
       route: 'shoppingcart',
       description: 'Shopping Cart',
       component: ShoppingCart
+    },
+    {
+      route: 'reduxchannel',
+      description: 'Redux channel',
+      component: ReduxChannel
     },
   ];
 

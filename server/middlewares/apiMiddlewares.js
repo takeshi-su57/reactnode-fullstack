@@ -1,11 +1,11 @@
 const globby = require('globby');
 const path = require('path');
 
-module.exports = function apiMiddlewares(app) {
-  apiRoutes(app);
+module.exports = function apiMiddlewares(app, options) {
+  apiRoutes(app, options);
 };
 
-function apiRoutes(app) {
+function apiRoutes(app, options) {
   /* eslint global-require: "off" */
   globby([`${__dirname}/../features/*/**/*.policy.js`]).then((policies) => {
     policies.forEach((policyPath) => {
@@ -15,7 +15,7 @@ function apiRoutes(app) {
 
   // ========= Public routes
   // Examples public routes
-  require('../features/examples')(app);
+  require('../features/examples')(app, options);
   // App public routes
   require('../features/app/app.routes')(app);
   // Content public routes
