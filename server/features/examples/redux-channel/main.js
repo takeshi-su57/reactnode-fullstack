@@ -4,7 +4,7 @@ const {users} = require('./db/User');
 const { getRandomMessageText } = require('./db/initializeDB');
 
 const { chance, OFFLINE, ONLINE, AWAY } = require('./constants');
-const getDefaultState = require('./getDefaultState');
+const { getDefaultState } = require('./getDefaultState');
 // const handleRender = require('./serverRenderMiddleWare');
 const {initializeDB} = require('./db/initializeDB');
 const init = (app, options) => {
@@ -33,7 +33,6 @@ const init = (app, options) => {
     });
 
     app.use('/user/activeChannel/:userID/:channelID', ({ params: { userID, channelID } }, res) => {
-        console.log(userID)
         users.find(user => user.id === userID).activeChannel = channelID;
         res.status(200).send(true);
     });
@@ -68,6 +67,11 @@ const init = (app, options) => {
 
         createMessage({ userID, channelID, messageID, input, io: options.io });
         res.status(300).send();
+    });
+
+    // Temp middleware
+    app.use('/api/reduxchanneldata', (req, res) => {
+        return res.json(getDefaultState(currentUser));
     });
 
     // app.use(express.static('public/css'));

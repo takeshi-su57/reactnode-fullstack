@@ -1,8 +1,4 @@
-import {
-    createStore,
-    applyMiddleware,
-    compose
-} from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 
 import * as io from 'socket.io-client';
 

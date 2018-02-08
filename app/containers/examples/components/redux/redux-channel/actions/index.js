@@ -10,7 +10,7 @@ export { submitChannelInputText, SUBMIT_CHANNEL_INPUT_TEXT } from './submitChann
 export { receiveMessage, RECEIVE_MESSAGE } from './receiveMessage';
 export { openContactChannel } from './openContactChannel';
 export { requestCreateChannel, REQUEST_CREATE_CHANNEL } from './requestCreateChannel';
-export { completeChannelCreation, COMPLETE_CHANNEL_CREATION} from './completeChannelCreation';
+export { completeChannelCreation, COMPLETE_CHANNEL_CREATION } from './completeChannelCreation';
 
 export const NOT_FETCHED = `NOT_FETCHED`;
 export const FETCHING = `FETCHING`;
