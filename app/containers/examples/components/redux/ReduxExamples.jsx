@@ -39,7 +39,7 @@ export class ReduxExamples extends Component {
       route: 'shoppingcart',
       description: 'Shopping Cart',
       component: ShoppingCart
-    }
+    },
   ];
 
   render() {

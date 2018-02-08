@@ -7,7 +7,8 @@ import {
   ReactCastsExamples,
   EggheadExamples,
   MovieSearch,
-  ChatExamples
+  ChatExamples,
+  GameExamples
 } from './components';
 
 export default class Examples extends Component {
@@ -36,6 +37,11 @@ export default class Examples extends Component {
       route: 'chat',
       description: 'Chat',
       component: ChatExamples
+    },
+    {
+      route: 'games',
+      description: 'Games',
+      component: GameExamples
     },
   ];
 

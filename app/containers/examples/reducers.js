@@ -25,7 +25,7 @@ const exampleReducers = {
   cart,
   products,
   behavior,
-  messages
+  messages,
 };
 
 export default exampleReducers;
