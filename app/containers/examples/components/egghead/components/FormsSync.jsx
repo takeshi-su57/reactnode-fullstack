@@ -54,7 +54,7 @@ class FormsSync extends Component {
   render() {
     const { commaseperated, multiline, multiselect } = this.state;
     return (
-      <div className="container">
+      <div>
         <div className="form-group">
           <label>Comma seperated</label>
           <input

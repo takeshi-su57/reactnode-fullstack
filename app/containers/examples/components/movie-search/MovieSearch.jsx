@@ -83,7 +83,7 @@ class MovieSearch extends Component {
         const isSearched = query => item => !query || item.title.toLowerCase().includes(query.toLowerCase());
 
         return (
-            <div className='container'>
+            <div>
                 <Search query={query} onInput={this.onInput} placeholder="Search for Movie Title …" />
                 <Movies movies={movies.filter(isSearched(query))} />
             </div>

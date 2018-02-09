@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import { NavLinks } from '../../../../components';
 import { Conversion } from './currency-convertor';
 import { ReduxCounter } from './counter';
-import { ReduxForm } from './ReduxForm';
 import { TodoComponent } from './Todo';
 import { CourseManagement } from './course-management';
 import { ShoppingCart } from './shopping-cart';
@@ -13,7 +12,6 @@ import { ReduxChannel } from './redux-channel';
 
 export class ReduxExamples extends Component {
   reduxLinks = [
-    { route: 'form', description: 'Forms', component: ReduxForm },
     { route: 'tictactoe', description: 'TicTacToe', component: Game },
     {
       route: 'wizardform',
@@ -51,10 +49,10 @@ export class ReduxExamples extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-2">
-          <NavLinks {...this.props} links={this.reduxLinks} />
+        <div className="col-md-1">
+          <NavLinks small {...this.props} links={this.reduxLinks} />
         </div>
-        <div className="col-md-10">
+        <div className="col-md-11">
           {this.reduxLinks.map(link => (
             <Route
               key={link.route}

@@ -14,10 +14,10 @@ class EggheadExamples extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-2">
-          <NavLinks {...this.props} links={this.exampleLinks} />
+        <div className="col-md-1">
+          <NavLinks small {...this.props} links={this.exampleLinks} />
         </div>
-        <div className="col-md-10">
+        <div className="col-md-11">
           {this.exampleLinks.map(link => (
             <Route
               key={link.route}

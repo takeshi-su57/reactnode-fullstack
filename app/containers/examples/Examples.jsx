@@ -25,12 +25,12 @@ export default class Examples extends Component {
     },
     {
       route: 'eggheadexamples',
-      description: 'Egghead examples',
+      description: 'Egghead',
       component: EggheadExamples
     },
     {
       route: 'moviesearch',
-      description: 'Movie search',
+      description: 'Movie',
       component: MovieSearch
     },
     {
@@ -49,9 +49,9 @@ export default class Examples extends Component {
     return (
       <div className="row">
         <div className="col-md-1">
-          <NavLinks {...this.props} links={this.exampleLinks} />
+          <NavLinks small {...this.props} links={this.exampleLinks} />
         </div>
-        <div className="col-md-10">
+        <div className="col-md-11">
           {this.exampleLinks.map(link => (
             <Route
               key={link.route}

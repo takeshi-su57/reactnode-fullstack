@@ -22,12 +22,12 @@ const Main = () => (
             </div>
         </nav>
         <div className="row">
-            <div className="col-xs-3">
+            <div className="col-md-3">
                 <div>
                     <ChannelListContainer />
                 </div>
             </div>
-            <div className="col-xs-6">
+            <div className="col-md-6">
                 <div>
                     <ChannelContentContainer />
                 </div>
@@ -36,7 +36,7 @@ const Main = () => (
                 </div>
 
             </div>
-            <div className="col-xs-3">
+            <div className="col-md-3">
                 <div>
                     <CurrentUserContainer />
                 </div>
