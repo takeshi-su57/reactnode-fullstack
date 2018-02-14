@@ -76,7 +76,7 @@ module.exports = function(sequelize, DataTypes) {
         beforeCreate: user => {
           user.createdAt = new Date();
           user.updatedAt = new Date();
-          if (!user.provider) {
+          if (user.provider === 'local') {
             user.password = user.encryptPassword(user.password);
           }
         }
