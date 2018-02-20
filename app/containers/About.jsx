@@ -9,7 +9,6 @@ const About = () => (
       <li><a href="https://reactjs.org/"><strong>R</strong>eact</a></li>
       <li><a href="https://nodejs.org"><strong>N</strong>ode.js</a></li>
       <li><a href="https://webpack.js.org/">Webpack</a></li>
-      <li><a href="http://www.getbootstrap.com">Bootstrap</a></li>
     </ul>
   </div>
 );

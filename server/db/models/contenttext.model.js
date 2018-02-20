@@ -1,6 +1,5 @@
 
-/* eslint-disable */
-module.exports = function (sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   const ContentText = sequelize.define(
     'ContentText', {
       text: DataTypes.STRING,
@@ -10,7 +9,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
 
-  ContentText.associate = function (models) {
+  ContentText.associate = (models) => {
     ContentText.belongsTo(models.Language, { foreignKey: 'languageid' });
     ContentText.belongsTo(models.Content, { foreignKey: 'contentid' });
   };

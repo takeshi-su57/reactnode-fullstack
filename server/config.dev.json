@@ -3,7 +3,7 @@
   "ssrEnabled": true,
   "database": {
     "dialect": "sqlite",
-    "storage": "./react-playground.sqlite"
+    "storage": "./db.sqlite"
   },
   "Security": {
     "JWT_SECRET": "SECRET",

@@ -13,7 +13,7 @@ class Register extends Component {
     return (
       <form onSubmit={this.props.handleSubmit(this.handleSubmit)} noValidate>
         {this.props.register.error && (
-          <div className="alert alert-danger">{this.props.register.error} </div>
+          <div className="error">{this.props.register.error} </div>
         )}
         <Field
           name="username"

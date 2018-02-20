@@ -1,13 +1,9 @@
 /* eslint-disable */
 
-const Model = require('../models').User;
-
 const bcrypt = require('bcrypt-nodejs');
 
 module.exports = {
-  up: (queryInterface, Sequelize) =>
-    Model.count().then(count => {
-      if (count < 1) {
+  up: (queryInterface, Sequelize) => {
         const salt = bcrypt.genSaltSync();
         return queryInterface.bulkInsert('Users', [
           {
@@ -32,9 +28,8 @@ module.exports = {
             createdAt: new Date(),
             updatedAt: new Date()
           }
-        ]);
-      }
-    }),
+        ]).catch(e => Promise.resolve());
+  },
 
   down: (queryInterface, Sequelize) =>
     queryInterface.bulkDelete('Users', null, {})

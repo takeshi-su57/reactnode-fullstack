@@ -1,17 +1,12 @@
 /* eslint-disable */
 
-const Model = require('../models').Role;
-
 module.exports = {
-  up: (queryInterface, Sequelize) => Model.count().then((count) => {
-    if (count < 1) {
-      return queryInterface.bulkInsert('Roles', [
-        { name: 'admin', description: 'Admin role' },
-        { name: 'user', description: 'User role' },
-        { name: 'guest', description: 'Guest role' },
-      ]);
-    }
-  }),
-
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert('Roles', [
+        { id: 1, name: 'admin', description: 'Admin role' },
+        { id: 2, name: 'user', description: 'User role' },
+        { id: 3, name: 'guest', description: 'Guest role' }
+    ]).catch(e => Promise.resolve())
+  },
   down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Roles', null, {}),
 };

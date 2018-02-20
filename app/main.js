@@ -14,8 +14,6 @@ import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 import 'sanitize.css/sanitize.css';
-import 'font-awesome/scss/font-awesome.scss';
-import 'bootstrap/scss/bootstrap.scss';
 import 'styles/index.scss';
 
 import React from 'react';

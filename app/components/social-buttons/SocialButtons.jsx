@@ -29,7 +29,7 @@ class SocialButtons extends Component {
         ].map((provider) => (
           <button
             key={provider}
-            className={`btn btn-link fa ${this.loginCss(provider)}`}
+            value={provider}
             onClick={() => this.redirect(provider)}
           />
         ))}

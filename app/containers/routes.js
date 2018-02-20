@@ -1,6 +1,5 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import store, { injectAsyncReducer } from '../store';
 import { Loading } from '../components';
 
 import Home from './Home';
@@ -25,17 +24,4 @@ export const Register = Loadable({
 export const Profile = Loadable({
   loader: () => import('./Profile'),
   loading: () => <Loading />,
-});
-
-export const Examples = Loadable.Map({
-  loading: () => <Loading />,
-  loader: {
-    Examples: () => import('./examples/Examples'),
-    reducers: () => import('./examples/reducers'),
-  },
-  render(loaded, props) {
-    const Ex = loaded.Examples.default;
-    injectAsyncReducer(store, loaded.reducers.default);
-    return <Ex {...props} />;
-  },
 });
