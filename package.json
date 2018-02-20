@@ -42,7 +42,7 @@
     "test:dev": "cross-env NODE_ENV=test jest --watch",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "db": "sequelize db:migrate & sequelize db:seed:all",
+    "db": "sequelize db:migrate && sequelize db:seed:all",
     "heroku-postbuild": "npm run build"
   },
   "lint-staged": {
