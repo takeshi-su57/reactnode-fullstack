@@ -257,8 +257,7 @@
     "setupFiles": [
       "raf/polyfill",
       "<rootDir>/internals/testing/enzyme-setup.js"
-    ],
-    "testRegex": "tests/.*\\.test\\.js$"
+    ]
   },
   "dependencies": {
     "acl": "0.4.11",
