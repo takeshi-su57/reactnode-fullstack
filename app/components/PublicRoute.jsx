@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 const PublicRoute = ({ component: Component, authenticated, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    render={(props) =>
       !authenticated ? <Component {...props} /> : <Redirect to="/" />
     }
   />
