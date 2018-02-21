@@ -26,7 +26,7 @@ import App from './containers/App';
 
 
 function render() {
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <App />

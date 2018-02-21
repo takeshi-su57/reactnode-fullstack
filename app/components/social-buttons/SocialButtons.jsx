@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import './SocialButtons.scss';
-
 class SocialButtons extends Component {
   redirect = (provider) => {
     window.location.href = `api/auth/${provider}`;

@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+// const universal = require('./universal');
 
 function createWebpackMiddleware(compiler, publicPath) {
   return webpackDevMiddleware(compiler, {
@@ -29,6 +30,8 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
     fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
       if (err) {
         res.sendStatus(404);
+      // } else if (global.appConfig.ssrEnabled) {
+      //   universal(req, res);
       } else {
         res.send(file.toString());
       }

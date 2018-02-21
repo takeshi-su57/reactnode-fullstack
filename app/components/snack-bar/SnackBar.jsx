@@ -6,7 +6,7 @@ import { ActionTypes as types } from 'constants';
 import './SnakBar.scss';
 
 let SnackBar = (props) => {
-  let { notify } = props;
+  const { notify } = props;
   return (
     <div className={`alert alert-${notify.type} ${notify.message ? 'show' : ''}`} id="snackbar">
       {notify.message}
@@ -14,7 +14,7 @@ let SnackBar = (props) => {
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-  )
+  );
 };
 
 const mapStateToProps = (state) => ({

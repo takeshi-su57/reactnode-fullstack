@@ -1,3 +1,10 @@
+require('ignore-styles');
+require('babel-register')({
+  presets: ['env', 'es2015', 'react', 'stage-0'],
+});
+
+require('babel-polyfill');
+
 const _ = require('lodash');
 const express = require('express');
 const http = require('http');
@@ -9,6 +16,7 @@ const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
 const { resolve } = require('path');
+const Loadable = require('react-loadable');
 const app = express();
 
 global.appConfig = isDev ? require('./config.dev.json') : require('./config.prod.json');
@@ -36,22 +44,24 @@ const prettyHost = customHost || 'localhost';
 
 db.sequelize.sync().then(() => {
   // Start your app.
-  server.listen(port, host, (err) => {
-    if (err) {
-      return logger.error(err.message);
-    }
+  Loadable.preloadAll().then(() => {
+    server.listen(port, host, (err) => {
+      if (err) {
+        return logger.error(err.message);
+      }
 
-    // Connect to ngrok in dev mode
-    if (ngrok) {
-      ngrok.connect(port, (innerErr, url) => {
-        if (innerErr) {
-          return logger.error(innerErr);
-        }
-        return logger.appStarted(port, prettyHost, url);
-      });
-    } else {
+      // Connect to ngrok in dev mode
+      if (ngrok) {
+        ngrok.connect(port, (innerErr, url) => {
+          if (innerErr) {
+            return logger.error(innerErr);
+          }
+          return logger.appStarted(port, prettyHost, url);
+        });
+      } else {
+        return logger.appStarted(port, prettyHost);
+      }
       return logger.appStarted(port, prettyHost);
-    }
-    return logger.appStarted(port, prettyHost);
+    });
   });
 });

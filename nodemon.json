@@ -2,6 +2,6 @@
   "watch": [
     "server"
   ],
-  "ext": "js json",
+  "ext": "js json jsx",
   "exec": "node --inspect ./server/server.js"
 }

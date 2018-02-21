@@ -12,7 +12,7 @@ const enhancers = [];
 const middleware = [thunk, routerMiddleware(history)];
 
 const isDev = process.env.NODE_ENV === 'development';
-if (isDev) {
+if (isDev && (typeof window !== 'undefined')) {
   const logger = createLogger({
     collapsed: true,
   });
@@ -37,7 +37,7 @@ export function injectAsyncReducer(storeInput, asyncReducer) {
   storeInput.replaceReducer(rootReducer(asyncReducer));
 }
 
-const initialToken = parseQueryString()[ACCESS_TOKEN];
+const initialToken = (typeof window !== 'undefined') ? parseQueryString()[ACCESS_TOKEN] : '';
 if (initialToken) {
   const user = storeAuth(initialToken);
   store.dispatch({ type: actionTypes.LOGIN.LOGIN_SUCCESS, data: user });
