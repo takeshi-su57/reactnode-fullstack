@@ -1,12 +1,17 @@
 import { decode } from '../services';
 import { ACCESS_TOKEN } from '../constants';
 
-const token = (typeof window !== 'undefined') ? localStorage.getItem(ACCESS_TOKEN) : '';
+const isWindow = (typeof window !== 'undefined');
+const token = isWindow ? localStorage.getItem(ACCESS_TOKEN) : '';
 
 const user = token ? decode(token) : null;
 
+// Grab the state from a global variable injected into the server-generated HTML
+/* eslint-disable */
+const preloadedState = isWindow && JSON.parse(window.__PRELOADED_STATE__);
+
 const initialState = {
-  appData: null,
+  appData: preloadedState,
   auth: { user, authenticated: !!user },
 };
 

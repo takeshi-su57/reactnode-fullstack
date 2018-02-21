@@ -1,35 +1,37 @@
-const path = require('path');
-const fs = require('fs');
 const React = require('react');
 const { Provider } = require('react-redux');
 const { renderToString } = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
 
-const store = require('../../app/store');
+const api = require('../features/app/app.controller');
+const store = require('../../app/store').default;
 const { default: App } = require('../../app/containers/App');
 
-module.exports = function universalLoader(req, res) {
-  const filePath = path.resolve(__dirname, '..', '..', 'build', 'index.html');
+module.exports = async (req, res, file) => {
+  const context = {};
+  const appData = await api.content(req);
+  // const markup = renderToString(<Provider store={store}>
+  //   <StaticRouter context={context} location={req.url}>
+  //     <App />
+  //   </StaticRouter>
+  // </Provider>);
+  const markup = renderToString(React.createElement(
+    Provider,
+    { store },
+    React.createElement(
+      StaticRouter,
+      { context, location: req.url },
+      React.createElement(App, null)
+    )
+  ));
 
-  fs.readFile(filePath, 'utf8', (err, htmlData) => {
-    if (err) {
-      return res.status(404).end();
-    }
-    const context = {};
-    const markup = renderToString(React.createElement(
-      Provider, { store },
-      React.createElement(
-        StaticRouter, { location: req.url, context },
-        React.createElement(App)
-      )
-    ));
+  if (context.url) {
+    // Somewhere a `<Redirect>` was rendered
+    return res.redirect(301, context.url);
+  }
+  // we're good, send the response
+  const RenderedApp = file.replace('{{SSR}}', markup)
+    .replace('{{preloadedState}}', JSON.stringify(appData).replace(/</g, '\\u003c'));
 
-    if (context.url) {
-      // Somewhere a `<Redirect>` was rendered
-      return res.redirect(301, context.url);
-    }
-    // we're good, send the response
-    const RenderedApp = htmlData.replace('{{SSR}}', markup);
-    return res.send(RenderedApp);
-  });
+  return res.send(RenderedApp);
 };

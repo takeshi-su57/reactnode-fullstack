@@ -4,18 +4,10 @@ const { ContentText, Language } = DB;
 /**
  * For site display purpose
  */
-exports.setLanguage = async (req, res) => {
-  if (req.body.culture) {
-    res.cookie('lang', req.body.culture);
-  }
-  res.redirect('/');
-};
-
-exports.get = async (req, res) => {
+const getContent = async (req) => {
   const languages = await Language.findAll({});
   const language = languages.find((l) => l.locale === (req.cookies.lang || 'en-US'));
-
-  ContentText.findAll({
+  return ContentText.findAll({
     include: [{
       model: DB.Content,
     }],
@@ -30,16 +22,26 @@ exports.get = async (req, res) => {
     });
 
 
-    const appData = {
+    return {
       cultures: languages.map((l) => ({
         value: l.locale,
         text: `${l.description} - (${l.locale})`,
         current: (req.cookies.lang || 'en-US') === l.locale,
       })),
       content,
-
     };
-    res.json(appData);
-  }).catch((err) => res.status(400).send(err));
+  }).catch((err) => Promise.reject(err));
 };
 
+exports.setLanguage = async (req, res) => {
+  if (req.body.culture) {
+    res.cookie('lang', req.body.culture);
+  }
+  res.redirect('/');
+};
+
+exports.get = (req, res) => {
+  getContent(req).then((appData) => res.json(appData));
+};
+
+exports.content = getContent;

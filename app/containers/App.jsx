@@ -3,17 +3,12 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { PrivateRoute, PublicRoute, Header, Footer, Loading, SnackBar } from '../components';
+import { PrivateRoute, PublicRoute, Header, Footer, SnackBar } from '../components';
 import * as routes from './routes';
-import { loadAppData } from '../actions';
 
 class App extends React.Component {
-  componentDidMount() {
-    this.props.loadAppData();
-  }
-
   render() {
-    return !this.props.appData ? <Loading /> : (
+    return (
       <div>
         <Header
           auth={this.props.auth}
@@ -53,10 +48,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  loadAppData() {
-    dispatch(loadAppData());
-  },
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps)(App));
