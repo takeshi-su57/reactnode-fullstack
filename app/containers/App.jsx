@@ -4,34 +4,40 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { PrivateRoute, PublicRoute, Header, Footer, SnackBar } from '../components';
-import * as routes from './routes';
+import Home from './Home';
+import Login from './Login';
+import Register from './Register';
+import Profile from './Profile';
+import About from './About';
 
+/* eslint-disable */
 class App extends React.Component {
   render() {
+    const { auth, appData } = this.props;
     return (
       <div>
         <Header
-          auth={this.props.auth}
-          content={this.props.appData.content}
+          auth={auth}
+          content={appData.content}
         />
         <div className="container">
           <Switch>
-            <Route path="/" exact component={routes.Home} />
-            <Route path="/about" exact component={routes.About} />
+            <Route path="/" exact component={Home} />
+            <Route path="/about" exact component={About} />
             <PublicRoute
-              authenticated={this.props.auth.authenticated}
+              authenticated={auth.authenticated}
               path="/login"
-              component={routes.Login}
+              component={Login}
             />
             <PublicRoute
-              authenticated={this.props.auth.authenticated}
+              authenticated={auth.authenticated}
               path="/register"
-              component={routes.Register}
+              component={Register}
             />
             <PrivateRoute
-              authenticated={this.props.auth.authenticated}
+              authenticated={auth.authenticated}
               path="/profile"
-              component={routes.Profile}
+              component={Profile}
             />
             <Route render={() => <h3>404</h3>} />
           </Switch>

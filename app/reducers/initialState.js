@@ -8,7 +8,7 @@ const user = token ? decode(token) : null;
 
 // Grab the state from a global variable injected into the server-generated HTML
 /* eslint-disable */
-const preloadedState = isWindow && JSON.parse(window.__PRELOADED_STATE__);
+const preloadedState = isWindow && window.__PRELOADED_STATE__;
 
 const initialState = {
   appData: preloadedState,

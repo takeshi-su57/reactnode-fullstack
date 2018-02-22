@@ -4,12 +4,15 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const universal = require('./universal');
 
-function createWebpackMiddleware(compiler, publicPath) {
+function createWebpackMiddleware(compiler) {
   return webpackDevMiddleware(compiler, {
-    noInfo: true,
-    publicPath,
-    silent: true,
+    // noInfo: true,
+    // publicPath,
+    // silent: true,
+    // https://github.com/webpack/webpack-dev-middleware/issues/142
+    index: 'nonexistent.html',
     stats: 'errors-only',
+    serverSideRender: true,
   });
 }
 

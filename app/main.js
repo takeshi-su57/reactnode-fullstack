@@ -20,14 +20,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import store from './store';
+import setupStore from './store';
 import { history } from './constants';
 import App from './containers/App';
 
 
 function render() {
   ReactDOM.hydrate(
-    <Provider store={store}>
+    <Provider store={setupStore()}>
       <ConnectedRouter history={history}>
         <App />
       </ConnectedRouter>

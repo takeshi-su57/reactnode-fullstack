@@ -1,7 +1,6 @@
 require('ignore-styles');
 require('babel-register')({
   presets: ['env', 'es2015', 'react', 'stage-0'],
-  plugins: ['loadable-components/babel', 'babel-plugin-dynamic-import-node'],
 });
 
 require('babel-polyfill');
@@ -15,12 +14,13 @@ const port = require('./port');
 const socketIO = require('socket.io');
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
+const isProd = !isDev;
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
 const { resolve } = require('path');
 const app = express();
 
 global.appConfig = isDev ? require('./config.dev.json') : require('./config.prod.json');
-global.appConfig = _.merge(global.appConfig, { isDev });
+global.appConfig = _.merge(global.appConfig, { isDev, isProd });
 global.errorHandler = require('./features/core').errorHandler;
 
 const db = require('./db/models');
@@ -31,8 +31,6 @@ const server = http.createServer(app);
 const io = socketIO(server);
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
-  publicPath: '/',
-  ssrEnabled: global.appConfig.ssrEnabled,
   io,
 });
 
