@@ -1,3 +1,4 @@
+const serialize = require('serialize-javascript');
 const React = require('react');
 const { Provider } = require('react-redux');
 const { renderToString } = require('react-dom/server');
@@ -31,8 +32,8 @@ module.exports = async (req, res, file) => {
       return res.redirect(301, context.url);
     }
     // we're good, send the response
-    const RenderedApp = file.replace('{{SSR}}', markup)
-      .replace('{{PRELOADEDSTATE}}', JSON.stringify(appData).replace(/</g, '\\u003c'));
+    const RenderedApp = file.replace('{{PRELOADEDSTATE}}', serialize(appData))
+      .replace('{{SSR}}', markup);
 
     return res.send(RenderedApp);
   } catch (err) {

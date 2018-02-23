@@ -20,14 +20,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import setupStore from './store';
+import storeSetup from './store';
 import { history } from './constants';
 import App from './containers/App';
 
 
 function render() {
+  const store = storeSetup({ appData: JSON.parse(window.PRELOADEDSTATE) });
   ReactDOM.hydrate(
-    <Provider store={setupStore({ appData: JSON.parse(window.__PRELOADED_STATE__) })}>
+    <Provider store={store}>
       <ConnectedRouter history={history}>
         <App />
       </ConnectedRouter>

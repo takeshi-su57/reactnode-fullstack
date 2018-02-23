@@ -10,6 +10,11 @@
   <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
   <title>React NodeJs fullstack</title>
+  <script>
+    // WARNING: See the following for security issues around embedding JSON in HTML:
+    // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
+    window.PRELOADEDSTATE = '{{PRELOADEDSTATE}}';
+  </script>
 </head>
 <body>
   <!-- Display a message if JS has been disabled on the browser. -->
@@ -20,11 +25,6 @@
   <!-- The app hooks into this div -->
   <div id="app">{{SSR}}</div>
   <!-- A lot of magic happens in this file. HtmlWebpackPlugin automatically includes all assets (e.g. bundle.js, main.css) with the correct HTML tags, which is why they are missing in this HTML file. Don't add any assets here! (Check out webpackconfig.js if you want to know more) -->
-  <script>
-    // WARNING: See the following for security issues around embedding JSON in HTML:
-    // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
-    window.__PRELOADED_STATE__ = '{{PRELOADEDSTATE}}';
-  </script>
   </body>
 
 </html>
