@@ -1,5 +1,4 @@
 coverage
 build
 node_modules
-app/containers/examples/**
-server/features/examples/**
+internals/**
