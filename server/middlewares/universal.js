@@ -32,7 +32,7 @@ module.exports = async (req, res, file) => {
     }
     // we're good, send the response
     const RenderedApp = file.replace('{{SSR}}', markup)
-      .replace("'{{PRELOADEDSTATE}}'", JSON.stringify(appData).replace(/</g, '\\u003c'));
+      .replace('{{PRELOADEDSTATE}}', JSON.stringify(appData).replace(/</g, '\\u003c'));
 
     return res.send(RenderedApp);
   } catch (err) {
