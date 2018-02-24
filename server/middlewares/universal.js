@@ -1,4 +1,3 @@
-const serialize = require('serialize-javascript');
 const React = require('react');
 const { Provider } = require('react-redux');
 const { renderToString } = require('react-dom/server');
@@ -10,14 +9,15 @@ const App = require('../../app/containers/App').default;
 
 module.exports = async (req, res, file) => {
   try {
-    const context = {};
     const appData = await api.content(req);
-    // const markup = renderToString(<Provider store={store}>
-    //   <StaticRouter context={context} location={req.url}>
-    //     <App />
-    //   </StaticRouter>
-    // </Provider>);
-    const markup = renderToString(React.createElement(
+
+    const context = {};
+    if (context.url) {
+      // Somewhere a `<Redirect>` was rendered
+      return res.redirect(301, context.url);
+    }
+
+    const initialMarkup = renderToString(React.createElement(
       Provider,
       { store: storeSetup({ appData }) },
       React.createElement(
@@ -27,13 +27,9 @@ module.exports = async (req, res, file) => {
       )
     ));
 
-    if (context.url) {
-      // Somewhere a `<Redirect>` was rendered
-      return res.redirect(301, context.url);
-    }
     // we're good, send the response
-    const RenderedApp = file.replace('{{PRELOADEDSTATE}}', serialize(appData))
-      .replace('{{SSR}}', markup);
+    const RenderedApp = file.replace('{{PRELOADEDSTATE}}', `<script>window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}</script>`)
+      .replace('{{SSR}}', initialMarkup);
 
     return res.send(RenderedApp);
   } catch (err) {

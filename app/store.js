@@ -27,7 +27,7 @@ if (isDev && (typeof window !== 'undefined')) {
 
 const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
 
-export default function storeSetup(additionalState) {
+export default function storeSetup(additionalState = undefined) {
   const finalState = Object.assign({}, initialState, additionalState);
   const store = createStore(rootReducer(), finalState, composedEnhancers);
   return store;

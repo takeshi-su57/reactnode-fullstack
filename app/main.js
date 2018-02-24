@@ -1,6 +1,4 @@
-// Needed for redux-saga es6 generator support
-import 'babel-polyfill';
-
+/* eslint-disable */
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
@@ -12,7 +10,6 @@ import '!file-loader?name=[name].[ext]!./images/favicon-32x32.png';
 import '!file-loader?name=[name].[ext]!./images/favicon-16x16.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
-/* eslint-enable import/no-unresolved, import/extensions */
 import 'sanitize.css/sanitize.css';
 import 'styles/index.scss';
 
@@ -26,7 +23,7 @@ import App from './containers/App';
 
 
 function render() {
-  const store = storeSetup({ appData: JSON.parse(window.PRELOADEDSTATE) });
+  const store = storeSetup({ appData: window.__PRELOADEDSTATE__ });
   ReactDOM.hydrate(
     <Provider store={store}>
       <ConnectedRouter history={history}>
@@ -41,12 +38,11 @@ render(App);
 
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
-    /* eslint global-require: off */
     const NextApp = require('./containers/App').default;
     render(NextApp);
   });
 }
 
 if (process.env.NODE_ENV === 'production') {
-  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
+  require('offline-plugin/runtime').install();
 }

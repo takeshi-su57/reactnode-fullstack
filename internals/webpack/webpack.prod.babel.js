@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = require('./webpack.base.babel')({
   // In production, we skip all hot-reloading stuff
@@ -17,6 +18,9 @@ module.exports = require('./webpack.base.babel')({
   },
 
   plugins: [
+    new ExtractTextPlugin({
+      filename: 'style.[chunkhash].css'
+    }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

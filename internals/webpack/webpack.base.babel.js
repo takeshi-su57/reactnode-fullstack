@@ -4,6 +4,8 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const isProd = process.env.NODE_ENV === 'production'
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -37,13 +39,19 @@ module.exports = (options) => ({
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
         test: /\.css$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        use: isProd
+          ? ExtractTextPlugin.extract({
+            use: 'css-loader?minimize'
+          }) : ['style-loader', 'css-loader'],
       },
       {
         // Preprocess 3rd party .css files located in node_modules
         test: /\.css$/,
         include: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        use: isProd
+          ? ExtractTextPlugin.extract({
+            use: 'css-loader?minimize'
+          }) : ['style-loader', 'css-loader'],
       },
       {
         // Preprocess our own .scss files
@@ -51,13 +59,19 @@ module.exports = (options) => ({
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: isProd
+          ? ExtractTextPlugin.extract({
+            use: ['css-loader?minimize', 'sass-loader']
+          }) : ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         // Preprocess 3rd party .scss files located in node_modules
         test: /\.scss$/,
         include: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: isProd
+          ? ExtractTextPlugin.extract({
+            use: ['css-loader?minimize', 'sass-loader']
+          }) : ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
