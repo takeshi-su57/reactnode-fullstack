@@ -19,8 +19,7 @@ const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngr
 const { resolve } = require('path');
 const app = express();
 
-global.appConfig = isDev ? require('./config.dev.json') : require('./config.prod.json');
-global.appConfig = _.merge(global.appConfig, { isDev, isProd });
+global.appConfig = _.merge({}, require('./config.json'), require('./config.prod.json'), { isDev, isProd });
 global.errorHandler = require('./features/core').errorHandler;
 
 const db = require('./db/models');

@@ -2,7 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const universal = require('./universal');
+const renderServer = require('./render-server');
+const renderDom = require('./render-dom');
 
 function createWebpackMiddleware(compiler) {
   return webpackDevMiddleware(compiler, {
@@ -34,9 +35,9 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
       if (err) {
         res.sendStatus(404);
       } else if (global.appConfig.ssrEnabled) {
-        universal(req, res, file.toString());
+        renderServer(req, res, file.toString());
       } else {
-        res.send(file.toString());
+        renderDom(req, res, file.toString());
       }
     });
   });

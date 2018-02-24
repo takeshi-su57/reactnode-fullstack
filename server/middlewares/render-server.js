@@ -28,8 +28,10 @@ module.exports = async (req, res, file) => {
     ));
 
     // we're good, send the response
-    const RenderedApp = file.replace('{{PRELOADEDSTATE}}', `<script>window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}</script>`)
-      .replace('{{SSR}}', initialMarkup);
+    const RenderedApp = file.replace('{{PRELOADEDSTATE}}', `<script>
+      window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}
+      window.ssrEnabled = ${true}
+      </script>`).replace('{{SSR}}', `<div id="app">${initialMarkup}</div>`);
 
     return res.send(RenderedApp);
   } catch (err) {

@@ -24,7 +24,7 @@ import App from './containers/App';
 
 function render() {
   const store = storeSetup({ appData: window.__PRELOADEDSTATE__ });
-  ReactDOM.hydrate(
+  ReactDOM[window.ssrEnabled ? 'hydrate' : 'render'](
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <App />

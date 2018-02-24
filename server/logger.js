@@ -31,6 +31,7 @@ Localhost: ${chalk.magenta(`http://${host}:${port}`)}
           ? `\n    Proxy: ${chalk.magenta(tunnelStarted)}`
           : '')}
 Environment: ${chalk.magenta(process.env.NODE_ENV)}
+SSR: ${chalk.magenta(global.appConfig.ssrEnabled)}
           ${divider}
 ${chalk.blue(`Press ${chalk.italic('CTRL-C')} to stop`)}
     `);

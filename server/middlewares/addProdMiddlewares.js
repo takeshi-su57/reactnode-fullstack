@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const universal = require('./universal');
+const renderServer = require('./render-server');
+const renderDom = require('./render-dom');
 
 module.exports = function addProdMiddlewares(app, options) {
   const publicPath = options.publicPath || '/';
@@ -12,9 +13,9 @@ module.exports = function addProdMiddlewares(app, options) {
   app.get('*', (req, res) => {
     fs.readFile(path.resolve(outputPath, 'index.html'), (err, file) => {
       if (global.appConfig.ssrEnabled) {
-        universal(req, res, file.toString());
+        renderServer(req, res, file.toString());
       } else {
-        res.send(file.toString());
+        renderDom(req, res, file.toString());
       }
     });
   });
