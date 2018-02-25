@@ -14,12 +14,10 @@
   "license": "MIT",
   "scripts": {
     "precommit": "lint-staged",
-    "analyze:clean": "rimraf stats.json",
-    "preanalyze": "npm run analyze:clean",
-    "analyze": "node ./internals/scripts/analyze.js",
+    "analyze": "cross-env BUNDLE_ANALYZE=true npm run build",
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
     "preinstall": "npm run npmcheckversion",
-    "postinstall": "npm run build:dll && npm run db",
+    "postinstall": "npm run build:dll",
     "prebuild": "npm run build:clean",
     "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress --hide-modules --display-optimization-bailout",
     "build:clean": "rimraf ./build",
@@ -29,11 +27,11 @@
     "clean:start": "npm run clean && npm run db && cross-env NODE_ENV=development nodemon",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true nodemon",
     "start:production": "npm run test && npm run build && npm run start:prod",
-    "start:prod": "cross-env NODE_ENV=production node --inspect server/server",
+    "start:prod": "cross-env NODE_ENV=production node server/server",
     "clean": "npm run analyze:clean && npm run test:clean && npm run build:clean && rimraf db.sqlite",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:js": "eslint . --fix",
-    "lint:css": "stylelint \"./app/**/*.js\"",
+    "lint:css": "stylelint \"./app/**/*.css\"",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
@@ -41,18 +39,15 @@
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "db": "sequelize db:migrate && sequelize db:seed:all",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build && npm run db"
   },
   "lint-staged": {
     "*.js": [
-      "npm run lint:js",
-      "npm run lint:css"
+      "npm run lint:js"
     ]
   },
   "babel": {
-    "plugins": [
-      "styled-components"
-    ],
+    "plugins": [],
     "presets": [
       [
         "env",
@@ -180,12 +175,9 @@
     "rules": {
       "comment-empty-line-before": "never"
     },
-    "processors": [
-      "stylelint-processor-styled-components"
-    ],
+    "processors": [],
     "extends": [
-      "stylelint-config-standard",
-      "stylelint-config-styled-components"
+      "stylelint-config-standard"
     ]
   },
   "dllPlugin": {
@@ -300,16 +292,13 @@
     "react-router-redux": "5.0.0-alpha.9",
     "redux": "3.7.2",
     "redux-form": "7.2.3",
-    "redux-saga": "0.16.0",
     "redux-thunk": "2.2.0",
-    "reselect": "3.0.1",
     "sanitize.css": "5.0.0",
     "sequelize": "4.33.4",
     "sequelize-cli": "4.0.0",
     "socket.io": "2.0.4",
     "socket.io-client": "2.0.4",
-    "sqlite3": "3.1.13",
-    "styled-components": "3.1.6"
+    "sqlite3": "3.1.13"
   },
   "devDependencies": {
     "add-asset-html-webpack-plugin": "2.1.2",
@@ -318,7 +307,6 @@
     "babel-eslint": "8.2.2",
     "babel-loader": "7.1.2",
     "babel-plugin-react-transform": "3.0.0",
-    "babel-plugin-styled-components": "1.5.0",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-inline-elements": "6.22.0",
@@ -368,10 +356,9 @@
     "style-loader": "0.20.2",
     "stylelint": "9.1.1",
     "stylelint-config-standard": "18.1.0",
-    "stylelint-config-styled-components": "0.1.1",
-    "stylelint-processor-styled-components": "1.2.2",
     "url-loader": "0.6.2",
     "webpack": "3.11.0",
+    "webpack-bundle-analyzer": "2.10.1",
     "webpack-dev-middleware": "2.0.6",
     "webpack-hot-middleware": "2.21.0"
   }
