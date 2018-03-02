@@ -7,11 +7,12 @@ const renderDom = require('./render-dom');
 
 function createWebpackMiddleware(compiler) {
   return webpackDevMiddleware(compiler, {
-    // noInfo: true,
+    noInfo: true,
+    logLevel: 'debug',
     // publicPath,
-    // silent: true,
+    silent: false,
     // https://github.com/webpack/webpack-dev-middleware/issues/142
-    index: 'nonexistent.html',
+    // index: 'nonexistent.html',
     stats: 'errors-only',
     serverSideRender: true,
   });

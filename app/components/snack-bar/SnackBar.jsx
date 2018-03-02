@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ActionTypes as types } from 'constants';
+import { ActionTypes as types } from '../../constants';
 
 import './SnakBar.scss';
 

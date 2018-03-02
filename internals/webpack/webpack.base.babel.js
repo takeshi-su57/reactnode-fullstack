@@ -111,10 +111,6 @@ module.exports = (options) => ({
         use: 'html-loader',
       },
       {
-        test: /\.json$/,
-        use: 'json-loader',
-      },
-      {
         test: /\.(mp4|webm)$/,
         use: {
           loader: 'url-loader',
@@ -139,7 +135,6 @@ module.exports = (options) => ({
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
-    new webpack.NamedModulesPlugin(),
   ]),
   resolve: {
     modules: ['app', 'node_modules'],

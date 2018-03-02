@@ -8,8 +8,8 @@ import '!file-loader?name=[name].[ext]!./images/apple-touch-icon.png';
 import '!file-loader?name=[name].[ext]!./images/mstile-150x150.png';
 import '!file-loader?name=[name].[ext]!./images/favicon-32x32.png';
 import '!file-loader?name=[name].[ext]!./images/favicon-16x16.png';
-import '!file-loader?name=[name].[ext]!./manifest.json';
-import 'file-loader?name=[name].[ext]!./.htaccess';
+import '!file-loader?name=[name].[ext]!./manifest.webmanifest';
+import '!file-loader?name=[name].[ext]!./.htaccess';
 import 'sanitize.css/sanitize.css';
 import 'styles/index.scss';
 
