@@ -30,28 +30,33 @@ let plugins = [
 
   // Put it in the end to capture all the HtmlWebpackPlugin's
   // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-  // new OfflinePlugin({
-  //   relativePaths: false,
-  //   publicPath: '/',
+  new OfflinePlugin({
+    // TODO: remove this config when this is fixed
+    // https://github.com/NekR/offline-plugin/issues/351
+    ServiceWorker: {
+      minify: false
+    },
+    relativePaths: false,
+    publicPath: '/',
 
-  //   // No need to cache .htaccess. See http://mxs.is/googmp,
-  //   // this is applied before any match in `caches` section
-  //   excludes: ['.htaccess'],
+    // No need to cache .htaccess. See http://mxs.is/googmp,
+    // this is applied before any match in `caches` section
+    excludes: ['.htaccess'],
 
-  //   caches: {
-  //     main: [':rest:'],
+    caches: {
+      main: [':rest:'],
 
-  //     // All chunks marked as `additional`, loaded after main section
-  //     // and do not prevent SW to install. Change to `optional` if
-  //     // do not want them to be preloaded at all (cached only when first loaded)
-  //     additional: ['*.chunk.js'],
-  //   },
+      // All chunks marked as `additional`, loaded after main section
+      // and do not prevent SW to install. Change to `optional` if
+      // do not want them to be preloaded at all (cached only when first loaded)
+      additional: ['*.chunk.js'],
+    },
 
-  //   // Removes warning for about `additional` section usage
-  //   safeToUseOptionalCaches: true,
+    // Removes warning for about `additional` section usage
+    safeToUseOptionalCaches: true,
 
-  //   AppCache: false,
-  // }),
+    AppCache: false,
+  }),
 ];
 
 if (process.env.BUNDLE_ANALYZE) {
