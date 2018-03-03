@@ -14,6 +14,7 @@ const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true;
 
 module.exports = (options) => ({
+  mode: options.mode,
   entry: options.entry,
   output: Object.assign(
     {

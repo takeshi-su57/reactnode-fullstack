@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
+import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
+import { createLogger } from 'redux-logger';
 import { rootReducer, initialState } from './reducers';
 // import { parseQueryString, storeAuth } from './services';
 // import { history, ACCESS_TOKEN, ActionTypes as actionTypes } from './constants';
@@ -12,8 +14,6 @@ const isDev = process.env.NODE_ENV === 'development';
 
 if (isDev && (typeof window !== 'undefined')) {
   /* eslint-disable global-require */
-  const reduxImmutableStateInvariant = require('redux-immutable-state-invariant');
-  const { createLogger } = require('redux-logger');
   const logger = createLogger({
     collapsed: true,
   });

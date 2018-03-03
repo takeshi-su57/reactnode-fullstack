@@ -58,6 +58,7 @@ if (process.env.BUNDLE_ANALYZE) {
   plugins = plugins.concat([new BundleAnalyzerPlugin()]);
 }
 module.exports = require('./webpack.base.babel')({
+  mode: 'production',
   // In production, we skip all hot-reloading stuff
   entry: [
     path.join(process.cwd(), 'app/main.js'),

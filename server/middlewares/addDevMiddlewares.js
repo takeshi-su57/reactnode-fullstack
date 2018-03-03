@@ -9,10 +9,10 @@ function createWebpackMiddleware(compiler) {
   return webpackDevMiddleware(compiler, {
     noInfo: true,
     logLevel: 'debug',
-    // publicPath,
+    publicPath: '/',
     silent: false,
     // https://github.com/webpack/webpack-dev-middleware/issues/142
-    // index: 'nonexistent.html',
+    index: 'nonexistent.html',
     stats: 'errors-only',
     serverSideRender: true,
   });
