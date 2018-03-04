@@ -480,7 +480,7 @@ async@^1.4.0, async@^1.5.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.0.0, async@^2.1.2, async@^2.1.4, async@^2.4.1:
+async@^2.0.0, async@^2.1.4, async@^2.4.1:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.0.tgz#61a29abb6fcc026fea77e56d1c6ec53a795951f4"
   dependencies:
@@ -1997,7 +1997,7 @@ cheerio@^1.0.0-rc.2:
     lodash "^4.15.0"
     parse5 "^3.0.1"
 
-chokidar@^1.6.1, chokidar@^1.7.0:
+chokidar@^1.6.1:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
   dependencies:
@@ -9774,9 +9774,9 @@ sequelize-cli@4.0.0:
     umzug "^2.1.0"
     yargs "^8.0.2"
 
-sequelize@4.35.1:
-  version "4.35.1"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-4.35.1.tgz#10b88439726980432402d763aeec96914fc86c15"
+sequelize@4.35.2:
+  version "4.35.2"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-4.35.2.tgz#936db62c0bb63368bdb33ae58e76282aae5ec360"
   dependencies:
     bluebird "^3.5.0"
     cls-bluebird "^2.1.0"
@@ -11375,13 +11375,13 @@ watch@~0.18.0:
     exec-sh "^0.2.0"
     minimist "^1.2.0"
 
-watchpack@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.4.0.tgz#4a1472bcbb952bd0a9bb4036801f954dfb39faac"
+watchpack@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.5.0.tgz#231e783af830a22f8966f65c4c4bacc814072eed"
   dependencies:
-    async "^2.1.2"
-    chokidar "^1.7.0"
+    chokidar "^2.0.2"
     graceful-fs "^4.1.2"
+    neo-async "^2.5.0"
 
 webidl-conversions@^4.0.1, webidl-conversions@^4.0.2:
   version "4.0.2"
@@ -11456,9 +11456,9 @@ webpack-dev-middleware@2.0.6:
     url-join "^2.0.2"
     webpack-log "^1.0.1"
 
-webpack-hot-middleware@2.21.1:
-  version "2.21.1"
-  resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.21.1.tgz#1b03b20a1a65a2e2ea0ea987476a5d23370ff176"
+webpack-hot-middleware@2.21.2:
+  version "2.21.2"
+  resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.21.2.tgz#2e2aa65563b8b32546b67e53b5a9667dcd80f327"
   dependencies:
     ansi-html "0.0.7"
     html-entities "^1.2.0"
@@ -11481,9 +11481,9 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.0.1.tgz#768d708beeca4c5f77f6c2d38a240fb6ff50ba5d"
+webpack@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.1.0.tgz#91b6862e56eb3b18b79bb10b51866987ff10d2d6"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^3.0.0"
@@ -11502,7 +11502,7 @@ webpack@4.0.1:
     schema-utils "^0.4.2"
     tapable "^1.0.0"
     uglifyjs-webpack-plugin "^1.1.1"
-    watchpack "^1.4.0"
+    watchpack "^1.5.0"
     webpack-sources "^1.0.1"
 
 whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3:
