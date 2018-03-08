@@ -23,7 +23,6 @@ class SocialButtons extends Component {
         {[
           'google',
           'facebook',
-          'github',
         ].map((provider) => (
           <button
             key={provider}

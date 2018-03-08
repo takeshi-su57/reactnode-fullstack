@@ -15,10 +15,10 @@
   "scripts": {
     "precommit": "lint-staged",
     "analyze": "cross-env BUNDLE_ANALYZE=true npm run build",
-    "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
+    "npmcheckversion": "node ./config/scripts/npmcheckversion.js",
     "preinstall": "npm run npmcheckversion",
     "prebuild": "npm run build:clean",
-    "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color --progress --hide-modules --display-optimization-bailout",
+    "build": "cross-env NODE_ENV=production webpack --config config/webpack/webpack.prod.babel.js --color --progress --hide-modules --display-optimization-bailout",
     "build:clean": "rimraf ./build",
     "dev": "npm run start",
     "start": "cross-env NODE_ENV=development nodemon",
@@ -60,7 +60,7 @@
       "development": {
         "only": [
           "app",
-          "internals/scripts"
+          "config/scripts"
         ],
         "plugins": [
           "transform-react-jsx-source"
@@ -164,7 +164,7 @@
     "settings": {
       "import/resolver": {
         "webpack": {
-          "config": "./internals/webpack/webpack.prod.babel.js"
+          "config": "./config/webpack/webpack.prod.babel.js"
         }
       }
     }
@@ -200,13 +200,13 @@
       "app"
     ],
     "moduleNameMapper": {
-      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
-      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
+      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/config/testing/mocks/cssModule.js",
+      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/testing/mocks/image.js"
     },
-    "setupTestFrameworkScriptFile": "<rootDir>/internals/testing/test-bundler.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/config/testing/test-bundler.js",
     "setupFiles": [
       "raf/polyfill",
-      "<rootDir>/internals/testing/enzyme-setup.js"
+      "<rootDir>/config/testing/enzyme-setup.js"
     ]
   },
   "dependencies": {
