@@ -7,7 +7,6 @@ module.exports = (app) => {
   /* eslint global-require: "off" */
   require('./strategies/facebook')();
   require('./strategies/google')();
-  require('./strategies/github')();
   require('./strategies/jwt')();
   require('./strategies/local')();
 
