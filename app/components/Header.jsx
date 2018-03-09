@@ -18,20 +18,20 @@ export const Header = (props) => {
             height="30"
             className="d-inline-block align-top"
           />
-          &nbsp;{content.TITLE}
+          &nbsp;{content.app_title}
         </NavLink>
         <NavLink
           exact
           to="/"
           activeClassName="active"
         >
-          {content.APP_NAV_HOME}
+          {content.app_nav_home}
         </NavLink>
         <NavLink
           to="/about"
           activeClassName="active"
         >
-          {content.APP_NAV_ABOUT}
+          {content.app_nav_about}
         </NavLink>
         {auth.authenticated
           ? [
@@ -46,10 +46,10 @@ export const Header = (props) => {
               key="logout"
               className="nav-link btn btn-link"
               onClick={() => {
-                store.dispatch(logoutAction());
+                store().dispatch(logoutAction());
               }}
             >
-              {content.APP_NAV_LOGOUT}
+              {content.app_nav_logout}
             </button>,
           ]
           : [
@@ -58,14 +58,14 @@ export const Header = (props) => {
               to="/register"
               activeClassName="active"
             >
-              {content.APP_NAV_REGISTER}
+              {content.app_nav_register}
             </NavLink>,
             <NavLink
               to="/login"
               key="login"
               activeClassName="active"
             >
-              {content.APP_NAV_LOGIN}
+              {content.app_nav_login}
             </NavLink>,
           ]}
         <Cultures />

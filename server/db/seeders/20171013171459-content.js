@@ -1,14 +1,16 @@
 /* eslint-disable */
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('Contents', [
-    { id: 1, key: 'TITLE' },
-    { id: 2, key: 'APP_NAV_HOME' },
-    { id: 3, key: 'APP_NAV_ABOUT' },
-    { id: 4, key: 'APP_NAV_LOGIN' },
-    { id: 5, key: 'APP_NAV_LOGOUT' },
-    { id: 6, key: 'APP_NAV_REGISTER' },
-    { id: 7, key: 'APP_NAV_ADMIN' },
-    { id: 8, key: 'APP_NAV_EXAMPLES' },
+    { key: 'app_title' },
+    { key: 'app_description' },
+    { key: 'app_repo_url' },
+    { key: 'app_nav_home' },
+    { key: 'app_nav_about' },
+    { key: 'app_nav_login' },
+    { key: 'app_nav_logout' },
+    { key: 'app_nav_register' },
+    { key: 'app_nav_admin' },
+    { key: 'app_nav_examples' },
   ], {}).catch((e) => Promise.resolve()),
 
   down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Contents', null, {}),

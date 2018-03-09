@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Footer = () => (
+const Footer = (props) => (
   <footer className="footer">
     <span>
-      React Node Fullstack
+      {props.content.app_description}
     </span>
   </footer>
 );

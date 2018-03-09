@@ -43,7 +43,7 @@ class App extends React.Component {
           </Switch>
         </div>
         <SnackBar />
-        <Footer />
+        <Footer content={appData.content} />
       </div>
     );
   }

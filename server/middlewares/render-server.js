@@ -1,4 +1,5 @@
 const React = require('react');
+const _ = require('lodash');
 const { Provider } = require('react-redux');
 const { renderToString } = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
@@ -9,7 +10,11 @@ const App = require('../../app/containers/App').default;
 
 module.exports = async (req, res, file) => {
   try {
-    const appData = await api.content(req);
+    let appData = await api.content(req);
+
+    if (req.query.access_token) {
+      appData = _.extend(appData, { access_token: req.query.access_token });
+    }
 
     const context = {};
     if (context.url) {
@@ -31,7 +36,9 @@ module.exports = async (req, res, file) => {
     const RenderedApp = file.replace('{{PRELOADEDSTATE}}', `<script>
       window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}
       window.ssrEnabled = ${true}
-      </script>`).replace('{{SSR}}', `<div id="app">${initialMarkup}</div>`);
+      </script>`).replace('{{SSR}}', `<div id="app">${initialMarkup}</div>`)
+      .replace(/{{app_title}}/g, appData.content.app_title)
+      .replace(/{{app_description}}/g, appData.content.app_description);
 
     return res.send(RenderedApp);
   } catch (err) {

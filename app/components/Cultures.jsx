@@ -11,7 +11,7 @@ class Cultures extends Component {
           name="culture"
           value={c.value}
           type="submit"
-          className={`submitLink${c.current ? ' active' : ''}`}
+          className={`culture-form submitLink${c.current ? ' active' : ''}`}
         />
       </form>
     ));

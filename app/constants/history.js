@@ -1,7 +1,8 @@
 import createBrowserHistory from 'history/createBrowserHistory';
 import createMemoryHistory from 'history/createMemoryHistory';
+import { isBrowser } from '../services/helpers';
 
-const history = (typeof window !== 'undefined') ? createBrowserHistory() : createMemoryHistory();
+const history = isBrowser ? createBrowserHistory() : createMemoryHistory();
 
 export { history };
 

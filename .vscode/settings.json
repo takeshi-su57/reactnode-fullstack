@@ -5,7 +5,8 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/node_modules": true
+    "**/node_modules": true,
+    "yarn-error.log": true
   },
   "search.exclude": {
     "**/node_modules": true,

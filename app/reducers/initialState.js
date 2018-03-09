@@ -1,8 +1,7 @@
-import { decode } from '../services';
+import { decode, isBrowser } from '../services';
 import { ACCESS_TOKEN } from '../constants';
 
-const isWindow = (typeof window !== 'undefined');
-const token = isWindow ? localStorage.getItem(ACCESS_TOKEN) : '';
+const token = isBrowser ? localStorage.getItem(ACCESS_TOKEN) : '';
 
 const user = token ? decode(token) : null;
 

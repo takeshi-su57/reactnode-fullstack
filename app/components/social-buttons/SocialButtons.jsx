@@ -5,18 +5,6 @@ class SocialButtons extends Component {
     window.location.href = `api/auth/${provider}`;
   };
 
-  loginCss = (login) => {
-    if (login.toLowerCase() === 'microsoft') {
-      return 'fa-windows';
-    }
-
-    if (login.toLowerCase() === 'stackexchange') {
-      return 'fa-stack-exchange';
-    }
-
-    return `fa-${login.toLowerCase()}`;
-  };
-
   render() {
     return (
       <div>
@@ -25,6 +13,8 @@ class SocialButtons extends Component {
           'facebook',
         ].map((provider) => (
           <button
+            className="button button-outline"
+            type="button"
             key={provider}
             value={provider}
             onClick={() => this.redirect(provider)}

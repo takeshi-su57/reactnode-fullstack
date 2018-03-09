@@ -1,10 +1,12 @@
 import { decode } from './jwt-decode';
-import { ACCESS_TOKEN } from '../constants';
+import { ACCESS_TOKEN } from '../constants/app.constants';
 
 export const storeAuth = (token) => {
   localStorage.setItem(ACCESS_TOKEN, token);
   return decode(token);
 };
+
+export const isBrowser = typeof window !== 'undefined';
 
 export const parseQueryString = () => {
   const str = window.location.search;
