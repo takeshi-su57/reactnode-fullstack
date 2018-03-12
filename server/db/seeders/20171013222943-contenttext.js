@@ -3,7 +3,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('ContentTexts', [
       // English
-      { languageid: 1, contentid: 1, text: 'React+Node' },
+      { languageid: 1, contentid: 1, text: 'ReactNode' },
       { languageid: 1, contentid: 2, text: 'A Single Page Application built using Node and React' },
       { languageid: 1, contentid: 3, text: 'https://github.com/asadsahi/reactnode-fullstack' },
       { languageid: 1, contentid: 4, text: 'Home' },
@@ -14,7 +14,7 @@ module.exports = {
       { languageid: 1, contentid: 9, text: 'Admin' },
       { languageid: 1, contentid: 10, text: 'Examples' },
       // French
-      { languageid: 2, contentid: 1, text: 'React+Node' },
+      { languageid: 2, contentid: 1, text: 'ReactNode' },
       { languageid: 2, contentid: 2, text: 'Application d\'une seule page utilisant node et react' },
       { languageid: 2, contentid: 3, text: 'https://github.com/asadsahi/reactnode-fullstack' },
       { languageid: 2, contentid: 4, text: 'Accueil' },

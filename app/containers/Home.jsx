@@ -1,14 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Home = () => (
-  <div className="row">
-    <div className="column">
-      <h1>React Node fullstack</h1> A Single Page Application built using React and Nodejs
-      <div>
-        <a href="https://github.com/asadsahi/reactnode-fullstack" target="_blank" rel="noopener" className="button button-outline float-right">More info</a>
+const Home = (props) => {
+  const { appData } = props;
+  return (
+    <div className="row">
+      <div className="column">
+        <h1>{appData.content.app_title}</h1> {appData.content.app_description}
+        <div>
+          <a href={appData.content.app_repo_url} target="_blank" rel="noopener" className="button button-outline float-right">More info</a>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-export default Home;
+const mapStateToProps = (state) => ({
+  appData: state.appData,
+});
+
+export default connect(mapStateToProps)(Home);
