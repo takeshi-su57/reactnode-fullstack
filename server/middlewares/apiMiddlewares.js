@@ -1,3 +1,4 @@
+/* eslint global-require: "off" */
 const globby = require('globby');
 const path = require('path');
 
@@ -6,9 +7,9 @@ module.exports = function apiMiddlewares(app, options) {
 };
 
 function apiRoutes(app) {
-  /* eslint global-require: "off" */
   globby([`${__dirname}/../features/*/**/*.policy.js`]).then(policies => {
     policies.forEach(policyPath => {
+      /* eslint import/no-dynamic-require: "off" */
       require(path.resolve(policyPath)).invokeRolesPolicies();
     });
   });
