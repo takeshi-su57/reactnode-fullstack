@@ -1,6 +1,6 @@
 import { ActionTypes as types } from '../constants';
 
-export const profile = (state = { profile: null, error: '' }, action) => {
+const profile = (state = { profile: null, error: '' }, action) => {
   switch (action.type) {
     case types.PROFILE.LOAD_START:
       return {};

@@ -1,9 +1,6 @@
 import { ActionTypes as types } from '../constants';
 
-export const auth = (
-  state = { user: null, authenticated: false, error: '' },
-  action
-) => {
+const auth = (state = { user: null, authenticated: false, error: '' }, action) => {
   switch (action.type) {
     case types.LOGIN.LOGIN_START:
     case types.LOGOUT:

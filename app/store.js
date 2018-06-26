@@ -25,7 +25,10 @@ if (isDev && isBrowser) {
   middleware.push(reduxImmutableStateInvariant());
 }
 
-const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
+const composedEnhancers = compose(
+  applyMiddleware(...middleware),
+  ...enhancers
+);
 
 export default function storeSetup(additionalState = undefined) {
   const finalState = Object.assign({}, initialState, additionalState);

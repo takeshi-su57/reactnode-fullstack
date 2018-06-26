@@ -1,6 +1,6 @@
 import { ActionTypes as types } from '../constants';
 
-export const register = (state = { error: '' }, action) => {
+const register = (state = { error: '' }, action) => {
   switch (action.type) {
     case types.REGISTER.REGISTER_START:
     case types.REGISTER.REGISTER_SUCCESS:

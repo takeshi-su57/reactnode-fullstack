@@ -22,21 +22,24 @@ module.exports = async (req, res, file) => {
       return res.redirect(301, context.url);
     }
 
-    const initialMarkup = renderToString(React.createElement(
-      Provider,
-      { store: storeSetup({ appData }) },
+    const initialMarkup = renderToString(
       React.createElement(
-        StaticRouter,
-        { location: req.url, context },
-        React.createElement(App, null)
+        Provider,
+        { store: storeSetup({ appData }) },
+        React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App, null))
       )
-    ));
+    );
 
     // we're good, send the response
-    const RenderedApp = file.replace('{{PRELOADEDSTATE}}', `<script>
+    const RenderedApp = file
+      .replace(
+        '{{PRELOADEDSTATE}}',
+        `<script>
       window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}
       window.ssrEnabled = ${true}
-      </script>`).replace('{{SSR}}', `<div id="app">${initialMarkup}</div>`)
+      </script>`
+      )
+      .replace('{{SSR}}', `<div id="app">${initialMarkup}</div>`)
       .replace(/{{app_title}}/g, appData.content.app_title)
       .replace(/{{app_description}}/g, appData.content.app_description);
 

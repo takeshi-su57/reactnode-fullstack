@@ -1,7 +1,7 @@
 import { decode } from './jwt-decode';
 import { ACCESS_TOKEN } from '../constants/app.constants';
 
-export const storeAuth = (token) => {
+export const storeAuth = token => {
   localStorage.setItem(ACCESS_TOKEN, token);
   return decode(token);
 };

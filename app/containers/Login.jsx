@@ -1,46 +1,56 @@
 import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
-
-import { FormWrapper, TextInput, validations, SocialButtons } from '../components';
+import * as Yup from 'yup';
+import { TextInput, SocialButtons } from '../components';
 import { loginAction } from '../actions';
 
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required!'),
+  password: Yup.string().required('Password is required!'),
+});
+
 class Login extends Component {
-  submitHandler = (values) => {
-    this.props.login(values.email, values.password);
+  submitHandler = ({ email, password }) => {
+    const { login } = this.props;
+    login(email, password);
   };
 
   render() {
-    const { handleSubmit } = this.props;
     return (
       <div>
-        <form
-          key="loginForm"
-          onSubmit={handleSubmit(this.submitHandler)}
-          noValidate
-        >
-          {this.props.auth.error && (
-            <div className="alert alert-danger">{this.props.auth.error} </div>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          onSubmit={this.submitHandler}
+          validationSchema={validationSchema}
+          render={({ values, touched, errors, handleChange, handleBlur }) => (
+            <Form>
+              <TextInput
+                id="email"
+                type="email"
+                label="Email"
+                placeholder="Enter your email"
+                error={touched.email && errors.email}
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <TextInput
+                id="password"
+                type="password"
+                label="Password"
+                placeholder="Enter your password"
+                error={touched.password && errors.password}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <button type="submit">Login</button>
+            </Form>
           )}
-          <Field
-            name="email"
-            type="email"
-            component={TextInput}
-            label="Email"
-            validate={[validations.required, validations.email]}
-          />
-          <Field
-            name="password"
-            type="password"
-            component={TextInput}
-            label="Password"
-            validate={[validations.required]}
-          />
-
-          <button type="submit" className="btn btn-primary">
-            Login
-          </button>
-        </form>
+        />
         <div className="text-center">
           <SocialButtons />
         </div>
@@ -48,23 +58,19 @@ class Login extends Component {
     );
   }
 }
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   login(username, email) {
     dispatch(loginAction(username, email));
   },
 });
 
-Login = connect(mapStateToProps, mapDispatchToProps)(Login);
-
-Login = reduxForm({
-  form: 'loginForm',
-  destroyOnUnmount: false, //        <------ preserve form data
-  forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
-})(FormWrapper(Login, 'Login'));
+Login = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
 
 export default Login;

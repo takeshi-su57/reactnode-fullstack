@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { reducer as reduxFormReducer } from 'redux-form';
 
 // App Reducers
 import appData from './app.reducer';
@@ -10,15 +9,15 @@ import profile from './profile.reducer';
 import notify from './notify.reducer';
 // https://stackoverflow.com/questions/32968016/how-to-dynamically-load-reducers-for-code-splitting-in-a-redux-application
 
-const rootReducer = (asyncReducers) => combineReducers({
-  form: reduxFormReducer, // mounted under "form"
-  router: routerReducer,
-  appData,
-  auth,
-  register,
-  profile,
-  notify,
-  ...asyncReducers,
-});
+const rootReducer = asyncReducers =>
+  combineReducers({
+    router: routerReducer,
+    appData,
+    auth,
+    register,
+    profile,
+    notify,
+    ...asyncReducers,
+  });
 
 export { rootReducer };

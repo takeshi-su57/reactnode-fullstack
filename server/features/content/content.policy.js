@@ -11,28 +11,34 @@ exports.invokeRolesPolicies = () => {
   acl.allow([
     {
       roles: ['admin'],
-      allows: [{
-        resources: '/api/content',
-        permissions: '*',
-      },
-      {
-        resources: '/api/content/:locale',
-        permissions: '*',
-      }],
+      allows: [
+        {
+          resources: '/api/content',
+          permissions: '*',
+        },
+        {
+          resources: '/api/content/:locale',
+          permissions: '*',
+        },
+      ],
     },
     {
       roles: ['user'],
-      allows: [{
-        resources: '/api/content',
-        permissions: ['get'],
-      }],
+      allows: [
+        {
+          resources: '/api/content',
+          permissions: ['get'],
+        },
+      ],
     },
     {
       roles: ['guest'],
-      allows: [{
-        resources: '/api/content',
-        permissions: ['get'],
-      }],
+      allows: [
+        {
+          resources: '/api/content',
+          permissions: ['get'],
+        },
+      ],
     },
   ]);
 };
@@ -41,7 +47,7 @@ exports.invokeRolesPolicies = () => {
  * Check If content Policy Allows
  */
 exports.isAllowed = (req, res, next) => {
-  const roles = (req.user) ? req.user.roleNames : ['guest'];
+  const roles = req.user ? req.user.roleNames : ['guest'];
 
   // Check for user roles
   acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), (err, isAllowed) => {

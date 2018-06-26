@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FormWrapper = (ComponentToWrap, title) => (props) => (
+const FormWrapper = (ComponentToWrap, title) => props => (
   <div className="row">
     <div className="column">
       <h2>{title}</h2>

@@ -1,53 +1,72 @@
 import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
-import { FormWrapper, TextInput, validations, Loading } from '../components';
+import { FormWrapper, TextInput, Loading } from '../components';
 import { loadProfileAction, saveProfileAction } from '../actions';
+
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().required('First name is required!'),
+  lastName: Yup.string().required('Last name is required!'),
+});
 
 class Profile extends Component {
   componentDidMount() {
-    this.props.loadProfile();
+    const { loadProfile } = this.props;
+    loadProfile();
   }
 
-  handleSubmit = (values) => {
-    this.props.saveProfile(values);
+  submitHandler = values => {
+    const { saveProfile } = this.props;
+    saveProfile(values);
   };
 
   render() {
     const { initialValues } = this.props;
     return initialValues ? (
-      <form onSubmit={this.props.handleSubmit(this.handleSubmit)} noValidate>
-        <Field
-          name="firstName"
-          type="text"
-          component={TextInput}
-          label="First name"
-          validate={[validations.required]}
-        />
-        <Field
-          name="lastName"
-          type="text"
-          component={TextInput}
-          label="Last name"
-          validate={[validations.required]}
-        />
-
-        <button type="submit" className="btn btn-primary">
-          Update
-        </button>
-      </form>
-    ) : <Loading />;
+      <Formik
+        initialValues={{ firstName: initialValues.firstName, lastName: initialValues.lastName }}
+        onSubmit={this.submitHandler}
+        validationSchema={validationSchema}
+        render={({ values, touched, errors, handleChange, handleBlur }) => (
+          <Form>
+            <TextInput
+              id="firstName"
+              type="text"
+              label="First name"
+              placeholder="Enter your first name"
+              error={touched.firstName && errors.firstName}
+              value={values.firstName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <TextInput
+              id="lastName"
+              type="text"
+              label="Last name"
+              placeholder="Enter your last name"
+              error={touched.lastName && errors.lastName}
+              value={values.lastName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <button type="submit">Login</button>
+          </Form>
+        )}
+      />
+    ) : (
+      <Loading />
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
-  // initialValues is a special property for redux-form initalisation
+const mapStateToProps = state => ({
   initialValues: state.profile.data,
   error: state.profile.error,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   loadProfile() {
     dispatch(loadProfileAction());
   },
@@ -56,12 +75,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-Profile = reduxForm({
-  form: 'profileForm',
-  destroyOnUnmount: false, //        <------ preserve form data
-  forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
-})(FormWrapper(Profile, 'Profile'));
+Profile = FormWrapper(Profile, 'Profile');
 
-Profile = connect(mapStateToProps, mapDispatchToProps)(Profile);
+Profile = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);
 
 export default Profile;

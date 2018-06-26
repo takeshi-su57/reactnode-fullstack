@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const _ = require('lodash');
 const DB = require('../../db/models');
+
 const { User, UserImage } = DB;
 const errorHandler = require('../core/errorHandler');
 const { getAccessToken } = require('./token');
@@ -20,10 +21,10 @@ exports.signup = (req, res) => {
 
   const model = Object.assign(req.body, { provider: 'local' });
   User.create(model)
-    .then((user) => {
+    .then(user => {
       res.json(user);
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(400).send(err);
     });
 };
@@ -66,7 +67,7 @@ exports.oauthCall = (strategy, scope) => (req, res, next) => {
 /**
  * OAuth callback
  */
-exports.oauthCallback = (strategy) => (req, res, next) => {
+exports.oauthCallback = strategy => (req, res, next) => {
   // info.redirect_to contains inteded redirect path
   passport.authenticate(strategy, { session: false }, (err, user) => {
     if (err) {
@@ -91,7 +92,7 @@ exports.saveOAuthUserProfile = (providerUserProfile, done) => {
       email: providerUserProfile.email,
     },
   })
-    .then((user) => {
+    .then(user => {
       if (user && user.provider === 'local') {
         done('Another user with this email already exist');
       }
@@ -111,18 +112,18 @@ exports.saveOAuthUserProfile = (providerUserProfile, done) => {
         provider: providerUserProfile.provider,
         providerData: providerUserProfile.providerData,
       })
-        .then((newUser) => {
+        .then(newUser => {
           done(null, newUser);
         })
 
         // Error creating user
-        .catch((err) => {
+        .catch(err => {
           logger.error(err);
           done(err);
         });
     })
     // Error finding User
-    .catch((err) => {
+    .catch(err => {
       logger.error(err);
       done(err);
     });
@@ -137,7 +138,8 @@ exports.removeOAuthProvider = (req, res) => {
 
   if (!user) {
     return res.status(401).json('User is not authenticated');
-  } else if (!provider) {
+  }
+  if (!provider) {
     return res.status(400).send();
   }
 
@@ -149,11 +151,11 @@ exports.removeOAuthProvider = (req, res) => {
     user.markModified('additionalProvidersData');
   }
 
-  user.save((err) => {
+  user.save(err => {
     if (err) {
       return res.status(400).send(errorHandler.formatMessage(err));
     }
-    req.login(user, (e) => {
+    req.login(user, e => {
       if (e) {
         return res.status(400).send(e);
       }
@@ -170,9 +172,8 @@ exports.updateProfile = (req, res) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
     })
-    .then((user) =>
-      res.json(_.pick(user, global.appConfig.whitelistedUserFields)))
-    .catch((err) => res.status(400).send(errorHandler.formatMessage(err)));
+    .then(user => res.json(_.pick(user, global.appConfig.whitelistedUserFields)))
+    .catch(err => res.status(400).send(errorHandler.formatMessage(err)));
 };
 
 /**
@@ -184,7 +185,7 @@ exports.getProfilePicture = (req, res) => {
       id: req.params.id,
     },
   }).then(
-    (userImage) => {
+    userImage => {
       if (userImage) {
         res.contentType(userImage.contentType);
         res.send(userImage.data);
@@ -192,7 +193,7 @@ exports.getProfilePicture = (req, res) => {
         res.status(404).send('Not found');
       }
     },
-    (err) => {
+    err => {
       res.status(400).send(errorHandler.formatMessage(err));
     }
   );
@@ -202,7 +203,7 @@ exports.getProfilePicture = (req, res) => {
  * Update profile picture
  */
 exports.changeProfilePicture = (req, res) => {
-  req.user.getUserImage().then((image) => {
+  req.user.getUserImage().then(image => {
     let promise;
     if (image) {
       promise = image.update({
@@ -217,11 +218,10 @@ exports.changeProfilePicture = (req, res) => {
     }
 
     promise
-      .then((img) => {
+      .then(img => {
         res.json(img);
       })
-      .catch(() =>
-        res.status(400).send('Error while trying to update user picture'));
+      .catch(() => res.status(400).send('Error while trying to update user picture'));
   });
 };
 
@@ -277,11 +277,9 @@ exports.forgot = (req, res) => {
         email: req.body.username.toLowerCase(),
       },
     })
-      .then((user) => {
+      .then(user => {
         if (user.provider !== 'local') {
-          return res
-            .status(400)
-            .send(`It seems like you signed up using your ${user.provider} account`);
+          return res.status(400).send(`It seems like you signed up using your ${user.provider} account`);
         }
         /* eslint no-param-reassign: "off" */
         user.resetPasswordToken = token;
@@ -289,10 +287,9 @@ exports.forgot = (req, res) => {
 
         user
           .save()
-          .then((u) => {
+          .then(u => {
             const httpTransport = req.secure ? 'https://' : 'http://';
-            const baseUrl =
-              req.app.get('domain') || httpTransport + req.headers.host;
+            const baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
 
             res.render(
               'reset-password-email',
@@ -303,9 +300,7 @@ exports.forgot = (req, res) => {
               },
               (e, emailHTML) => {
                 if (e) {
-                  return res
-                    .status(500)
-                    .send('Unable to create reset token email');
+                  return res.status(500).send('Unable to create reset token email');
                 }
 
                 const mailOptions = {
@@ -314,7 +309,7 @@ exports.forgot = (req, res) => {
                   subject: 'Password Reset',
                   html: emailHTML,
                 };
-                smtpTransport.sendMail(mailOptions, (er) => {
+                smtpTransport.sendMail(mailOptions, er => {
                   if (er) {
                     return res.status(400).send('Failure sending email');
                   }
@@ -326,11 +321,9 @@ exports.forgot = (req, res) => {
               }
             );
           })
-          .catch(() =>
-            res.status(400).send('Unable to save email reset token for user'));
+          .catch(() => res.status(400).send('Unable to save email reset token for user'));
       })
-      .catch(() =>
-        res.status(400).send('No account with that username has been found'));
+      .catch(() => res.status(400).send('No account with that username has been found'));
   });
 };
 
@@ -346,8 +339,7 @@ exports.validateResetToken = (req, res) => {
       },
     },
   })
-    .then(() =>
-      res.redirect(`/login/resetpassword?resetToken=${req.params.token}`))
+    .then(() => res.redirect(`/login/resetpassword?resetToken=${req.params.token}`))
     .catch(() => res.redirect('/login/resetpassword'));
 };
 
@@ -375,7 +367,7 @@ exports.reset = (req, res) => {
       },
     },
   })
-    .then((user) => {
+    .then(user => {
       if (passwordDetails.newPassword !== passwordDetails.verifyPassword) {
         return res.status(400).send('Passwords do not match');
       }
@@ -386,7 +378,7 @@ exports.reset = (req, res) => {
           resetPasswordToken: undefined,
           resetPasswordExpires: undefined,
         })
-        .then((u) => {
+        .then(u => {
           res.render(
             'reset-password-confirm-email',
             {
@@ -395,9 +387,7 @@ exports.reset = (req, res) => {
             },
             (err, emailHTML) => {
               if (err) {
-                return res
-                  .status(500)
-                  .send('Unable to create reset token email');
+                return res.status(500).send('Unable to create reset token email');
               }
 
               const mailOptions = {
@@ -417,10 +407,9 @@ exports.reset = (req, res) => {
             }
           );
         })
-        .catch((e) => res.status(400).send(errorHandler.formatMessage(e)));
+        .catch(e => res.status(400).send(errorHandler.formatMessage(e)));
     })
-    .catch(() =>
-      res.status(400).send('Password reset token is invalid or has expired.'));
+    .catch(() => res.status(400).send('Password reset token is invalid or has expired.'));
 };
 
 /**
@@ -437,11 +426,9 @@ exports.changePassword = (req, res) => {
           id: req.user.id,
         },
       })
-        .then((user) => {
+        .then(user => {
           if (user.validPassword(passwordDetails.currentPassword)) {
-            if (
-              passwordDetails.newPassword === passwordDetails.verifyPassword
-            ) {
+            if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
               const newPassword = user.encryptPassword(passwordDetails.newPassword);
 
               user
@@ -455,11 +442,9 @@ exports.changePassword = (req, res) => {
                     },
                   }
                 )
-                .then((u) => {
+                .then(u => {
                   if (!u) {
-                    return res
-                      .status(400)
-                      .send(errorHandler.formatMessage('Invalid credentials'));
+                    return res.status(400).send(errorHandler.formatMessage('Invalid credentials'));
                   }
                   res.json(['Password changed successfully']);
                 });
@@ -482,7 +467,5 @@ exports.changePassword = (req, res) => {
 };
 
 function getSocialLoginImageUrl(profileData) {
-  return (
-    profileData.profileImageURL || profileData.providerData.image.url || ''
-  );
+  return profileData.profileImageURL || profileData.providerData.image.url || '';
 }

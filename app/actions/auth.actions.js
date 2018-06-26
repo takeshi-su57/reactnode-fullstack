@@ -1,7 +1,7 @@
 import { ActionTypes as types, history, ACCESS_TOKEN } from '../constants';
 import { dataService, storeAuth } from '../services';
 
-export const loginAction = (usernameOrEmail, password) => (dispatch) => {
+export const loginAction = (usernameOrEmail, password) => dispatch => {
   dispatch({ type: types.LOGIN.LOGIN_START });
 
   dataService
@@ -9,11 +9,11 @@ export const loginAction = (usernameOrEmail, password) => (dispatch) => {
       usernameOrEmail,
       password,
     })
-    .then((res) => {
+    .then(res => {
       dispatch({ type: types.LOGIN.LOGIN_SUCCESS, data: storeAuth(res.data) });
       history.push('/');
     })
-    .catch((error) => {
+    .catch(error => {
       dispatch({
         type: types.LOGIN.LOGIN_ERROR,
         data: error.response.data[0],
@@ -21,7 +21,7 @@ export const loginAction = (usernameOrEmail, password) => (dispatch) => {
     });
 };
 
-export const registerAction = (values) => (dispatch) => {
+export const registerAction = values => dispatch => {
   dispatch({ type: types.REGISTER.REGISTER_START });
 
   dataService
@@ -30,7 +30,7 @@ export const registerAction = (values) => (dispatch) => {
       dispatch({ type: types.REGISTER.REGISTER_SUCCESS });
       history.push('/login');
     })
-    .catch((error) => {
+    .catch(error => {
       dispatch({
         type: types.REGISTER.REGISTER_ERROR,
         data: error.response.data[0],
@@ -38,7 +38,7 @@ export const registerAction = (values) => (dispatch) => {
     });
 };
 
-export const logoutAction = () => (dispatch) => {
+export const logoutAction = () => dispatch => {
   localStorage.removeItem(ACCESS_TOKEN);
   history.push('/');
   dispatch({ type: types.LOGOUT });

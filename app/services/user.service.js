@@ -18,14 +18,14 @@ function login(username, password) {
   };
 
   return fetch('/users/authenticate', requestOptions)
-    .then((response) => {
+    .then(response => {
       if (!response.ok) {
         return Promise.reject(response.statusText);
       }
 
       return response.json();
     })
-    .then((user) => {
+    .then(user => {
       // login successful if there's a jwt token in the response
       if (user && user.token) {
         // store user details and jwt token in local storage to keep user logged in between page refreshes

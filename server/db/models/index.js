@@ -1,8 +1,8 @@
-
-
 const Sequelize = require('sequelize');
+
 const env = process.env.NODE_ENV || 'development';
 const config = require('../database.json')[env];
+
 const models = {};
 let sequelize;
 
@@ -23,13 +23,13 @@ const modules = [
 ];
 
 // Initialize models
-modules.forEach((module) => {
+modules.forEach(module => {
   const model = module(sequelize, Sequelize, config);
   models[model.name] = model;
 });
 
 // Apply associations
-Object.keys(models).forEach((key) => {
+Object.keys(models).forEach(key => {
   if ('associate' in models[key]) {
     models[key].associate(models);
   }

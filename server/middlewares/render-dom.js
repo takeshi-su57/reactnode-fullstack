@@ -5,9 +5,12 @@ module.exports = async (req, res, file) => {
     const appData = await api.content(req);
 
     const renderedHtml = file
-      .replace('{{PRELOADEDSTATE}}', `<script>window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}
+      .replace(
+        '{{PRELOADEDSTATE}}',
+        `<script>window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}
                   window.ssrEnabled = ${false}
-              </script>`)
+              </script>`
+      )
       .replace('{{SSR}}', '<div id="app"></div>')
       .replace(/{{app_title}}/g, appData.content.app_title)
       .replace(/{{app_description}}/g, appData.content.app_description);

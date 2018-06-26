@@ -6,7 +6,7 @@ import { ACCESS_TOKEN } from '../constants';
 const instance = axios.create({});
 
 instance.interceptors.request.use(
-  (config) => {
+  config => {
     const token = localStorage.getItem(ACCESS_TOKEN);
 
     if (token != null) {

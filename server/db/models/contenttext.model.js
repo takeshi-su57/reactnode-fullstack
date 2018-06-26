@@ -1,7 +1,7 @@
-
 module.exports = (sequelize, DataTypes) => {
   const ContentText = sequelize.define(
-    'ContentText', {
+    'ContentText',
+    {
       text: DataTypes.STRING,
     },
     {
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  ContentText.associate = (models) => {
+  ContentText.associate = models => {
     ContentText.belongsTo(models.Language, { foreignKey: 'languageid' });
     ContentText.belongsTo(models.Content, { foreignKey: 'contentid' });
   };
