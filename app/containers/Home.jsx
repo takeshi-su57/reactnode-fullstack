@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 const Home = props => {
   const { appData } = props;
@@ -22,8 +21,4 @@ const Home = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  appData: state.appData,
-});
-
-export default connect(mapStateToProps)(Home);
+export default Home;

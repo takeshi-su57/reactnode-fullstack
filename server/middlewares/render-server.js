@@ -1,12 +1,12 @@
 const React = require('react');
 const _ = require('lodash');
-const { Provider } = require('react-redux');
 const { renderToString } = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
 
 const api = require('../features/app/app.controller');
-const storeSetup = require('../../app/store').default;
 const App = require('../../app/containers/App').default;
+
+const { AppProvider, AppConsumer } = require('../../app/contexts/AppContext');
 
 module.exports = async (req, res, file) => {
   try {
@@ -24,9 +24,13 @@ module.exports = async (req, res, file) => {
 
     const initialMarkup = renderToString(
       React.createElement(
-        Provider,
-        { store: storeSetup({ appData }) },
-        React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App, null))
+        AppProvider,
+        { value: { appData } },
+        React.createElement(
+          AppConsumer,
+          null,
+          React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App, { appData }))
+        )
       )
     );
 

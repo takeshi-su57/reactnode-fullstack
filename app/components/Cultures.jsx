@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 class Cultures extends Component {
   render() {
@@ -17,14 +16,5 @@ class Cultures extends Component {
     ));
   }
 }
-
-function mapStateToProps(state) {
-  const { cultures } = state.appData;
-  return {
-    cultures,
-  };
-}
-
-Cultures = connect(mapStateToProps)(Cultures);
 
 export { Cultures };

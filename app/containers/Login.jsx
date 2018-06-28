@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Formik, Form } from 'formik';
-import { connect } from 'react-redux';
 import * as Yup from 'yup';
-import { TextInput, SocialButtons } from '../components';
-import { loginAction } from '../actions';
+import { TextInput, SocialButtons, FormWrapper } from '../components';
+import { login } from '../services';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -14,8 +13,9 @@ const validationSchema = Yup.object().shape({
 
 class Login extends Component {
   submitHandler = ({ email, password }) => {
-    const { login } = this.props;
-    login(email, password);
+    login(email, password).then(res => {
+      this.props.context.setUser(res);
+    });
   };
 
   render() {
@@ -58,19 +58,7 @@ class Login extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  auth: state.auth,
-});
 
-const mapDispatchToProps = dispatch => ({
-  login(username, email) {
-    dispatch(loginAction(username, email));
-  },
-});
-
-Login = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+Login = FormWrapper(Login, 'Login');
 
 export default Login;

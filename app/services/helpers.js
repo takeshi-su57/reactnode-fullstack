@@ -1,11 +1,20 @@
 import { decode } from './jwt-decode';
-import { ACCESS_TOKEN } from '../constants/app.constants';
+import { ACCESS_TOKEN } from './constants';
 
 export const authHeader = () => localStorage.getItem(ACCESS_TOKEN);
 
-export const storeAuth = token => {
+export const getAuth = () => {
+  const token = localStorage.getItem(ACCESS_TOKEN);
+  return token ? decode(token) : undefined;
+};
+
+export const setAuth = token => {
   localStorage.setItem(ACCESS_TOKEN, token);
   return decode(token);
+};
+
+export const clearAuth = () => {
+  localStorage.clear(ACCESS_TOKEN);
 };
 
 export const isBrowser = typeof window !== 'undefined';

@@ -1,5 +1,5 @@
 {
-  "ssrEnabled": true,
+  "ssrEnabled": false,
   "database": {
     "dialect": "sqlite",
     "storage": "./db.sqlite"

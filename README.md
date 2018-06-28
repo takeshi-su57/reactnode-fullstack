@@ -11,8 +11,9 @@ Fullstack application built using React and NodeJs with server side rendering.
 - DB (All databases supported by sequelize e.g MySql, MSSql, Sqlite, PostgreSQL)
 - Login & Registration features
 - JWT based authentication
+- [New Context](https://reactjs.org/docs/context.html) api for state management
 - Server Side Rendering
-  - React + react-router + react-redux working together
+  - React + react-router working together
   - Server-side data pre-fetching
   - Client-side state & DOM hydration
   - Route-level code splitting

@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ConnectedRouter } from 'react-router-redux';
-import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
+import { AppConsumer } from '../contexts';
 import App from './App';
-import setupStore from '../store';
-import { history } from '../constants';
+import { history } from '../services';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
@@ -20,11 +19,11 @@ it('renders without crashing', () => {
   };
 
   ReactDOM.render(
-    <Provider store={setupStore(initialState)}>
-      <ConnectedRouter history={history}>
+    <AppConsumer value={initialState}>
+      <Router history={history}>
         <App />
-      </ConnectedRouter>
-    </Provider>,
+      </Router>
+    </AppConsumer>,
     div
   );
   ReactDOM.unmountComponentAtNode(div);

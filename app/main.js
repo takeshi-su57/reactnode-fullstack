@@ -15,21 +15,18 @@ import 'styles/index.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
-import storeSetup from './store';
-import { history } from './constants';
+import { Router } from 'react-router-dom';
+import { AppProvider, AppConsumer } from './contexts';
+import { history } from './services';
 import App from './containers/App';
 
-
 function render() {
-  const store = storeSetup({ appData: window.__PRELOADEDSTATE__ });
   ReactDOM[window.ssrEnabled ? 'hydrate' : 'render'](
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>,
+    <AppProvider value={{ appData: window.__PRELOADEDSTATE__ }}>
+      <AppConsumer>
+        {({ appData }) => <Router history={history}><App appData={appData} /></Router>}
+      </AppConsumer>
+    </AppProvider>,
     document.getElementById('app')
   );
 }

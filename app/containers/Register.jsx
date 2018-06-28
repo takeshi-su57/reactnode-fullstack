@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 import { FormWrapper, TextInput } from '../components';
-import { registerAction } from '../actions';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required!'),
@@ -18,7 +16,6 @@ const validationSchema = Yup.object().shape({
 
 class Register extends Component {
   handleSubmit = values => {
-    const { register } = this.props;
     register(values);
   };
 
@@ -84,50 +81,9 @@ class Register extends Component {
           </Form>
         )}
       />
-      // <form onSubmit={handleSubmit(this.handleSubmit)} noValidate>
-      //   {register.error && <div className="error">{register.error} </div>}
-      //   <Field name="username" type="text" component={TextInput} label="Username" validate={[validations.required]} />
-      //   <Field
-      //     name="email"
-      //     type="email"
-      //     component={TextInput}
-      //     label="Email"
-      //     validate={[validations.required, validations.email]}
-      //   />
-      //   <Field
-      //     name="password"
-      //     type="password"
-      //     component={TextInput}
-      //     label="Password"
-      //     validate={[validations.required]}
-      //   />
-
-      //   <Field name="firstName" type="text" component={TextInput} label="First name" />
-
-      //   <Field name="lastName" type="text" component={TextInput} label="Last name" />
-
-      //   <button type="submit" className="btn btn-primary">
-      //     Register
-      //   </button>
-      // </form>
     );
   }
 }
-
-const mapStateToProps = state => ({
-  register: state.register,
-});
-
-const mapDispatchToProps = dispatch => ({
-  register(values) {
-    dispatch(registerAction(values));
-  },
-});
-
-Register = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Register);
 
 Register = FormWrapper(Register, 'Register');
 
