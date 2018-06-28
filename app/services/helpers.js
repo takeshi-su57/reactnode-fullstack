@@ -1,10 +1,16 @@
+import createBrowserHistory from 'history/createBrowserHistory';
+import createMemoryHistory from 'history/createMemoryHistory';
 import { decode } from './jwt-decode';
 import { ACCESS_TOKEN } from './constants';
 
-export const authHeader = () => localStorage.getItem(ACCESS_TOKEN);
+export const isBrowser = typeof window !== 'undefined';
+
+export const history = isBrowser ? createBrowserHistory() : createMemoryHistory();
+
+export const accessToken = () => tokenFromQuery() || localStorage.getItem(ACCESS_TOKEN);
 
 export const getAuth = () => {
-  const token = localStorage.getItem(ACCESS_TOKEN);
+  const token = accessToken();
   return token ? decode(token) : undefined;
 };
 
@@ -17,7 +23,9 @@ export const clearAuth = () => {
   localStorage.clear(ACCESS_TOKEN);
 };
 
-export const isBrowser = typeof window !== 'undefined';
+export const navigate = route => {
+  history.push(route);
+};
 
 export const parseQueryString = () => {
   const str = window.location.search;
@@ -38,3 +46,7 @@ export const guid = () => {
   }
   return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
+
+function tokenFromQuery() {
+  return parseQueryString()[ACCESS_TOKEN];
+}

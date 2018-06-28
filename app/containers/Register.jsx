@@ -3,6 +3,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 import { FormWrapper, TextInput } from '../components';
+import { register } from '../services';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required!'),
@@ -15,8 +16,10 @@ const validationSchema = Yup.object().shape({
 });
 
 class Register extends Component {
-  handleSubmit = values => {
-    register(values);
+  handleSubmit = (values, form) => {
+    register(values).then(() => {
+      form.resetForm();
+    });
   };
 
   render() {

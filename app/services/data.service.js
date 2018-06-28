@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ACCESS_TOKEN } from './constants';
+import { accessToken } from './helpers';
 
 // https://github.com/axios/axios
 
@@ -7,7 +7,7 @@ const instance = axios.create({});
 
 instance.interceptors.request.use(
   config => {
-    const token = localStorage.getItem(ACCESS_TOKEN);
+    const token = accessToken();
 
     if (token != null) {
       /* eslint-disable */

@@ -8,15 +8,17 @@ class SocialButtons extends Component {
   render() {
     return (
       <div>
-        {['google', 'facebook'].map(provider => (
+        {['google', 'facebook'].map(provider => [
           <button
-            className="button button-outline"
             type="button"
             key={provider}
-            value={provider}
+            className="button button-outline"
             onClick={() => this.redirect(provider)}
-          />
-        ))}
+          >
+            {provider}
+          </button>,
+          <span key="btnspace">&nbsp;</span>,
+        ])}
       </div>
     );
   }

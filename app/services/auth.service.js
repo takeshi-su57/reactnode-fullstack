@@ -1,6 +1,6 @@
 import { ACCESS_TOKEN } from './constants';
-import { history } from './history';
 import { dataService } from './data.service';
+import { history } from './helpers';
 
 const login = (usernameOrEmail, password) =>
   dataService

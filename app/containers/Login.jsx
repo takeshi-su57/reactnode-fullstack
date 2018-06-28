@@ -13,8 +13,9 @@ const validationSchema = Yup.object().shape({
 
 class Login extends Component {
   submitHandler = ({ email, password }) => {
+    const { context } = this.props;
     login(email, password).then(res => {
-      this.props.context.setUser(res);
+      context.setUser(res);
     });
   };
 
