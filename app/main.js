@@ -17,8 +17,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { AppProvider, AppConsumer } from './contexts';
-import { history } from './services';
+import { history, setAuth, parseQueryString, ACCESS_TOKEN } from './services';
 import App from './containers/App';
+
+
+setOAuthToken();
 
 function render() {
   ReactDOM[window.ssrEnabled ? 'hydrate' : 'render'](
@@ -42,4 +45,11 @@ if (module.hot) {
 
 if (process.env.NODE_ENV === 'production') {
   require('offline-plugin/runtime').install();
+}
+
+function setOAuthToken() {
+  let queryToken = parseQueryString()[ACCESS_TOKEN];
+  if (queryToken) {
+    setAuth(queryToken);
+  }
 }

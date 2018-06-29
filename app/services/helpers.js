@@ -7,7 +7,7 @@ export const isBrowser = typeof window !== 'undefined';
 
 export const history = isBrowser ? createBrowserHistory() : createMemoryHistory();
 
-export const accessToken = () => tokenFromQuery() || localStorage.getItem(ACCESS_TOKEN);
+export const accessToken = () => localStorage.getItem(ACCESS_TOKEN);
 
 export const getAuth = () => {
   const token = accessToken();
@@ -19,13 +19,9 @@ export const setAuth = token => {
   return decode(token);
 };
 
-export const clearAuth = () => {
-  localStorage.clear(ACCESS_TOKEN);
-};
+export const clearAuth = () => localStorage.clear(ACCESS_TOKEN);
 
-export const navigate = route => {
-  history.push(route);
-};
+export const navigate = route => history.push(route);
 
 export const parseQueryString = () => {
   const str = window.location.search;
@@ -46,7 +42,3 @@ export const guid = () => {
   }
   return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
-
-function tokenFromQuery() {
-  return parseQueryString()[ACCESS_TOKEN];
-}
