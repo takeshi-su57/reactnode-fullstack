@@ -11,7 +11,8 @@
         "commonjs": true,
         "es6": true,
         "jest": true,
-        "node": true
+        "node": true,
+        "jasmine": true
     },
     "parserOptions": {
         "ecmaFeatures": {
