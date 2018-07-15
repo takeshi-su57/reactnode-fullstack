@@ -25,9 +25,6 @@ const About = () => (
           <strong>N</strong>ode.js
         </a>
       </li>
-      <li>
-        <a href="https://webpack.js.org/">Webpack</a>
-      </li>
     </ul>
   </div>
 );

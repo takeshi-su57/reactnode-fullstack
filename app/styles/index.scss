@@ -3,6 +3,7 @@
 // ––––––––––––––––––––––––––––––––––––––––––––––––––
 @import 'Color';
 @import 'Base';
+@import 'Scroll';
 @import 'Blockquote';
 @import 'Button';
 @import 'Code';
@@ -19,3 +20,7 @@
 @import 'Utility';
 @import 'Layout';
 @import 'Nav';
+
+// Page styles
+@import 'pages/index';
+

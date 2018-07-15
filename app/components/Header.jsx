@@ -10,9 +10,9 @@ export const Header = props => {
     <AuthConsumer>
       {context => (
         <header className="header">
-          <nav className="inner">
-            <NavLink to="/">
-              <img src="/favicon-32x32.png" alt="icon" width="30" height="30" className="d-inline-block align-top" />
+          <nav>
+            <NavLink to="/" exact>
+              <img src="/favicon-32x32.png" alt="icon" width="30" height="30" />
               &nbsp;{content.app_title}
             </NavLink>
             <NavLink exact to="/" activeClassName="active">
@@ -26,9 +26,9 @@ export const Header = props => {
                   <NavLink key="profile" to="/profile" activeClassName="active">
                     {user.email}
                   </NavLink>,
-                  <button key="logout" type="button" className="nav-link btn btn-link" onClick={() => context.logout()}>
+                  <a key="logout" href="javascript:void(0)" onClick={() => context.logout()}>
                     {content.app_nav_logout}
-                  </button>,
+                  </a>,
                 ]
               : [
                   <NavLink key="register" to="/register" activeClassName="active">
@@ -38,7 +38,9 @@ export const Header = props => {
                     {content.app_nav_login}
                   </NavLink>,
                 ]}
-            <Cultures cultures={cultures} />
+            <div className="culture-form">
+              <Cultures cultures={cultures} />
+            </div>
           </nav>
         </header>
       )}
