@@ -13,7 +13,6 @@
   "author": "Asad Sahi",
   "license": "MIT",
   "scripts": {
-    "precommit": "lint-staged",
     "analyze": "cross-env BUNDLE_ANALYZE=true npm run build",
     "npmcheckversion": "node ./config/scripts/npmcheckversion.js",
     "preinstall": "npm run npmcheckversion",
@@ -41,6 +40,11 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "db": "sequelize db:migrate && sequelize db:seed:all",
     "heroku-postbuild": "npm run build && npm run db"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.js": [
