@@ -1,9 +1,7 @@
 require('ignore-styles');
-require('babel-register')({
-  presets: ['env', 'es2015', 'react', 'stage-0'],
+require('@babel/register')({
+  presets: ['@babel/preset-env', '@babel/preset-react'],
 });
-
-require('babel-polyfill');
 
 const ngrokImport = require('ngrok');
 const _ = require('lodash');

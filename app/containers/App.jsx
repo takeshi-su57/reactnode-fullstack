@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
-import { PrivateRoute, PublicRoute, Header, Footer, SnackBar } from '../components';
+import { PrivateRoute, PublicRoute, Header, Footer } from '../components';
 import Home from './Home';
 import Login from './Login';
 import Register from './Register';
