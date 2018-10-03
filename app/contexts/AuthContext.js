@@ -1,29 +1,50 @@
 import React, { Component } from 'react';
-import { getAuth, setAuth, clearAuth, history } from '../services';
+import { STS_URL } from '../services';
 
 const AuthContext = React.createContext();
 
 export class AuthProvider extends Component {
   state = {
-    user: getAuth() || null,
-    authenticated: !!getAuth(),
-    setUser: token => {
-      const user = setAuth(token);
-      this.setState({ user, authenticated: !!user });
+    user: null,
+    isLoggedIn: false,
+    login: () => {
+      this.authService.login();
+    },
+    register: () => {
+      this.authService.register();
     },
     logout: () => {
-      clearAuth();
-      this.setState({ user: null, authenticated: false });
-      history.push('/login');
+      this.authService.logout();
+    },
+    profile: () => {
+      this.authService.profile();
     },
   };
 
+  componentDidMount() {
+    /* eslint-disable */
+    // This is to avoid compiling auth service which uses oidc-client and windows reference, which breaks compiling with node.
+    const { AuthService } = require('../services/auth.service');
+    this.authService = new AuthService(STS_URL);
+    this.authService.userManager.getUser().then(user => {
+      if (user) {
+        this.setState(prevState => {
+          return {
+            user,
+            isLoggedIn: this.authService.isLoggedIn()
+          };
+        });
+      }
+    });
+  }
+
+  authService;
+
   render() {
-    const { user, authenticated, setUser, logout } = this.state;
     const { children } = this.props;
     return (
-      <AuthContext.Provider value={{ user, authenticated, setUser, logout }}>
-        {children({ setUser: this.setUser })}
+      <AuthContext.Provider value={{ ...this.state }}>
+        {children}
       </AuthContext.Provider>
     );
   }

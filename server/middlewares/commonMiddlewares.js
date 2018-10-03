@@ -1,4 +1,3 @@
-const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
@@ -13,7 +12,6 @@ module.exports = function commonMiddlewares(app) {
     app.use(compression());
   }
 
-  app.use(cors());
   app.use(helmet());
   app.disable('x-powered-by');
   app.use(cookieParser());

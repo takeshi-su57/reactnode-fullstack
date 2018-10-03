@@ -7,9 +7,10 @@ module.exports = async (req, res, file) => {
     const renderedHtml = file
       .replace(
         '{{PRELOADEDSTATE}}',
-        `<script>window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}
-                  window.ssrEnabled = ${false}
-              </script>`
+        `<script>
+              window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}
+              window.ssrEnabled = ${false}
+         </script>`
       )
       .replace('{{SSR}}', '<div id="app"></div>')
       .replace(/{{app_title}}/g, appData.content.app_title)

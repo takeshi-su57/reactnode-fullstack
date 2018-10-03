@@ -9,7 +9,7 @@ function createWebpackMiddleware(compiler) {
   return webpackDevMiddleware(compiler, {
     noInfo: true,
     logLevel: 'debug',
-    publicPath: '/',
+    publicPath: '/assets',
     silent: false,
     // https://github.com/webpack/webpack-dev-middleware/issues/142
     index: 'nonexistent.html',

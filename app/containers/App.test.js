@@ -15,7 +15,7 @@ it('renders without crashing', () => {
       ],
       content: {},
     },
-    auth: { user: {}, authenticated: false },
+    auth: { user: {}, isLoggedIn: false },
   };
 
   ReactDOM.render(

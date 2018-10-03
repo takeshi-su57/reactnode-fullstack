@@ -7,16 +7,16 @@ const isProd = process.env.NODE_ENV === 'production'
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
 // see https://github.com/webpack/loader-utils/issues/56 parseQuery() will be replaced with getOptions()
 // in the next major version of loader-utils.'
-process.noDeprecation = true;
+// process.noDeprecation = true;
 
 module.exports = (options) => ({
   mode: options.mode,
   entry: options.entry,
   output: Object.assign(
     {
-      // Compile into js/build.js
+      // Compile into js/assets.js
       path: path.resolve(process.cwd(), 'build'),
-      publicPath: '/',
+      publicPath: '/assets/',
     },
     options.output
   ), // Merge with env dependent settings

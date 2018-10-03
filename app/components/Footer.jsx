@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = ({ content }) => (
   <footer className="footer">
-    <span>{content.app_description}</span>
+    <div className="container">&copy; 2018 {content.app_title}</div>
   </footer>
 );
 

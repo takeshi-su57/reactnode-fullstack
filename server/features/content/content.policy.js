@@ -31,15 +31,6 @@ exports.invokeRolesPolicies = () => {
         },
       ],
     },
-    {
-      roles: ['guest'],
-      allows: [
-        {
-          resources: '/api/content',
-          permissions: ['get'],
-        },
-      ],
-    },
   ]);
 };
 
@@ -47,7 +38,7 @@ exports.invokeRolesPolicies = () => {
  * Check If content Policy Allows
  */
 exports.isAllowed = (req, res, next) => {
-  const roles = req.user ? req.user.roleNames : ['guest'];
+  const roles = req.user ? req.user.roleNames : ['user'];
 
   // Check for user roles
   acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), (err, isAllowed) => {

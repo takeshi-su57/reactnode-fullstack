@@ -3,5 +3,6 @@
     "server"
   ],
   "ext": "js json jsx",
+  "verbose": true,
   "exec": "node --inspect ./server/server.js"
 }

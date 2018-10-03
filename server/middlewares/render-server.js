@@ -1,5 +1,4 @@
 const React = require('react');
-const _ = require('lodash');
 const { renderToString } = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
 
@@ -10,11 +9,7 @@ const { AppProvider, AppConsumer } = require('../../app/contexts/AppContext');
 
 module.exports = async (req, res, file) => {
   try {
-    let appData = await api.content(req);
-
-    if (req.query.access_token) {
-      appData = _.extend(appData, { access_token: req.query.access_token });
-    }
+    const initialData = await api.content(req);
 
     const context = {};
     if (context.url) {
@@ -25,10 +20,8 @@ module.exports = async (req, res, file) => {
     const initialMarkup = renderToString(
       React.createElement(
         AppProvider,
-        { value: { appData } },
-        React.createElement(
-          AppConsumer,
-          null,
+        { value: { appData: initialData } },
+        React.createElement(AppConsumer, null, ({ appData }) =>
           React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App, { appData }))
         )
       )
@@ -39,13 +32,13 @@ module.exports = async (req, res, file) => {
       .replace(
         '{{PRELOADEDSTATE}}',
         `<script>
-      window.__PRELOADEDSTATE__ = ${JSON.stringify(appData).replace(/</g, '\\u003c')}
+      window.__PRELOADEDSTATE__ = ${JSON.stringify(initialData).replace(/</g, '\\u003c')}
       window.ssrEnabled = ${true}
       </script>`
       )
       .replace('{{SSR}}', `<div id="app">${initialMarkup}</div>`)
-      .replace(/{{app_title}}/g, appData.content.app_title)
-      .replace(/{{app_description}}/g, appData.content.app_description);
+      .replace(/{{app_title}}/g, initialData.content.app_title)
+      .replace(/{{app_description}}/g, initialData.content.app_description);
 
     return res.send(RenderedApp);
   } catch (err) {

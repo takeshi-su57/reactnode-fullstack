@@ -1,6 +1,7 @@
 # Don't check auto-generated stuff into git
 coverage
 build
+!app/build
 yarn-error.log
 babel-app
 node_modules

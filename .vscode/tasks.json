@@ -1,23 +1,31 @@
 {
   // See https://go.microsoft.com/fwlink/?LinkId=733558
   // for the documentation about the tasks.json format
-  "version": "0.1.0",
+  "version": "2.0.0",
   "command": "npm",
-  "isShellCommand": true,
-  "showOutput": "always",
-  "suppressTaskName": true,
   "tasks": [
     {
-      "taskName": "start",
-      "isBuildCommand": true,
-      "isBackground": true,
+      "label": "docker-compose.debug",
+      "command": "docker-compose",
       "args": [
-        "run",
-        "start"
+        "-f",
+        "docker-compose.debug.yml",
+        "up",
+        "-d",
+        "--build"
       ]
     },
     {
-      "taskName": "test",
+      "label": "build prod",
+      "group": "build",
+      "isBackground": true,
+      "args": [
+        "run",
+        "build"
+      ]
+    },
+    {
+      "label": "test",
       "args": [
         "run",
         "test"

@@ -14,8 +14,14 @@
         "node": true,
         "jasmine": true
     },
+    "globals": {
+        "appConfig": true
+    },
     "parserOptions": {
-        "sourceType": "module"
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        }
     },
     "rules": {
         "linebreak-style": "off",
@@ -55,11 +61,9 @@
             "off"
         ],
         "jsx-a11y/anchor-is-valid": [
-            "error",
-            {
-                "components": []
-            }
-        ]
+            "off"
+        ],
+        "no-script-url": "off"
     },
     "plugins": [
         "prettier"

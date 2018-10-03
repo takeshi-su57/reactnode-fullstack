@@ -1,13 +1,8 @@
 import axios from 'axios';
-import { accessToken } from './helpers';
 
-// https://github.com/axios/axios
-
-const instance = axios.create({});
-
-instance.interceptors.request.use(
+axios.interceptors.request.use(
   config => {
-    const token = accessToken();
+    const token = ''; // accessToken();
 
     if (token != null) {
       /* eslint-disable */
@@ -19,10 +14,10 @@ instance.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
-const get = (url) => instance.get(url);
-const post = (url, data) => instance.post(url, data);
-const put = (url, data) => instance.put(url, data);
-const del = (url) => instance.delete(url);
+const get = (url) => axios.get(url);
+const post = (url, data) => axios.post(url, data);
+const put = (url, data) => axios.put(url, data);
+const del = (url) => axios.delete(url);
 
 const dataService = {
   get,

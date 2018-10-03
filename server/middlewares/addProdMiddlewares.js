@@ -5,7 +5,7 @@ const renderServer = require('./render-server');
 const renderDom = require('./render-dom');
 
 module.exports = function addProdMiddlewares(app, options) {
-  const publicPath = options.publicPath || '/';
+  const publicPath = options.publicPath || '/assets';
   const outputPath = options.outputPath || path.resolve(process.cwd(), 'build');
   // We don't need to send index/document request served by static middleware, hence excluding.
   app.use(publicPath, express.static(outputPath, { index: false }));
