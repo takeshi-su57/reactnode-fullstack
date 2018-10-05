@@ -5,13 +5,13 @@ import { AuthConsumer } from '../contexts';
 
 export class Header extends Component {
   state = {
-    isCollapsed: false,
+    menuOpened: false,
     languageExpanded: false,
   };
 
   toggleMenu = () => {
     this.setState(prevState => ({
-      isCollapsed: !prevState.isCollapsed,
+      menuOpened: !prevState.menuOpened,
     }));
   };
 
@@ -23,7 +23,7 @@ export class Header extends Component {
   render() {
     const { user, isLoggedIn, appData } = this.props;
     const { cultures, content } = appData;
-    const { isCollapsed, languageExpanded } = this.state;
+    const { menuOpened, languageExpanded } = this.state;
 
     return (
       <AuthConsumer>
@@ -42,18 +42,18 @@ export class Header extends Component {
                 {content.app_title}
               </NavLink>
               <button
-                className={`navbar-toggler ${isCollapsed ? 'collapsed' : ''}`}
+                className={`navbar-toggler ${menuOpened ? 'collapsed' : ''}`}
                 type="button"
                 data-toggle="collapse"
                 data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown"
                 aria-label="Toggle navigation"
                 onClick={this.toggleMenu}
-                aria-expanded={!isCollapsed}
+                aria-expanded={menuOpened}
               >
                 <span className="navbar-toggler-icon" />
               </button>
-              <div className={`collapse navbar-collapse ${isCollapsed ? 'collapse' : 'show'}`} id="navbarNavDropdown">
+              <div className={`collapse navbar-collapse ${menuOpened ? 'show' : 'collapse'}`} id="navbarNavDropdown">
                 <ul className="navbar-nav">
                   <li className="nav-item">
                     <NavLink exact to="/" className="nav-link" activeClassName="active">
