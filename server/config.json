@@ -1,5 +1,5 @@
 {
-  "ssrEnabled": true,
+  "ssrEnabled": false,
   "stsAuthority": "https://aspnetcorests.azurewebsites.net",
   "stsClient": "spa-api",
   "database": {

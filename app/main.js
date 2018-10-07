@@ -1,6 +1,5 @@
 /* eslint-disable */
 // Load the favicon, the manifest.json file and the .htaccess file
-/* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./build/assets/images/favicon.ico';
 import '!file-loader?name=[name].[ext]!./build/assets/images/android-chrome-192x192.png';
 import '!file-loader?name=[name].[ext]!./build/assets/images/android-chrome-512x512.png';
@@ -23,14 +22,13 @@ import 'styles/index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
-import { AppProvider, AppConsumer } from './contexts';
-import { history, STS_URL } from './services';
 import App from './containers/App';
+import { history } from './services';
 
 // Post logout redirect logic
 if (window.location.href.indexOf('?postLogout=true') > 0) {
-  const { AuthService } = require('../app/services/auth.service');
-  const authService = new AuthService(STS_URL);
+  const { AuthService } = require('./services/auth.service');
+  var authService = new AuthService();
   authService.signoutRedirectCallback().then(() => {
     // clear the query string
     history.push('/', '');
@@ -39,11 +37,9 @@ if (window.location.href.indexOf('?postLogout=true') > 0) {
 
 function render() {
   ReactDOM[window.ssrEnabled ? 'hydrate' : 'render'](
-    <AppProvider value={{ appData: window.__PRELOADEDSTATE__ }}>
-      <AppConsumer>
-        {({ appData }) => <Router history={history}><App appData={appData} /></Router>}
-      </AppConsumer>
-    </AppProvider>,
+    <Router history={history}>
+      <App />
+    </Router>,
     document.getElementById('app')
   );
 }

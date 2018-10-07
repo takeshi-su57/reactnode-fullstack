@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Context = React.createContext();
+const AppContext = React.createContext();
 
-export const AppProvider = Context.Provider;
-export const AppConsumer = Context.Consumer;
+export class AppProvider extends Component {
+  /* eslint-disable */
+  state = {
+    appData: window.__PRELOADEDSTATE__,
+  };
+
+  render() {
+    const { children } = this.props;
+    return <AppContext.Provider value={{ ...this.state }}>{children}</AppContext.Provider>;
+  }
+}
+
+export const AppConsumer = AppContext.Consumer;

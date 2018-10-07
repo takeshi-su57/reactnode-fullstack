@@ -1,13 +1,15 @@
-import { UserManager, WebStorageStateStore, Log } from 'oidc-client';
+import { UserManager, WebStorageStateStore } from 'oidc-client';
+import { STS_URL } from './constants';
 
+export const token = '';
 export class AuthService {
   static userManager;
 
   static user;
 
-  constructor(stsAuthroity) {
-    Log.logger = console;
-    this.setupUserManager(stsAuthroity);
+  constructor() {
+    // Log.logger = console;
+    this.setupUserManager();
   }
 
   login = () => this.userManager.signinRedirect();
@@ -28,9 +30,9 @@ export class AuthService {
 
   signoutRedirectCallback = () => this.userManager.signoutRedirectCallback();
 
-  setupUserManager = stsAuthroity => {
+  setupUserManager = () => {
     const config = {
-      authority: stsAuthroity,
+      authority: STS_URL,
       client_id: 'spa-client',
       redirect_uri: `${window.location.origin}/assets/login-redirect.html`,
       scope: 'openid spa-api profile offline_access',
@@ -41,17 +43,5 @@ export class AuthService {
       silent_redirect_uri: `${window.location.origin}/assets/silent-renew.html`,
     };
     this.userManager = new UserManager(config);
-    this.userManager.getUser().then(user => {
-      if (user && !user.expired) {
-        this.user = user;
-        // this.loadSecurityContext();
-      }
-    });
-    // this.userManager.events.addUserLoaded(args => {
-    //   this.userManager.getUser().then(user => {
-    //     this.user = user;
-    //     // this.loadSecurityContext();
-    //   });
-    // });
   };
 }
