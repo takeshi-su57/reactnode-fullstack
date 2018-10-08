@@ -12,22 +12,31 @@ export class AuthProvider extends Component {
     profile: () => this.authService.profile(),
   };
 
+  isMounted = false;
+
+  authService = null;
+
   componentDidMount() {
+    this.isMounted = true;
     // This is to avoid compiling auth service which uses oidc-client and windows reference, which breaks compiling with node.
     /* eslint-disable */
     const { AuthService } = require('../services/auth.service');
     const auth = new AuthService();
     auth.userManager.getUser().then(user => {
       auth.user = user;
-      this.setState(prevState => ({
-        user,
-        isLoggedIn: auth.isLoggedIn(),
-      }));
+      if (this.isMounted) {
+        this.setState(prevState => ({
+          user,
+          isLoggedIn: auth.isLoggedIn(),
+        }));
+      }
       this.authService = auth;
     });
   }
 
-  authService;
+  componentWillUnmount() {
+    this.isMounted = false;
+  }
 
   render() {
     const { children } = this.props;
