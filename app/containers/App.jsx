@@ -6,6 +6,7 @@ import { AppProvider, AppConsumer, AuthProvider, AuthConsumer } from '../context
 import { PublicRoute, Header, Footer } from '../components';
 import Home from './Home';
 import About from './About';
+import Examples from './Examples';
 
 const App = () => (
   <AppProvider>
@@ -18,9 +19,11 @@ const App = () => (
                 <Header user={user} isLoggedIn={isLoggedIn} appData={appData} />
                 <div className="container">
                   <Switch>
-                    <PublicRoute path="/" exact component={Home} appData={appData} />
+                    <Route path="/" exact render={props => <Home {...props} appData={appData} />} />
                     <PublicRoute path="/about" component={About} />
-                    <Route render={() => <h3>404</h3>} />
+                    <PublicRoute path="/examples" component={Examples} />
+                    <Route path="/unauthorised" render={() => <h1>Unauthorised</h1>} />
+                    <Route render={() => <h1>404</h1>} />
                   </Switch>
                 </div>
                 <Footer content={appData.content} />

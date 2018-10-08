@@ -65,6 +65,11 @@ export class Header extends Component {
                       {content.app_nav_about}
                     </NavLink>
                   </li>
+                  <li className="nav-item">
+                    <NavLink exact to="/examples" className="nav-link" activeClassName="active">
+                      {content.app_nav_examples}
+                    </NavLink>
+                  </li>
                 </ul>
 
                 <ul className="navbar-nav ml-auto">
