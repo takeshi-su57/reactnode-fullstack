@@ -1,8 +1,7 @@
 // Important modules this config uses
 const path = require('path');
-const webpack = require('webpack');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OfflinePlugin = require('offline-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -27,25 +26,20 @@ let plugins = [
     },
     inject: true,
   }),
-
-  // Put it in the end to capture all the HtmlWebpackPlugin's
-  // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-  new OfflinePlugin({
-    relativePaths: false,
-    publicPath: '/assets',
-
-    // No need to cache .htaccess. See http://mxs.is/googmp,
-    // this is applied before any match in `caches` section
-    excludes: ['.htaccess'],
-
-    caches: {
-      main: [':rest:'],
-    },
-
-    // Removes warning for about `additional` section usage
-    safeToUseOptionalCaches: true,
-
-    AppCache: false,
+  // Generate a service worker script that will precache, and keep up to date,
+  // the HTML & assets that are part of the Webpack build.
+  new WorkboxWebpackPlugin.GenerateSW({
+    clientsClaim: true,
+    exclude: [/\.map$/, /asset-manifest\.json$/],
+    importWorkboxFrom: 'cdn',
+    navigateFallback: '/index.html',
+    navigateFallbackBlacklist: [
+      // Exclude URLs starting with /_, as they're likely an API call
+      new RegExp('^/_'),
+      // Exclude URLs containing a dot, as they're likely a resource in
+      // public/ and not a SPA route
+      new RegExp('/[^/]+\\.[^/]+$'),
+    ],
   }),
 ];
 
