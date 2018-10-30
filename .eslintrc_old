@@ -1,6 +1,8 @@
 {
     "extends": [
-        "react-app",
+        "airbnb",
+        "prettier",
+        "prettier/react",
         "plugin:testcafe/recommended"
     ],
     "parser": "babel-eslint",
@@ -42,6 +44,21 @@
                 "printWidth": 120,
                 "semi": true
             }
+        ],
+        "react/jsx-filename-extension": [
+            "error",
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "import/no-extraneous-dependencies": [
+            "off"
+        ],
+        "react/prefer-stateless-function": [
+            "off"
         ],
         "jsx-a11y/anchor-is-valid": [
             "off"

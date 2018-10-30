@@ -3,20 +3,32 @@
   "configurations": [
     {
       "type": "node",
-      "request": "attach",
-      "name": "Attach",
+      "request": "launch",
+      "name": "nodemon",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/app.js",
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "start:prod",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "start:prod",
+        "debug"
+      ],
       "port": 9229
     },
     {
-      "type": "chrome",
-      "request": "launch",
-      "name": "Launch Chrome",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceRoot}/app",
-      "sourceMapPathOverrides": {
-        "webpack:///./app/*": "${webRoot}/*",
-        "webpack:///app/*": "${webRoot}/*"
-      }
+      "type": "node",
+      "request": "attach",
+      "name": "Attach",
+      "port": 9229
     }
   ]
 }
