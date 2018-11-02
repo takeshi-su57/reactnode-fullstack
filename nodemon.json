@@ -3,6 +3,9 @@
     "server",
     "scripts/start.js"
   ],
+  "ignore": [
+    "db.sqlite"
+  ],
   "ext": "js json",
   "exec": "cross-env NODE_ENV=development node --inspect ./scripts/start.js"
 }

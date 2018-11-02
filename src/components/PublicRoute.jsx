@@ -1,20 +1,17 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { AuthConsumer, AppConsumer } from '../contexts';
 
 const PublicRoute = ({ component: Component, ...rest }) => (
   <Route
-    render={props => (
-      <AppConsumer>
-        {({ appData }) => (
-          <AuthConsumer>
-            {auth =>
-              auth.isLoggedIn ? <Redirect to="/" /> : <Component {...props} {...auth} {...rest} appData={appData} />
-            }
-          </AuthConsumer>
-        )}
-      </AppConsumer>
-    )}
+    {...rest}
+    render={props => {
+      return (
+        <AppConsumer>
+          {({ appData }) => <AuthConsumer>{auth => <Component {...props} {...auth} appData={appData} />}</AuthConsumer>}
+        </AppConsumer>
+      );
+    }}
   />
 );
 
