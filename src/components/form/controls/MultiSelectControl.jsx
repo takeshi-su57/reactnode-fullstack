@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export class SelectControl extends Component {
+export class MultiSelectControl extends Component {
   render() {
     const { input, meta, label, options } = this.props;
     return (
@@ -11,8 +11,8 @@ export class SelectControl extends Component {
           id={input.name}
           name={input.name}
           className={`form-control ${meta.touched && (meta.valid ? 'is-valid' : 'is-invalid')}`}
+          multiple
         >
-          {<option />}
           {(options || []).map(option => (
             <option key={option.key}>{option.value}</option>
           ))}

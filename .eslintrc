@@ -1,9 +1,9 @@
 {
     "extends": [
         "react-app",
-        "plugin:testcafe/recommended"
+        "plugin:testcafe/recommended",
+        "plugin:prettier/recommended"
     ],
-    "parser": "babel-eslint",
     "env": {
         "browser": true,
         "commonjs": true,

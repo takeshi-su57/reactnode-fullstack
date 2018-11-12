@@ -4,4 +4,5 @@ export * from './DateInput';
 export * from './DateTimeControl';
 export * from './RadioListControl';
 export * from './SelectControl';
+export * from './MultiSelectControl';
 export * from './TextControl';

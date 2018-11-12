@@ -1,7 +1,15 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
 
-import { validations, DateTimeControl, TextControl, CheckboxControl, SelectControl } from '../../../components';
+import {
+  validations,
+  DateTimeControl,
+  TextControl,
+  CheckboxControl,
+  SelectControl,
+  MultiSelectControl,
+  RadioListControl,
+} from '../../../components';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -18,6 +26,14 @@ const FormComponent = () => {
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit}>
           <pre>{JSON.stringify(values, 0, 2)}</pre>
+          <Field
+            name="bestStore"
+            label="Best store"
+            type="radio"
+            validate={validations.composeValidators(...[validations.required])}
+            options={[{ key: 'tesco', value: 'Tesco' }, { key: 'asda', value: 'Asda' }]}
+            render={props => <RadioListControl {...props} />}
+          />
           <Field
             id="name"
             name="name"
@@ -53,6 +69,7 @@ const FormComponent = () => {
           <Field
             name="toppings"
             label="Toppings"
+            type="select"
             validate={validations.composeValidators(...[validations.required])}
             options={[
               { key: 'chicken', value: 'Chicken' },
@@ -60,7 +77,7 @@ const FormComponent = () => {
               { key: 'tuna', value: 'Tuna' },
             ]}
             multiple
-            render={props => <SelectControl {...props} />}
+            render={props => <MultiSelectControl {...props} />}
           />
           {/* <Field
             name="sauces"
@@ -81,26 +98,6 @@ const FormComponent = () => {
                     type="checkbox"
                     id={item.key}
                     name="sauces"
-                    value={item.key}
-                  />
-                  <label className="form-check-label" htmlFor={item.key}>
-                    {item.value}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="bestStore">Best store</label>
-            <div>
-              {[{ key: 'tesco', value: 'Tesco' }, { key: 'asda', value: 'Asda' }].map(item => (
-                <div className="form-check form-check-inline" key={item.key}>
-                  <Field
-                    className="form-check-input"
-                    component="input"
-                    type="radio"
-                    id={item.key}
-                    name="bestStore"
                     value={item.key}
                   />
                   <label className="form-check-label" htmlFor={item.key}>

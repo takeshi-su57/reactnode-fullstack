@@ -3,7 +3,7 @@ import { NavLink, Route } from 'react-router-dom';
 
 import CrudShop from './examples/crud-shop/CrudShop';
 import TableExample from './examples/table/TableExample';
-import Form from './examples/form/Form';
+import Form from './examples/form/FormExample';
 import Misc from './examples/misc/Misc';
 
 const Examples = ({ appData, match: { url } }) => {
