@@ -44,6 +44,7 @@ render();
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
     const NextApp = require('./containers/App');
+    console.clear();
     render(NextApp);
   });
 }

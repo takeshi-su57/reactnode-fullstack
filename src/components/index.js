@@ -6,3 +6,4 @@ export * from './FormWrapper';
 export * from './Loading';
 export * from './PrivateRoute';
 export * from './PublicRoute';
+export * from './Table';

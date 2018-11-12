@@ -1,4 +1,2 @@
-export * from './InputFeedback';
-export * from './Label';
-export * from './TextInput';
+export * from './controls';
 export * from './validations';

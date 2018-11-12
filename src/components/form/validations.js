@@ -1,4 +1,5 @@
 const required = value => (value ? undefined : 'Field is required');
+const requiredWithMessage = message => value => (value ? undefined : message || 'Field is required');
 
 const maxLength = max => value => (value && value.length > max ? `Must be ${max} characters or less` : undefined);
 
@@ -9,8 +10,13 @@ const minValue = min => value => (value && value < min ? `Must be at least ${min
 const email = value =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email address' : undefined;
 
+const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined);
+
 const validations = {
+  composeValidators,
   required,
+  requiredWithMessage,
   maxLength,
   number,
   minValue,

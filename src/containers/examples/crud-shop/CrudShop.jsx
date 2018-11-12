@@ -7,7 +7,6 @@ import Orders from './Orders';
 import Products from './Products';
 
 export default function CrudShop({ match: { url } }) {
-  console.log(url);
   const ROUTES = [
     { route: 'customers', text: 'Customers', component: Customers },
     { route: 'product-categories', text: 'Product categories', component: ProductCategories },
