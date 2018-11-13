@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export class RadioListControl extends Component {
   render() {
-    const { input, meta, label, options } = this.props;
+    const { input, label, options } = this.props;
     console.log(input);
     return (
       <div className="form-group">

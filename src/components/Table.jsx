@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
-import { Form, Field } from 'react-final-form';
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Label,
-  FormGroup,
-  FormFeedback,
-  InputGroup,
-  InputGroupAddon,
-} from 'reactstrap';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
+import { Form } from 'react-final-form';
+import { findIndex } from 'lodash';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { dataService } from '../services';
-import { validations } from './form';
+import { renderFields } from './form';
 
 export default class Table extends Component {
   state = {
@@ -32,8 +20,14 @@ export default class Table extends Component {
   };
 
   render() {
-    const { columns, data, loading, modal, model } = this.state;
+    const { columns, data, loading, modal, model, isNew } = this.state;
     let { title } = this.props;
+    let formConfig = columns.filter(c => c.formConfig).map(c => ({
+      name: c.accessor,
+      label: c.Header,
+      type: c.formConfig.type,
+      validators: c.formConfig.validators,
+    }));
 
     return (
       <>
@@ -45,15 +39,11 @@ export default class Table extends Component {
             initialValues={model}
             render={({ handleSubmit, pristine, invalid }) => (
               <form onSubmit={handleSubmit}>
-                <ModalHeader toggle={this.toggle}>Create/Edit</ModalHeader>
-                <ModalBody>
-                  {columns.map(column => {
-                    return this.getFormField(column);
-                  })}
-                </ModalBody>
+                <ModalHeader toggle={this.toggle}>{isNew ? 'Create' : 'Edit'}</ModalHeader>
+                <ModalBody>{renderFields(formConfig, model)}</ModalBody>
                 <ModalFooter>
                   <Button color="secondary" onClick={this.toggle}>
-                    Cancel
+                    Cancele
                   </Button>{' '}
                   <Button type="submit" color="primary">
                     Submit
@@ -101,15 +91,24 @@ export default class Table extends Component {
   }
 
   opendEdit = row => {
-    this.setState({ modal: !this.state.modal, model: row });
+    this.setState({ modal: !this.state.modal, model: row, isNew: !row.id });
   };
 
-  sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-  onSubmit = async values => {
-    console.log(values);
-    await this.sleep(300);
-    window.alert(JSON.stringify(values, 0, 2));
+  onSubmit = values => {
+    const { dataUrl } = this.props;
+    const { isNew, data } = this.state;
+    const { id, ...rest } = values;
+    if (isNew) {
+      dataService.post(`${dataUrl}`, rest).then(res => {
+        this.setState({ modal: false, data: [...data, res.data] });
+      });
+    } else {
+      dataService.put(`${dataUrl}/${id}`, rest).then(res => {
+        const index = findIndex(data, { id });
+        data.splice(index, 1, res.data);
+        this.setState({ modal: false, data: [...data] });
+      });
+    }
   };
 
   deleteRow = row => {
@@ -119,70 +118,5 @@ export default class Table extends Component {
         this.setState({ data: this.state.data.filter(r => r.id !== row.id) });
       });
     }
-  };
-
-  getFormField = column => {
-    let formField = null;
-    if (column.formConfig) {
-      const { type, validators } = column.formConfig;
-      if (type === 'text' || type === 'password' || type === 'email' || type === 'number' || type === 'textarea') {
-        formField = (
-          <Field
-            key={column.accessor}
-            name={column.accessor}
-            validate={validations.composeValidators(...validators)}
-            render={({ input, meta }) => (
-              <FormGroup>
-                <Label for={column.accessor}>{column.Header}</Label>
-                <Input
-                  type={column.type}
-                  name={column.accessor}
-                  id={column.accessor}
-                  invalid={meta.touched && !!meta.error}
-                  valid={meta.touched && !meta.error}
-                  {...input}
-                />
-                {meta.touched && meta.error && <FormFeedback>{meta.error}</FormFeedback>}
-              </FormGroup>
-            )}
-          />
-        );
-      } else if (type === 'date') {
-        formField = (
-          <Field
-            key={column.accessor}
-            name={column.accessor}
-            validate={validations.composeValidators(...validators)}
-            render={({ input, meta }) => (
-              <FormGroup>
-                <Label for={column.accessor}>{column.Header}</Label>
-                <InputGroup>
-                  <DayPickerInput
-                    component={props => (
-                      <input
-                        className="form-control"
-                        name={column.accessor}
-                        id={column.accessor}
-                        {...props}
-                        valid={meta.touched && !meta.error}
-                        invalid={meta.touched && !!meta.error}
-                      />
-                    )}
-                    {...input}
-                    ref={c => (this.calendar = c)}
-                  />
-                  <InputGroupAddon addonType="append">
-                    <i className="fa fa-calendar" onClick={() => this._calendar.setOpen(true)} />
-                  </InputGroupAddon>
-                </InputGroup>
-
-                {meta.touched && meta.error && <FormFeedback>{meta.error}</FormFeedback>}
-              </FormGroup>
-            )}
-          />
-        );
-      }
-    }
-    return formField;
   };
 }

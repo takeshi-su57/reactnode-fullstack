@@ -13,6 +13,11 @@
 
 import './styles/index.scss';
 
+import * as moment from 'moment';
+// Add more locales
+import '../node_modules/moment/locale/en-gb';
+moment.locale(['en-GB']);
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';

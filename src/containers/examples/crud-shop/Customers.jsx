@@ -29,8 +29,7 @@ export default function Customers() {
           Header: 'Gender',
           accessor: 'gender',
           formConfig: {
-            type: 'checbox',
-            validators: [validations.required, validations.email, validations.maxLength(50)],
+            type: 'checkbox',
           },
         },
         {
@@ -38,7 +37,7 @@ export default function Customers() {
           accessor: 'dateOfBirth',
           formConfig: {
             type: 'date',
-            validators: [validations.required, validations.email, validations.maxLength(50)],
+            validators: [validations.required, validations.date],
           },
         },
         {

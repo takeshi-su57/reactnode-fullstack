@@ -10,6 +10,12 @@ const minValue = min => value => (value && value < min ? `Must be at least ${min
 const email = value =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email address' : undefined;
 
+const date = value => {
+  const date = new Date(value);
+  const valid = date instanceof Date && !isNaN(date.valueOf());
+  return valid ? undefined : 'Date is invalid';
+};
+
 const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), undefined);
 
@@ -21,6 +27,7 @@ const validations = {
   number,
   minValue,
   email,
+  date,
 };
 
 export { validations };

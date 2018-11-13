@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
+import * as moment from 'moment';
 import DateTime from 'react-datetime';
 import './react-datetime.css';
 
-const renderInput = (props, openCalendar) => {
+const renderInput = (props, openCalendar, closeCalendar) => {
   const { input, meta, ...rest } = props;
   const inputClasses = `form-control ${
     meta.touched && meta.invalid ? ' is-invalid' : meta.touched && meta.valid ? ' is-valid' : ''
@@ -29,7 +29,7 @@ const renderInput = (props, openCalendar) => {
         onClick={rest.onClick}
       />
       <div className="input-group-append">
-        <span className="input-group-text" id="basic-addon1" onClick={openCalendar}>
+        <span className="input-group-text" id={input.name} onClick={openCalendar}>
           <i className="fa fa-calendar" />
         </span>
       </div>
@@ -48,11 +48,17 @@ export class DateTimeControl extends Component {
         <DateTime
           closeOnSelect={true}
           timeFormat={false}
-          onChange={input.onChange}
+          strictParsing={true}
+          onChange={this.onChange}
           renderInput={renderInput}
+          value={input.value instanceof Date ? input.value : moment(input.value)}
           inputProps={{ meta, input }}
         />
       </div>
     );
   }
+
+  onChange = e => {
+    this.props.input.onChange(e);
+  };
 }
