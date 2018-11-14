@@ -51,7 +51,7 @@ export class DateTimeControl extends Component {
           strictParsing={true}
           onChange={this.onChange}
           renderInput={renderInput}
-          value={input.value instanceof Date ? input.value : moment(input.value)}
+          value={input.value && moment(input.value)}
           inputProps={{ meta, input }}
         />
       </div>

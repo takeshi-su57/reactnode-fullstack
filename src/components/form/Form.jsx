@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Field } from 'react-final-form';
 
-import { DateTimeControl } from './controls';
+import { DateTimeControl } from './DateTimeControl';
 import { validations } from './validations';
 
 const getFormField = (config, model) => {

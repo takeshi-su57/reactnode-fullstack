@@ -1,3 +1,3 @@
 export * from './Form';
-export * from './controls';
+export * from './FormWrapper';
 export * from './validations';
