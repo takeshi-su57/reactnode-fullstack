@@ -3,18 +3,21 @@
     "dialect": "sqlite",
     "storage": "./db.sqlite",
     "logging": false,
+    "use_env_variable": false,
     "operatorsAliases": false
   },
   "test": {
     "logging": false,
     "dialect": "sqlite",
     "storage": ":memory:",
+    "use_env_variable": false,
     "operatorsAliases": false
   },
   "production": {
     "dialect": "sqlite",
     "storage": "./db.sqlite",
     "logging": false,
+    "use_env_variable": false,
     "operatorsAliases": false
   }
 }

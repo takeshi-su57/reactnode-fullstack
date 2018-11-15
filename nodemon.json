@@ -1,8 +1,11 @@
 {
   "watch": [
-    "server"
+    "server",
+    "scripts/start.js"
   ],
-  "ext": "js json jsx",
-  "verbose": true,
-  "exec": "node --inspect ./server/server.js"
+  "ignore": [
+    "db.sqlite"
+  ],
+  "ext": "js json",
+  "exec": "cross-env NODE_ENV=development node --inspect ./scripts/start.js"
 }
