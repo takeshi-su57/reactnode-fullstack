@@ -9,7 +9,7 @@ const onSubmit = async values => {
   window.alert(JSON.stringify(values, 0, 2));
 };
 
-const FormComponent = () => {
+const FormExample = () => {
   const model = {
     // name: 'Asad',
     // password: '123',
@@ -24,7 +24,6 @@ const FormComponent = () => {
     dob: new Date().setHours(0, 0, 0),
   };
   const formConfig = [
-    { name: 'photo', label: 'Profile photo', type: 'file', validators: [validations.required] },
     {
       name: 'name',
       label: 'Name',
@@ -80,8 +79,9 @@ const FormComponent = () => {
     },
     { name: 'bio', label: 'Bio', type: 'textarea', validators: [validations.required] },
     { name: 'employed', label: 'Employed', type: 'checkbox', validators: [validations.required] },
+    { name: 'photo', label: 'Profile photo', type: 'file', validators: [validations.required] },
   ];
   return <AppForm onSubmit={onSubmit} model={model} config={formConfig} />;
 };
 
-export default FormComponent;
+export default FormExample;

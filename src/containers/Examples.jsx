@@ -3,7 +3,8 @@ import { NavLink, Route } from 'react-router-dom';
 
 import CrudShop from './examples/crud-shop/CrudShop';
 import TableExample from './examples/table/TableExample';
-import Form from './examples/form/FormExample';
+import FormExample from './examples/form/FormExample';
+import CalendarExample from './examples/calendar/CalendarExample';
 import Misc from './examples/misc/Misc';
 
 const Examples = ({ appData, match: { url } }) => {
@@ -15,6 +16,7 @@ const Examples = ({ appData, match: { url } }) => {
           { route: 'crud-shop', text: 'Crud shop' },
           { route: 'table-example', text: 'Table example' },
           { route: 'form', text: 'Form' },
+          { route: 'calendar', text: 'Calendar' },
           { route: 'misc', text: 'Misc' },
         ].map(menu => (
           <li className="nav-item" key={menu.route}>
@@ -27,7 +29,8 @@ const Examples = ({ appData, match: { url } }) => {
       <Route exact path={`${url}/`} render={() => <h2>Examples home</h2>} />
       <Route path={`${url}/crud-shop`} component={CrudShop} />
       <Route path={`${url}/table-example`} component={TableExample} />
-      <Route path={`${url}/form`} component={Form} />
+      <Route path={`${url}/form`} component={FormExample} />
+      <Route path={`${url}/calendar`} component={CalendarExample} />
       <Route path={`${url}/misc`} component={Misc} />
     </>
   );

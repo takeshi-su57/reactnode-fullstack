@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Field } from 'react-final-form';
 
 import { DateTimeControl } from './DateTimeControl';
+import { DateControl } from './DateControl';
 import { validations } from './validations';
 
 const getFormField = (config, model) => {
@@ -196,6 +197,17 @@ const getFormField = (config, model) => {
         value={model[name]}
         validate={validations.composeValidators(...(validators || []))}
         render={props => <DateTimeControl {...props} />}
+      />
+    );
+  } else if (type === 'date2') {
+    formField = (
+      <Field
+        key={name}
+        name={name}
+        label={label}
+        value={model[name]}
+        validate={validations.composeValidators(...(validators || []))}
+        render={props => <DateControl {...props} />}
       />
     );
   } else if (type === 'file') {
