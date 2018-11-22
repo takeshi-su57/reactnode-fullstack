@@ -44,7 +44,7 @@ const getFormField = (config, model) => {
               className={`form-control ${meta.touched && (meta.valid ? 'is-valid' : 'is-invalid')}`}
             >
               <option value="">Please select...</option>
-              {(config.options || []).map(option => (
+              {config.options.map(option => (
                 <option key={`${name}-${option.key}`} value={option.key}>
                   {option.value}
                 </option>

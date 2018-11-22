@@ -9,7 +9,7 @@ export class DateControl extends Component {
     focused: false,
   };
   render() {
-    const { input, meta } = this.props;
+    const { input } = this.props;
     return (
       <SingleDatePicker
         date={this.state.date} // momentPropTypes.momentObj or null

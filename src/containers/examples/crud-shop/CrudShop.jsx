@@ -10,8 +10,8 @@ export default function CrudShop({ match: { url } }) {
   const ROUTES = [
     { route: 'customers', text: 'Customers', component: Customers },
     { route: 'product-categories', text: 'Product categories', component: ProductCategories },
-    { route: 'orders', text: 'Orders', component: Products },
-    { route: 'products', text: 'Products', component: Orders },
+    { route: 'orders', text: 'Orders', component: Orders },
+    { route: 'products', text: 'Products', component: Products },
   ];
   return (
     <>

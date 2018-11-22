@@ -29,7 +29,8 @@ export default function Customers() {
           Header: 'Gender',
           accessor: 'gender',
           formConfig: {
-            type: 'checkbox',
+            type: 'select',
+            options: [{ key: 0, value: 'None' }, { key: 1, value: 'Female' }, { key: 2, value: 'Male' }],
           },
         },
         {
