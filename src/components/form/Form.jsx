@@ -144,12 +144,11 @@ const getFormField = (config, model) => {
                     </label>
                   </div>
                 ))}
-                {meta.touched &&
-                  meta.error && (
-                    <div style={{ display: 'block' }} className="invalid-feedback">
-                      {meta.error}
-                    </div>
-                  )}
+                {meta.touched && meta.error && (
+                  <div style={{ display: 'block' }} className="invalid-feedback">
+                    {meta.error}
+                  </div>
+                )}
               </>
             )}
           </Field>
@@ -176,12 +175,11 @@ const getFormField = (config, model) => {
                     </label>
                   </div>
                 ))}
-                {meta.touched &&
-                  meta.error && (
-                    <div style={{ display: 'block' }} className="invalid-feedback">
-                      {meta.error}
-                    </div>
-                  )}
+                {meta.touched && meta.error && (
+                  <div style={{ display: 'block' }} className="invalid-feedback">
+                    {meta.error}
+                  </div>
+                )}
               </>
             )}
           </Field>

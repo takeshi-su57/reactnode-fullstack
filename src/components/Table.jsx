@@ -22,17 +22,19 @@ export default class Table extends Component {
   render() {
     const { columns, data, loading, modal, model, isNew } = this.state;
     let { title } = this.props;
-    let formConfig = columns.filter(c => c.formConfig).map(c => {
-      const { validators, options, type, ...rest } = c.formConfig;
-      return {
-        name: c.accessor,
-        label: c.Header,
-        type,
-        validators,
-        options,
-        otherConfig: rest,
-      };
-    });
+    let formConfig = columns
+      .filter(c => c.formConfig)
+      .map(c => {
+        const { validators, options, type, ...rest } = c.formConfig;
+        return {
+          name: c.accessor,
+          label: c.Header,
+          type,
+          validators,
+          options,
+          otherConfig: rest,
+        };
+      });
 
     return (
       <>
