@@ -44,9 +44,10 @@ module.exports = compiler => {
     app.use('/assets/manifest.json', (req, res) =>
       res.send(fs.readFileSync(path.resolve('build', 'assets', 'manifest.json')).toString())
     );
-    app.use('/service-worker.js', (req, res) =>
-      res.send(fs.readFileSync(path.resolve('build', 'service-worker.js')).toString())
-    );
+    app.use('/service-worker.js', (req, res) => {
+      res.setHeader("Content-Type", "application/javascript");
+      res.send(fs.readFileSync(path.resolve('build', 'service-worker.js')).toString());
+    });
 
     const buildPath = path.join(__dirname, '../', 'build');
     app.get('*', (req, res) => {
