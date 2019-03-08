@@ -38,6 +38,8 @@ module.exports = compiler => {
   apiMiddlewares(app);
 
   if (isProd) {
+    const buildPath = path.join(__dirname, '../', 'build');
+
     // We don't need to send index/document request served by static middleware, hence excluding.
     app.use('/assets', express.static(path.resolve('build', 'assets')));
     app.use('/static', express.static(path.resolve('build', 'static')));
@@ -45,11 +47,17 @@ module.exports = compiler => {
       res.send(fs.readFileSync(path.resolve('build', 'assets', 'manifest.json')).toString())
     );
     app.use('/service-worker.js', (req, res) => {
-      res.setHeader("Content-Type", "application/javascript");
+      res.setHeader('Content-Type', 'application/javascript');
       res.send(fs.readFileSync(path.resolve('build', 'service-worker.js')).toString());
     });
 
-    const buildPath = path.join(__dirname, '../', 'build');
+    app.use('/precache-manifest.*js', (req, res) => {
+      globby(`${buildPath}/precache-manifest.*.js`).then(files => {
+        res.setHeader('Content-Type', 'application/javascript');
+        res.send(fs.readFileSync(path.resolve('build', files[0])).toString());
+      });
+    });
+
     app.get('*', (req, res) => {
       fs.readFile(`${buildPath}/index.html`, (err, file) => {
         if (err) {
