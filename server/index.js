@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const _ = require('lodash');
 const http = require('http');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -12,6 +11,7 @@ const morgan = require('morgan');
 const globby = require('globby');
 const express = require('express');
 const socketIO = require('socket.io');
+let fs = require('fs');
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -64,25 +64,27 @@ module.exports = compiler => {
     // Serve any static files from the public/assets folder
     app.use('/assets', express.static(path.resolve('public', 'assets')));
 
-    const middleware = webpackDevMiddleware(compiler, {
-      logLevel: 'debug',
-      publicPath: compiler.options.output.publicPath,
-      silent: false,
-      stats: 'errors-only',
-      serverSideRender: true,
-    });
+    if (isDev) {
+      const middleware = webpackDevMiddleware(compiler, {
+        logLevel: 'debug',
+        publicPath: compiler.options.output.publicPath,
+        silent: false,
+        stats: 'errors-only',
+        serverSideRender: true,
+      });
 
-    app.use(middleware);
+      // Since webpackDevMiddleware uses memory-fs internally to store build
+      // artifacts, we use it instead
+      fs = middleware.fileSystem;
+
+      app.use(middleware);
+    }
 
     app.use(
       webpackHotMiddleware(compiler, {
         heartbeat: 2000,
       })
     );
-
-    // Since webpackDevMiddleware uses memory-fs internally to store build
-    // artifacts, we use it instead
-    const fs = middleware.fileSystem;
 
     app.get('*', (req, res) => {
       fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
