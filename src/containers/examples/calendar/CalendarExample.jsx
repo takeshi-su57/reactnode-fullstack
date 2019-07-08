@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import '../../../../node_modules/react-big-calendar/lib/css/react-big-calendar.css';
-import BigCalendar from 'react-big-calendar';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import events from './events';
 import dates from './dates';
 
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
-const localizer = BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
+const localizer = momentLocalizer(moment); // or globalizeLocalizer
 
 export default class CalendarExample extends Component {
   render() {
-    let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
+    let allViews = Object.keys(Calendar.Views).map(k => Calendar.Views[k]);
     return (
       <div>
-        <BigCalendar
+        <Calendar
           events={events}
           views={allViews}
           step={60}
