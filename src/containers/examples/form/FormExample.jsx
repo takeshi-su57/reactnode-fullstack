@@ -43,8 +43,18 @@ const FormExample = () => {
       placeholder: 'test@example.com',
       validators: [validations.required],
     },
-    { name: 'telephone', label: 'Telephone', type: 'number', validators: [validations.required] },
-    { name: 'dob', label: 'Date of birth', type: 'date', validators: [validations.required] },
+    {
+      name: 'telephone',
+      label: 'Telephone',
+      type: 'number',
+      validators: [validations.required],
+    },
+    {
+      name: 'dob',
+      label: 'Date of birth',
+      type: 'date',
+      validators: [validations.required],
+    },
     {
       name: 'games',
       label: 'Games',
@@ -60,26 +70,52 @@ const FormExample = () => {
       name: 'gender',
       label: 'Gender',
       type: 'radiolist',
-      options: [{ key: 'male', value: 'Male' }, { key: 'female', value: 'Female' }],
+      options: [
+        { key: 'male', value: 'Male' },
+        { key: 'female', value: 'Female' },
+      ],
       validators: [validations.required],
     },
     {
       name: 'favouriteColor',
       label: 'Favourite color',
       type: 'select',
-      options: [{ key: 'green', value: 'Green' }, { key: 'blue', value: 'Blue' }, { key: 'red', value: 'Red' }],
+      options: [
+        { key: 'green', value: 'Green' },
+        { key: 'blue', value: 'Blue' },
+        { key: 'red', value: 'Red' },
+      ],
       validators: [validations.required],
     },
     {
       name: 'favouriteCars',
       label: 'Favourite cars',
       type: 'multiselect',
-      options: [{ key: 'bmw', value: 'BMW' }, { key: 'audi', value: 'Audi' }, { key: 'volvo', value: 'Volvo' }],
+      options: [
+        { key: 'bmw', value: 'BMW' },
+        { key: 'audi', value: 'Audi' },
+        { key: 'volvo', value: 'Volvo' },
+      ],
       validators: [validations.required],
     },
-    { name: 'bio', label: 'Bio', type: 'textarea', validators: [validations.required] },
-    { name: 'employed', label: 'Employed', type: 'checkbox', validators: [validations.required] },
-    { name: 'photo', label: 'Profile photo', type: 'file', validators: [validations.required] },
+    {
+      name: 'bio',
+      label: 'Bio',
+      type: 'textarea',
+      validators: [validations.required],
+    },
+    {
+      name: 'employed',
+      label: 'Employed',
+      type: 'checkbox',
+      validators: [validations.required],
+    },
+    {
+      name: 'photo',
+      label: 'Profile photo',
+      type: 'file',
+      validators: [validations.required],
+    },
   ];
   return <AppForm onSubmit={onSubmit} model={model} config={formConfig} />;
 };

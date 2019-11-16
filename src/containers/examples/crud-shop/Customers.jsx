@@ -30,7 +30,11 @@ export default function Customers() {
           accessor: 'gender',
           formConfig: {
             type: 'select',
-            options: [{ key: 0, value: 'None' }, { key: 1, value: 'Female' }, { key: 2, value: 'Male' }],
+            options: [
+              { key: 0, value: 'None' },
+              { key: 1, value: 'Female' },
+              { key: 2, value: 'Male' },
+            ],
           },
         },
         {
