@@ -13,9 +13,9 @@ it('renders without crashing', () => {
       { value: 'fr-FR', text: 'French - (fr-FR)', current: false },
     ],
     content: {
-      "app_title": "NgNode",
+      "app_title": "ReactNode",
       "app_description": "A Single Page Application built using Angular and Nodejs",
-      "app_repo_url": "https://github.com/asadsahi/ngnode-fullstack",
+      "app_repo_url": "https://github.com/asadsahi/reactnode-fullstack",
       "app_nav_home": "Home",
       "app_nav_about": "About",
       "app_nav_login": "Login",

@@ -52,9 +52,10 @@ module.exports = compiler => {
     });
 
     app.use('/precache-manifest.*js', (req, res) => {
-      globby(`${buildPath}/precache-manifest.*.js`).then(files => {
+      fs.readdir(buildPath, (err, files) => {
+        const manifest = files.find(f => f.startsWith('precache-manifest'));
         res.setHeader('Content-Type', 'application/javascript');
-        res.send(fs.readFileSync(path.resolve('build', files[0])).toString());
+        res.send(fs.readFileSync(path.resolve('build', manifest)).toString());
       });
     });
 

@@ -41,11 +41,11 @@ Fullstack application built using React and NodeJs with server side rendering.
 
 **Requires Node.js 8+**
 
-``` bash
+```bash
 # install dependencies
 npm install # or yarn
 
-# serve in dev mode, with hot reload at localhost:3000
+# serve in dev mode, with hot reload at localhost:5050
 npm run dev # or yarn dev
 
 # build for production
